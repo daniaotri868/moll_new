@@ -1,0 +1,222 @@
+{
+  "Empty": "فارغ",
+  "done": "تم",
+  "Product_offers": "عروض المنتجات",
+  "Home_screen": {
+    "Loading": "انتظر",
+    "Welcome": "أهلاً بكِ",
+    "What_are_you_looking_for": "عن ماذا تبحثين؟",
+    "Best_seller": "الأكثر مبيعا",
+    "more": "المزيد",
+    "New": "جديد",
+    "Offers_tody": "عروض اليوم",
+    "Categories": "الأصناف",
+    "The_site_was_chosen_successfully": "تم ختيار الموقع بنجاح",
+    "Show_less": "رؤية أقل"
+  },
+
+  "splash_screen": {
+    "For_every_Syrian_girl": " لكل صبية سورية"
+  },
+  "location_screen": {
+    "Please_select_your_province_and_location": "يرجى اختيار المحافظة و الموقع",
+    "country": "المحافظة",
+    "Locate_on_the_map": "تحديد الموقع على الخريطة",
+    "This_option_can_be_changed_later": "يمكن تغير هذا الخيار لاحقاً",
+    "next": "التالي",
+    "Please_fill_out_the_information_completely": "يرجى تعبئة المعلومات بالكامل",
+    "Name": "الاسم",
+    "last_name": "الكنية"
+  },
+  "welcome_page": {
+    "welcome": "أهلاً بكِ",
+    "login": "تسجيل الدخول"
+  },
+  "login_page": {
+    "login_about": "تسجيل الدخول عبر ",
+    "phone": "رقم الهاتف"
+  },
+  "sign_up": {
+    "a_text_message_will_be_sent": "سيتم إرسال رسالة نصية تحتوي كود من أربعة أرقام",
+    "The_Syrian_Arab_Republic": "الجمهورية العربية السورية",
+    "search_by_country_or_dial_conde_or_country_name": "search_by_country_or_dial_conde_or_country_name"
+  },
+  "Verification_page": {
+    "verification_code": "رمز التحقق",
+    "text_message": "تم إرسال رسالة نصية الى الرقم  ",
+    "Please_enter_the_code_to_continue": "يرجى ادخال الرمز للمتابعة",
+    "resend_code": "إعادة إرسال الرمز",
+    "Please_check_the_verification_code": "يرجى التأكد من رمز التحقق"
+  },
+  "Categories_screen": {
+    "Jeans": "جينزات",
+    "Shirts": "قمصان",
+    "Shoes": "أحذية",
+    "Offers_and_discounts": "العروض و التنزيلات",
+    "categories": "الأصناف" ,
+    "shops": "المحلات التجارية",
+    "Category_Details": "تفاصيل الصنف",
+     "Skip": "تخطي",
+    "category_main": "الأصناف الرئيسية",
+    "category_sub": "الأصناف الفرعية"
+
+  },
+  "Favorait_screen": {
+    "Favorait": "المفضلة"
+  },
+  "Notification_screen": {
+    "Notification": "الإشعارات",
+    "read_all": "قراءة الجميع"
+  },
+  "Cart_Screen": {
+    "Cart": "السلة",
+    "Do_you_want_to_delete": "هل تريد الحذف ؟",
+    "Confirm_deletion": "تأكيد الحذف",
+    "Delete": "حذف",
+    "Retreat": "تراجع",
+    "the_product_will_be_deleted": "سيتم حذف المنتج من سلتك",
+    "The_product_has_been_added_to_the_cart": "تم إضافة المنتج للسلة",
+    "Go_to_the_cart": "الذهاب للسلة",
+    "Continue_shopping": "متابعة التسوق",
+    "No_Thing": "لا يوجد بيانات لعرضها"
+  },
+  "details_screen": {
+    "shop_app_store": "زيارة المتجر",
+    "add_to_cart": "إضافة للسلة",
+    "price": "السعر",
+    "can_also_like": "يمكن أن يعجبك أيضاُ",
+    "Please_select_the_size": "يرجي اختيار ",
+    "Return": "رجوع"
+
+  },
+  "payment_screen": {
+    "Receving": "الاستلام",
+    "Receipt_from_governorate": "الاستلام من محافظة",
+    "Receipt_through_shipping_companies": "الاستلام عن طريق شركات الشحن",
+    "Cadmus": "القدموس",
+    "days": "أيام",
+    "Other_company": "شركات أخرى",
+    "Total": "المجموع",
+    "Address": "العنوان",
+    "Locate_on_the_map": "تحديد الموقع على الخريطة",
+    "The_floor": "الطابق",
+    "Building_or_street_name": "اسم البناء أو الشارع",
+    "Building_number": "رقم البناء",
+    "Notes": "ملاحظات",
+    "Payment": "الدفع",
+    "Cash": "كاش",
+    "On_receipt": "عند الاستلام",
+    "Bank_card": "بطاقة البنك",
+    "Soon": "قريباً",
+    "The_order_has_been_processed": "تمت عملية الطلب",
+    "Home": "الرئيسية",
+    "explanation": " شرح عن الخدمة و الوقت يتم\\nإضافة من قب الفريق المختص",
+    "current": "الحالية",
+    "Previous": "السابقة",
+    "evaluate": "الرجاء تقييم الطلب",
+    "evaluate_button": "تقييم",
+    "Current_Location": "الموقع الحالي",
+    "active_location": "تحتاج الى تفعيل الموقع",
+    "need_location": "نحتاج الى الوصول الى موقعك "
+  },
+  "filter_screen": {
+    "Filtter": "الفلترة",
+    "Size": "المقاس",
+    "Color": "اللون",
+    "Category": "الصنف",
+    "Shop": "الماركة",
+    "Search": "بحث",
+    "Apply": "تطبيق",
+    "non": "لاشي",
+    "fromPricedToCheap": "من الأغلى للأرخص",
+    "fromCheapToPriced": "من الأرخص للأغلى",
+    "newProduct": "الأكثر زيارة",
+    "mostOrdered": "الأكثر طلبا",
+    "mostVisited": "جديد"
+  },
+  "validation": {
+    "enter_number": " أدخل أرقام فقط ",
+    "lbl_enter_valid_phone": "  الرجاء ادخال رقم صحيح  ",
+    "this_field_is_required": "هذا الحقل مطلوب ",
+    "the_card_is_invalid": " البطاقة المستخدمة غير صالحة ",
+    "please_enter_a_valid_email": "   يرجى إدخال البريد الإلكتروني الصحيح. ",
+    "this_failed_must_be_grater_than_one": "يجب أن تكون قيمة هذا الحقل أكبر من واحد",
+    "this_field_can_not_be_empty": "هذا الحقل يجب ان لا يكون فارغ",
+    "can_not_be_empty_please_enter_correct_password": "لا يمكن أن يكون فارغا الرجاء إدخال كلمة المرور الصحيحة",
+    "password_and_confirmation_password_mismatch": "كلمة المرور وتأكيد كلمة المرور غير متطابقين",
+    "can_not_be_empty_please_enter_your_full_name": "الحقل مطلوب الرجاء ادخال الاسم الكامل "
+  },
+  "search_screen": {
+    "search_history": "سجل البحث",
+    "clear_all": "مسح الكل",
+    "you_might_like": "قد يعجبك",
+    "color": "اللون",
+    "arrangement": "الترتيب",
+    "Size": "المقاس",
+    "Item": "الصنف",
+    "marka": "ماركة",
+    "filter": "فلترة",
+    "search": "بحث",
+    "delete": "مسح",
+    "back": "رجوع"
+  },
+  "profile_screen": {
+    "my_account": "حسابي",
+    "Suggestion_or_complaints": "اقتراحات أو شكاوي",
+    "Langauge": "اللغة",
+    "privacy_policy": "سياسة الخصوصية",
+    "Connect_with_us": "تواصل معنا",
+    "LogOut": "تسجيل الخروج",
+    "My_order": "طلباتي",
+    "Are_you_sure_you_are_registering_Exit": "هل أنتي متأكدة من تسجيل ",
+    "Exit": "الخروج ؟",
+    "You_can_log_in_again_using_your_number_Himself": "يمكنكي إعادة تسجيل الدخول باستخدام ",
+    "Self": "رقمكي نفسه.",
+    "Retreat": "تراجع",
+    "Enter_your_name": "أدخلي اسمكي",
+    "Edit": "تعديل",
+    "cancel_edit": "إلغاء التعديل",
+    "form_details_of_my_order": "تفاصيل طلبياتي",
+    "from": "من",
+    "total": "الكلي",
+    "discount": "حسم",
+    "Back": "عودة"
+  },
+  "suggestion_screen": {
+    "Address":"العنوان",
+    "Explain": "الشرح",
+    "Send": "إرسال"
+  },
+  "language_screen": {
+    "Arabic": "العربية",
+    "English": "الإنكليزية",
+    "My_order": "طلباتي"
+  },
+  "details_store": {
+    "product": "منتجات",
+    "home": "الأساسية"
+  },
+  "Rate": "تقييم",
+  "order_status": {
+    "order_pending": "معلق",
+    "order_accepted": "مقبول",
+    "under_delivery": "قيد التوصيل ",
+    "order_delivered": "تم توصيله",
+    "store_cancel_order": "تم الالغاء من المتجر",
+    "order_canceled": "طلب ملغي"
+  },
+  "Do_you_have_a_discount_code": "هل لديك كود حسم",
+  "Product_offers": "عروض المنتجات",
+  "this_feature_is_not_supported_yet": "هذه الميزة ليست متاحة بعد",
+  "you_should_pick_delivery_way_first": "يجب عليك اختيار طريقة التسليم أولاً",
+  "Choose_type_payment": "قم باختيار طريقة الدفع ",
+  "Cancel": "إلغاء",
+  "Enter_phone_number_that_will_be_given_to_shipping_company": "أدخل رقم الهاتف الذي سيتم تسليمه لشركة الشحن",
+  "Dilvery_to_private_address": "توصيل الى عنوان مخصص ",
+  "Other_company": "شركات أخرى",
+  "country": "المحافظة",
+  "Enter_full_name_that_will_be_given_to_shipping_company": "أدخل الاسم الذي سيتم تسليمه لشركة الشحن",
+  "you_should_pick_location": "يجب عليك اختيار الموقع",
+  "order_has_bees_summit_successfully": "تم إضافة الطلب بنجاح"
+
+}

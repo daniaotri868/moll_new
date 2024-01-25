@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "550749551427",
+    "project_id": "remy-e3f2d",
+    "storage_bucket": "remy-e3f2d.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:550749551427:android:95917b6d2853603b9f4df6",
+        "android_client_info": {
+          "package_name": "com.example.remy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCHkVYFjdILBP_7djxNs6NqoOay22Bd0w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -1,0 +1,224 @@
+{
+  "Empty": "Empty",
+  "done": "done",
+  "Product_offers": "Product offers",
+  "splash_screen": {
+    "For_every_Syrian_girl": "For every Syrian girl"
+  },
+  "location_screen": {
+    "Please_select_your_province_and_location": "Please select your province and location",
+    "country": "country",
+    "Locate_on_the_map": "Locate on the map",
+    "This_option_can_be_changed_later": "This option can be changed later",
+    "next": "next",
+    "Please_fill_out_the_information_completely": "Please fill out the information completely",
+    "Name": "Name",
+    "last_name": "Last Name"
+  },
+  "welcome_page": {
+    "welcome": "welcome",
+    "login": "login"
+  },
+  "login_page": {
+    "login_about": "login about",
+    "phone": "phone"
+  },
+  "sign_up": {
+    "a_text_message_will_be_sent": "A text message will be sent with a four-digit code",
+    "The_Syrian_Arab_Republic": "The Syrian Arab Republic",
+    "search_by_country_or_dial_conde_or_country_name": "search_by_country_or_dial_conde_or_country_name"
+    },
+  "Verification_page": {
+    "verification_code": "Verification Code",
+    "text_message": "A text message has been sent to the number ",
+    "Please_enter_the_code_to_continue": "Please enter the code to continue",
+    "resend_code": "Resend code",
+    "Please_check_the_verification_code": "Please check the verification code"
+  },
+
+  "Home_screen": {
+    "Loading": "Loading",
+    "Welcome": "Welcome",
+    "What_are_you_looking_for": "What are you looking for?",
+    "Best_seller": "Best seller",
+    "more": "more",
+    "New": "New",
+    "Offers_tody": "Offers Today",
+    "Categories": "Categories",
+    "Offers_and_discounts": "Offers And Discounts",
+    "The_site_was_chosen_successfully": "The site was chosen successfully",
+    "Show_less": "Show less"
+  },
+  "Categories_screen": {
+    "Jeans": "Jeans",
+    "Shirts": "Shirts",
+    "Shoes": "Shoes",
+    "Offers_and_discounts": "Offers and discounts",
+    "categories": "categories",
+    "shops": "Shops",
+    "Category_Details": "Category Details ",
+    "Skip": "Skip",
+    "category_main": "Main Category",
+    "category_sub": "Sub Category"
+  },
+  "Favorait_screen": {
+    "Favorait": "Favorait"
+  },
+  "Notification_screen": {
+    "Notification": "Notification",
+    "read_all": "Read All"
+
+  },
+  "Cart_Screen": {
+    "Cart": "Cart",
+    "Do_you_want_to_delete": "Do you want to delete?",
+    "Confirm_deletion": "Confirm deletion",
+    "Delete": "Delete",
+    "Retreat": "Retreat",
+    "The_product_will_be_deleted_from_your_cart": "The product will be deleted from your cart",
+    "The_product_has_been_added_to_the_cart": "The product has been added to the cart",
+    "Go_to_the_cart": "Go to the cart",
+    "Continue_shopping": " Continue shopping",
+    "No_Thing": "No Thing"
+  },
+  "details_screen": {
+    "shop_app_store": "Visit the store",
+    "add_to_cart": "Add to cart",
+    "price": "Price",
+    "can_also_like": "can also like",
+    "Please_select_the_size": "Please select  ",
+    "Return": "Return"
+  },
+  "search_screen": {
+    "search_history": "Search history",
+    "clear_all": "Clear all",
+    "you_might_like": "You Might Like",
+    "color": "color",
+    "arrangement": "arrangement",
+    "Size": "Size",
+    "Item": "Item",
+    "marka": "marka",
+    "filter": "filter",
+    "search": "search",
+    "delete": "delete",
+    "back": "back"
+
+  },
+  "payment_screen": {
+    "Receving": "Receving",
+    "Receipt_from_governorate": "Receipt from governorate",
+    "Receipt_through_shipping_companies": "Receipt through shipping companies",
+    "Cadmus": "Cadmus",
+    "days": "days",
+    "Other_company": "Other company",
+    "Total": "Total",
+    "Address": "Address",
+    "Locate_on_the_map": "Locate on the map",
+    "The_floor": "The floor",
+    "Building_or_street_name": "Building or street name",
+    "Building_number": "Building number",
+    "Notes": "Notes",
+    "Payment": "Payment",
+    "Cash": "Cash",
+    "On_receipt": "On receipt",
+    "Bank_card": "Bank Card",
+    "Soon": "Soon",
+    "The_order_has_been_processed": "The order has been processed",
+    "Home": "Home",
+    "explanation": "Explanation of the explanation of the service \\n and time is added by the competent team",
+    "current": "current",
+    "Previous": "Previous",
+    "evaluate": "Please evaluate the application",
+    "evaluate_button": "evaluate",
+    "Current_Location": "Current Location",
+    "active_location": "you need active your location",
+    "need_location": "We need access to your location "
+
+  },
+  "filter_screen": {
+    "Filtter": "Filtter",
+    "Size": "Size",
+    "Color": "Color",
+    "Category": "Category",
+    "Shop": "Shop",
+    "Search": "Search",
+    "Apply": "Apply",
+    "non": "non",
+    "fromPricedToCheap": "from Priced To Cheap",
+    "fromCheapToPriced": "from Cheap To Priced",
+    "newProduct": "new Product",
+    "mostOrdered": "most Ordered",
+    "mostVisited": "New"
+  },
+  "validation": {
+    "enter_number": "Enter number just.",
+    "lbl_enter_valid_phone": "Please enter a valid phone number.",
+    "this_field_is_required": "This field is required",
+    "the_card_is_invalid": "The selected card is invalid",
+    "please_enter_a_valid_email": "Please enter a valid email",
+    "this_failed_must_be_grater_than_one": "this field value must be grater than one",
+    "this_field_can_not_be_empty": "this_field_can_not_be_empty",
+    "can_not_be_empty_please_enter_correct_password": "can not be empty please enter correct password",
+    "password_and_confirmation_password_mismatch": "password and confirmation password mismatch"
+  },
+
+  "profile_screen": {
+    "my_account": "My Account",
+    "Suggestion_or_complaints": "Suggestions or complaints",
+    "Langauge": "Langauge",
+    "privacy_policy": "privacy policy",
+    "Connect_with_us": "Connect with us",
+    "LogOut": "Log out",
+    "My_order": "My Order",
+    "Are_you_sure_you_are_registering_Exit": "Are you sure you are registering",
+    "Exit": "exit ?",
+    "You_can_log_in_again_using_your_number_Himself": "You can log in again using ",
+    "Self": "your number himSelf",
+    "Retreat": "retreat",
+    "Enter_your_name": "Enter your name",
+    "Edit": "Edit",
+    "cancel_edit": "Cancel Edit",
+    "form_details_of_my_order": "Form details of my order",
+    "from": "from",
+    "total": "total",
+    "discount": "discount",
+    "Back": "Back"
+  },
+  "suggestion_screen": {
+    "Address": "Address",
+    "Explain": "Explain",
+    "Send": "Send"
+
+  },
+  "language_screen": {
+    "Arabic": "Arabic",
+    "English": "English",
+    "My_order": "My Order"
+  },
+  "details_store": {
+    "product": "products",
+    "home": "home"
+  },
+  "Rate": "Rate",
+  "order_status": {
+    "order_pending": "order pending",
+    "order_accepted": "order accepted",
+    "under_delivery": "under Delivery",
+    "order_delivered": "order delivered",
+    "store_cancel_order": "store Cancel order",
+    "order_canceled": "order canceled"
+  },
+  "Do_you_have_a_discount_code": "Do you have a discount code?",
+  "Product_offers": "Product offers",
+  "this_feature_is_not_supported_yet": "this feature is not supported yet ",
+  "you_should_pick_delivery_way_first": "you should pick delivery way first",
+  "Choose_type_payment": "Choose type payment",
+  "Cancel": "Cancel",
+  "Enter_phone_number_that_will_be_given_to_shipping_company": "Enter phone number that will be given to shipping company",
+  "Dilvery_to_private_address": "Dilvery to private address",
+  "Other_company": "Other company",
+  "country": "country",
+  "Enter_full_name_that_will_be_given_to_shipping_company": "Enter full name that will be given to shipping company  ",
+  "you_should_pick_location": "you should pick location",
+  "order_has_bees_summit_successfully": "order has been summit successfully"
+}
