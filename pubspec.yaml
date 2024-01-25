@@ -125,28 +125,7 @@ flutter:
   assets:
     - assets/translations/ar.json
     - assets/translations/en.json
-    - assets/image/svg/location/
-    - assets/image/svg/splash/
-    - assets/image/svg/login/background.svg
-    - assets/image/svg/signUp/
-    - assets/image/svg/verification/
-    - assets/svg/category/
-    - assets/svg/home/
-    - assets/image/svg/details/
-    - assets/svg/delete/
-    - assets/svg/location/
-    - assets/svg/payment/
-    - assets/svg/Filtter.svg
-    - assets/svg/location_icon.svg
-    - assets/svg/home/Group 1045.svg
-    - assets/svg/
-    - assets/svg/profile/
-    - assets/svg/profile/suggest.svg
-    - assets/svg/profile/smile.svg
-    - assets/svg/language/
-    - assets/image/svg/
-    - assets/image/
-    - assets/image/svg/login/
+    - assets/image/splash.png
 
 
 
