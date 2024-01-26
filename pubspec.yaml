@@ -125,7 +125,7 @@ flutter:
   assets:
     - assets/translations/ar.json
     - assets/translations/en.json
-    - assets/image/splash.png
+    - assets/image/
 
 
 

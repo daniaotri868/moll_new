@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import '../../../feature/auth/presentation/pages/login.dart';
 import '../../../feature/splash.dart';
 import 'router_config.dart';
 
@@ -30,6 +31,15 @@ class GRouter {
           pageBuilder: (BuildContext context, GoRouterState state) {
             return _builderPage(
               child: const Splash(),
+              state: state,
+            );
+          }),
+      GoRoute(
+          path:LoginPage.path,
+          name: LoginPage.path,
+          pageBuilder: (BuildContext context, GoRouterState state) {
+            return _builderPage(
+              child: const LoginPage(),
               state: state,
             );
           }),

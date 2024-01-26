@@ -2,8 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:remy/core/utils/extensions/build_context.dart';
 import 'package:remy/feature/app/presentation/widgets/app_elvated_button.dart';
+
+import 'auth/presentation/pages/login.dart';
 
 class Splash extends StatefulWidget {
   const Splash({Key? key}) : super(key: key);
@@ -53,7 +56,7 @@ class _SplashState extends State<Splash> with TickerProviderStateMixin {
                          backgroundColor: context.colorScheme.primary
                      ),
                      onPressed: () {
-
+                    context.pushNamed(LoginPage.path);
 
                      },
                      child: const Text("تسجيل دخول"),
