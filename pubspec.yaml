@@ -54,6 +54,7 @@ dependencies:
   bloc_concurrency: ^0.2.1
   stream_transform: ^2.1.0
   webview_flutter: ^4.2.2
+  provider: ^6.1.2
 
   #client
   dio: ^5.3.0
@@ -104,6 +105,7 @@ dependencies:
   easy_stepper: ^0.8.1
   photo_view: ^0.14.0
   restart_app:
+  curved_labeled_navigation_bar: ^2.0.2
 
 dev_dependencies:
   flutter_test:
@@ -158,12 +160,12 @@ flutter:
 
 
   fonts:
-    - family: Noor Regular
+    - family: Tajawal Regular
       fonts:
-        - asset: assets/fonts/Noor Regular.ttf
-    - family: Noor Bold
+        - asset: assets/fonts/Tajawal-Regular.ttf
+    - family: Tajawal Bold
       fonts:
-        - asset: assets/fonts/Noor_Bold.ttf
+        - asset: assets/fonts/Tajawal-Bold.ttf
 
 flutter_launcher_icons:
   android: "launcher_icon"

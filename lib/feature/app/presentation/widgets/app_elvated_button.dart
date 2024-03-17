@@ -47,11 +47,9 @@ class _AppElevatedButtonState extends ThemeState<AppElevatedButton> {
 
   bool get absorbing => widget.onDisabled != null ? false : widget.isLoading;
 
-  CrossFadeState get crossFadeState =>
-      widget.isLoading ? CrossFadeState.showSecond : CrossFadeState.showFirst;
+  CrossFadeState get crossFadeState => widget.isLoading ? CrossFadeState.showSecond : CrossFadeState.showFirst;
 
-  Function()? get onTap =>
-      widget.isLoading ? widget.onDisabled?.call() ?? () {} : widget.onPressed;
+  Function()? get onTap => widget.isLoading ? widget.onDisabled?.call() ?? () {} : widget.onPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -101,9 +99,9 @@ class _AppElevatedButtonState extends ThemeState<AppElevatedButton> {
             AppText(
               widget.text!.tr(),
               style: widget.textStyle ??
-            context.textTheme.bodyMedium?.copyWith(
-            color: Colors.white,
-            ),
+                  context.textTheme.bodyMedium?.copyWith(
+                    color: Colors.white,
+                  ),
             ),
       );
 
@@ -121,9 +119,7 @@ class _AppElevatedButtonState extends ThemeState<AppElevatedButton> {
               elevation: 0.0,
               shadowColor: colorScheme.white.withOpacity(0.1),
               textStyle: widget.textStyle,
-              side: BorderSide(
-                  color: context.colorScheme.primary.withOpacity(0.1),
-                  width: 0.7)),
+              side: BorderSide(color: context.colorScheme.primary.withOpacity(0.1), width: 0.7)),
     );
 
     final loadingElevatedTheme = ElevatedButtonThemeData(
@@ -131,7 +127,7 @@ class _AppElevatedButtonState extends ThemeState<AppElevatedButton> {
         shape: defaultElevatedTheme.style?.shape?.resolve({}),
         backgroundColor: colorScheme.surfaceVariant,
         foregroundColor: colorScheme.outline,
-        textStyle: widget.textStyle ,
+        textStyle: widget.textStyle,
       ),
     );
 

@@ -41,17 +41,19 @@ class AppTheme {
     );
 
     return _builtInLightTheme.copyWith(
-        colorScheme: _lightColorScheme,
-        textTheme: textTheme,
-        useMaterial3: true,
-        typography: Typography.material2021(),
-        elevatedButtonTheme: _elevatedButtonTheme(_lightColorScheme, textTheme),
-        textButtonTheme: _textButtonTheme(_lightColorScheme, textTheme),
-        scaffoldBackgroundColor: _lightColorScheme.background,
-        appBarTheme: _appBarTheme(_builtInLightTheme, _lightColorScheme, textTheme, ThemeMode.light),
-        dividerTheme: _dividerTheme(_builtInLightTheme, _lightColorScheme),
-        primaryColor: _lightColorScheme.primary,
-        bottomSheetTheme: _bottomSheetThemeData(_builtInLightTheme));
+      colorScheme: _lightColorScheme,
+      textTheme: textTheme,
+      useMaterial3: true,
+      typography: Typography.material2021(),
+      elevatedButtonTheme: _elevatedButtonTheme(_lightColorScheme, textTheme),
+      textButtonTheme: _textButtonTheme(_lightColorScheme, textTheme),
+      scaffoldBackgroundColor: _lightColorScheme.background,
+      appBarTheme: _appBarTheme(_builtInLightTheme, _lightColorScheme, textTheme, ThemeMode.light),
+      dividerTheme: _dividerTheme(_builtInLightTheme, _lightColorScheme),
+      primaryColor: _lightColorScheme.primary,
+      bottomSheetTheme: _bottomSheetThemeData(_builtInLightTheme),
+      iconTheme: IconThemeData(color: _lightColorScheme.primary),
+    );
   }
 
   static ThemeData dark(BuildContext context) {

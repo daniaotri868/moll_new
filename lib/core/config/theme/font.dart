@@ -12,8 +12,8 @@ FontWeight get _bold => FontWeight.bold;
 
 FontWeight get _extraBold => FontWeight.w800;
 
-String get noorBoldFamily => 'Noor Bold';
-String get noorRegularFamily => 'Noor Regular';
+String get noorBoldFamily => 'Tajawal Bold';
+String get noorRegularFamily => 'Tajawal Regular';
 
 extension FontExt on TextStyle? {
   TextStyle? get xb => this?.copyWith(fontWeight: _extraBold);

@@ -134,7 +134,7 @@ class AppTextField<T> extends StatefulWidget {
   final String name;
   final String? initValue;
   final ValueTransformer<T?>? valueTransformer;
-  final Widget ?prefix;
+  final Widget? prefix;
 
   @override
   State<AppTextField> createState() => _AppTextFieldState();

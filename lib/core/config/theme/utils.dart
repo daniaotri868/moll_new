@@ -1,21 +1,17 @@
 part of 'app_theme.dart';
 
-ElevatedButtonThemeData _elevatedButtonTheme(
-        ColorScheme scheme, TextTheme textTheme) =>
-    ElevatedButtonThemeData(
+ElevatedButtonThemeData _elevatedButtonTheme(ColorScheme scheme, TextTheme textTheme) => ElevatedButtonThemeData(
       style: ElevatedButton.styleFrom(
         textStyle: textTheme.bodyLarge?.r,
-        backgroundColor: scheme.tertiary,
+        backgroundColor: scheme.primary,
         foregroundColor: scheme.onPrimary,
         disabledBackgroundColor: Colors.grey.shade200,
         minimumSize: Size(double.infinity, 65.h),
-        shape:
-            RoundedRectangleBorder(borderRadius: BorderRadius.circular(kr35)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(kr35)),
       ),
     );
 
-TextButtonThemeData _textButtonTheme(ColorScheme scheme, TextTheme textTheme) =>
-    TextButtonThemeData(
+TextButtonThemeData _textButtonTheme(ColorScheme scheme, TextTheme textTheme) => TextButtonThemeData(
       style: ElevatedButton.styleFrom(
         textStyle: textTheme.labelLarge,
         foregroundColor: AppColors.grey.shade600,
@@ -23,23 +19,17 @@ TextButtonThemeData _textButtonTheme(ColorScheme scheme, TextTheme textTheme) =>
       ),
     );
 
-AppBarTheme _appBarTheme(ThemeData theme, ColorScheme scheme,
-        TextTheme textTheme, ThemeMode themeMode) =>
-    theme.appBarTheme.copyWith(
-        // backgroundColor: scheme.primary,
-        titleTextStyle: textTheme.headlineSmall,
-        systemOverlayStyle: themeMode == ThemeMode.dark
-            ? SystemUiOverlayStyle.light
-            : SystemUiOverlayStyle.dark,
-        elevation: 0.0,
-        surfaceTintColor: scheme.surface);
+AppBarTheme _appBarTheme(ThemeData theme, ColorScheme scheme, TextTheme textTheme, ThemeMode themeMode) => theme.appBarTheme.copyWith(
+    // backgroundColor: scheme.primary,
+    titleTextStyle: textTheme.headlineSmall,
+    systemOverlayStyle: themeMode == ThemeMode.dark ? SystemUiOverlayStyle.light : SystemUiOverlayStyle.dark,
+    elevation: 0.0,
+    surfaceTintColor: scheme.surface);
 
 DividerThemeData _dividerTheme(ThemeData theme, ColorScheme scheme) =>
-    theme.dividerTheme
-        .copyWith(color: AppColors.grey.withOpacity(0.2), thickness: 1);
+    theme.dividerTheme.copyWith(color: AppColors.grey.withOpacity(0.2), thickness: 1);
 
-BottomSheetThemeData _bottomSheetThemeData(ThemeData theme) =>
-    theme.bottomSheetTheme.copyWith(
+BottomSheetThemeData _bottomSheetThemeData(ThemeData theme) => theme.bottomSheetTheme.copyWith(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(kbrDefault),
