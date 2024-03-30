@@ -20,6 +20,7 @@ class Assets {
   static const String homeTlabp = 'assets/svg/home/tlb.png';
   static const String homeSearch = 'assets/svg/home/search.svg';
   static const String homeShop = 'assets/svg/home/shop.svg';
+  static const String homeMenue = 'assets/svg/home/menue.svg';
   static const String locationBackground = 'assets/image/svg/location/background.svg';
   static const String loginBackground = 'assets/image/svg/login/background.svg';
   static const String signUpPhone = 'assets/image/svg/signUp/Phone.png';

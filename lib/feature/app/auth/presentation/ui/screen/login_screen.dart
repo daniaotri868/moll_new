@@ -64,7 +64,9 @@ class LoginScreen extends StatelessWidget {
                     50.verticalSpace,
                     AppElevatedButton(
                       child: const Text(AppString.next),
-                      onPressed: () {},
+                      onPressed: () {
+                        context.goNamed(GRouter.config.homeRoutes.homeScreen);
+                      },
                     ),
                     21.verticalSpace,
                     SizedBox(

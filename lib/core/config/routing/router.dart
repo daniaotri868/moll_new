@@ -21,12 +21,12 @@ class GRouter {
   static final RouterConfiguration _config = RouterConfiguration.init();
 
   static final GoRouter _router = GoRouter(
-    initialLocation: _config.kRootRoute,
+    initialLocation: _config.authRoutes.login,
     navigatorKey: _rootNavigatorKey,
     routes: <RouteBase>[
       GoRoute(
-          path: _config.kRootRoute,
-          name: _config.kRootRoute,
+          path: _config.homeRoutes.homeScreen,
+          name: _config.homeRoutes.homeScreen,
           pageBuilder: (BuildContext context, GoRouterState state) {
             return _builderPage(
               child: const RootScreen(),

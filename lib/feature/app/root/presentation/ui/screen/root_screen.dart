@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:remy/feature/app/home/presentation/ui/screen/home_screen.dart';
 import 'package:remy/feature/app/root/presentation/state/provider/nav_bar_provider.dart';
 import 'package:remy/feature/app/root/presentation/ui/widget/root_navbar.dart';
 
@@ -20,9 +21,7 @@ class RootScreen extends StatelessWidget {
             Center(
               child: Text("2"),
             ),
-            Center(
-              child: Text("3"),
-            ),
+            HomeScreen(),
             Center(
               child: Text("4"),
             ),

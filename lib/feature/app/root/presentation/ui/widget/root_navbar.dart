@@ -29,7 +29,7 @@ class RootNavBar extends StatelessWidget {
         ),
         CurvedNavigationBarItem(
           child: Icon(
-            Icons.dashboard,
+            Icons.grid_view_sharp,
             color: context.colorScheme.white,
           ),
         ),
@@ -41,7 +41,7 @@ class RootNavBar extends StatelessWidget {
         ),
         CurvedNavigationBarItem(
           child: Icon(
-            Icons.stacked_bar_chart_outlined,
+            CupertinoIcons.square_stack_3d_up_fill,
             color: context.colorScheme.white,
           ),
         ),
