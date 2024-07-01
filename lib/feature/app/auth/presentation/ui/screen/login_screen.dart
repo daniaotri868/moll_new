@@ -1,17 +1,24 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:remy/common/constants/app_string.dart';
 import 'package:remy/core/config/routing/router.dart';
+import 'package:remy/core/di/di_container.dart';
 import 'package:remy/core/utils/extensions/build_context.dart';
 import 'package:remy/feature/app/presentation/widgets/app_elvated_button.dart';
 import 'package:remy/feature/app/presentation/widgets/app_text_field.dart';
 
+import '../../bloc/auth_bloc.dart';
+
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+  static String userId="";
+   LoginScreen({super.key});
 
   @override
+  TextEditingController email=TextEditingController();
+  TextEditingController password =TextEditingController();
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: context.colorScheme.primary,
@@ -44,6 +51,7 @@ class LoginScreen extends StatelessWidget {
                     45.verticalSpace,
                     AppTextField(
                       name: "email",
+                      controller:email ,
                       title: AppString.email,
                       prefixIcon: Icon(
                         Icons.email,
@@ -55,6 +63,7 @@ class LoginScreen extends StatelessWidget {
                       name: "password",
                       title: AppString.password,
                       obscure: true,
+                      controller: password,
                       isPasswordFiled: true,
                       prefixIcon: Icon(
                         Icons.lock,
@@ -65,7 +74,15 @@ class LoginScreen extends StatelessWidget {
                     AppElevatedButton(
                       child: const Text(AppString.next),
                       onPressed: () {
-                        context.goNamed(GRouter.config.homeRoutes.homeScreen);
+
+                        context.read<AuthBloc>().add(RegisterEvent(
+                          email: email.text,
+                          password: password.text,
+                          onSuccess: () {
+                            context.goNamed(GRouter.config.homeRoutes.homeScreen);
+                          },
+                        ));
+
                       },
                     ),
                     21.verticalSpace,
@@ -77,6 +94,7 @@ class LoginScreen extends StatelessWidget {
                           TextButton(
                             onPressed: () {
                               context.goNamed(GRouter.config.authRoutes.signUp);
+
                             },
                             child: Text(
                               AppString.signUp,

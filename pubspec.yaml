@@ -27,11 +27,11 @@ dependencies:
     sdk: flutter
   cupertino_icons: ^1.0.5
   timelines:
-  url_launcher: ^6.1.0
+#  url_launcher: ^6.1.0
 #  firebase
-  firebase_messaging: ^14.7.4
+#  firebase_messaging: ^14.7.4
   flutter_local_notifications: ^16.1.0
-  firebase_core: ^2.22.0
+#  firebase_core: ^2.22.0
 
   # localization
   easy_localization: ^3.0.2
@@ -96,13 +96,13 @@ dependencies:
   geolocator: ^10.0.1
   app_settings: ^5.1.1
   readmore: ^2.2.0
-  google_maps_flutter: ^2.5.0
+#  google_maps_flutter: ^2.5.0
   location: ^5.0.3
   geocoding_platform_interface: ^2.0.1
   location_platform_interface: ^3.1.2
   map_picker: ^0.0.3
   flutter_spinkit: ^5.2.0
-  map_launcher: ^2.5.0+1
+#  map_launcher: ^2.5.0+1
   easy_stepper: ^0.8.1
   photo_view: ^0.14.0
   restart_app:

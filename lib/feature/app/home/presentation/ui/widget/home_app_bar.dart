@@ -4,8 +4,11 @@ import 'package:remy/feature/app/presentation/widgets/app_svg_picture.dart';
 import 'package:remy/feature/app/presentation/widgets/rounded_container.dart';
 import 'package:remy/generated/assets.dart';
 
+import '../../../data/model/home_model.dart';
+
 class HomeAppBar extends StatelessWidget {
-  const HomeAppBar({super.key});
+  HomeModel ?data;
+   HomeAppBar({super.key,required this.data});
 
   @override
   Widget build(BuildContext context) {

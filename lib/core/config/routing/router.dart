@@ -5,6 +5,10 @@ import 'package:go_router/go_router.dart';
 import 'package:remy/feature/app/auth/presentation/ui/screen/login_screen.dart';
 import 'package:remy/feature/app/auth/presentation/ui/screen/signup_screen.dart';
 import 'package:remy/feature/app/root/presentation/ui/screen/root_screen.dart';
+import '../../../feature/app/home/presentation/ui/screen/all_dep.dart';
+import '../../../feature/app/home/presentation/ui/screen/department_screen.dart';
+import '../../../feature/app/home/presentation/ui/screen/details_product.dart';
+import '../../../feature/app/home/presentation/ui/screen/product_dep.dart';
 import '../../../feature/splash.dart';
 import 'router_config.dart';
 
@@ -32,13 +36,67 @@ class GRouter {
               child: const RootScreen(),
               state: state,
             );
-          }),
+          },
+        routes: [
+          GoRoute(
+              path:AllDepartmentScreen.name,
+              name:AllDepartmentScreen.name,
+              pageBuilder: (BuildContext context, GoRouterState state) {
+                return _builderPage(
+                  child:  AllDepartmentScreen(idMoll: state.extra as String,),
+                  state: state,
+                );
+              },
+            routes: [
+              GoRoute(
+                path: AllProductDepartmentScreen.name,
+                name: AllProductDepartmentScreen.name,
+                pageBuilder: (BuildContext context, GoRouterState state) {
+                  return _builderPage(
+                    child:  AllProductDepartmentScreen(idDep: state.extra as String,),
+                    state: state,
+                  );
+                },
+                routes: [
+                  GoRoute(
+                    path: DetailsProduct.name,
+                    name: DetailsProduct.name,
+                    pageBuilder: (BuildContext context, GoRouterState state) {
+                      return _builderPage(
+                        child:  DetailsProduct(idProduct: state.extra as String,),
+                        state: state,
+                      );
+                    },
+
+
+                  ),
+                ]
+
+              ),
+              GoRoute(
+                path: _config.homeRoutes.department,
+                name: _config.homeRoutes.department,
+                pageBuilder: (BuildContext context, GoRouterState state) {
+                  return _builderPage(
+                    child:  DetailsScreen(idMoll: state.extra as String,),
+                    state: state,
+                  );
+                },
+
+
+              ),
+            ]
+          ),
+
+        ]
+
+      ),
       GoRoute(
         path: _config.authRoutes.login,
         name: _config.authRoutes.login,
         pageBuilder: (BuildContext context, GoRouterState state) {
           return _builderPage(
-            child: const LoginScreen(),
+            child:  LoginScreen(),
             state: state,
           );
         },
@@ -48,7 +106,7 @@ class GRouter {
             name: _config.authRoutes.signUp,
             pageBuilder: (BuildContext context, GoRouterState state) {
               return _builderPage(
-                child: const SignupScreen(),
+                child:  SignupScreen(),
                 state: state,
               );
             },

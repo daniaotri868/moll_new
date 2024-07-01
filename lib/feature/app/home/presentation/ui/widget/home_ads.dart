@@ -8,14 +8,16 @@ import 'package:remy/core/utils/extensions/build_context.dart';
 import 'package:remy/feature/app/home/data/model/home_ads_model.dart';
 import 'package:remy/feature/app/presentation/widgets/custom_network_image.dart';
 
+import '../../../data/model/home_model.dart';
+
 class HomeAdsSlider extends StatelessWidget {
   const HomeAdsSlider({super.key, required this.ads});
 
-  final List<HomeAdsModel> ads;
+  final HomeModel ads;
 
   @override
   Widget build(BuildContext context) {
-    return ads.isEmpty
+    return (ads.ads??[]).isEmpty
         ? const SizedBox()
         : CarouselSlider(
             options: CarouselOptions(
@@ -32,7 +34,7 @@ class HomeAdsSlider extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               enableInfiniteScroll: true,
             ),
-            items: ads
+            items: (ads.ads??[])
                 .map((e) => GestureDetector(
                       onTap: () {
                         showDialog(
@@ -50,14 +52,14 @@ class HomeAdsSlider extends StatelessWidget {
                                         child: ImageFiltered(
                                           imageFilter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
                                           child: CustomNetworkImage(
-                                            imageUrl: e.url!,
+                                            imageUrl:"${e.imageUrl}"!,
                                             fit: BoxFit.cover,
                                           ),
                                         ),
                                       ),
                                       Center(
                                           child: CustomNetworkImage(
-                                        imageUrl: e.url!,
+                                        imageUrl: e.imageUrl!,
                                         fit: BoxFit.scaleDown,
                                       )),
                                       Positioned(
@@ -86,7 +88,7 @@ class HomeAdsSlider extends StatelessWidget {
                                           child: BackdropFilter(
                                             filter: ImageFilter.blur(sigmaY: 8, sigmaX: 8),
                                             child: Text(
-                                              e.title,
+                                              e.name??"",
                                               textAlign: TextAlign.center,
                                               style: context.textTheme.titleMedium,
                                             ),
@@ -103,7 +105,7 @@ class HomeAdsSlider extends StatelessWidget {
                             width: double.maxFinite,
                             clipBehavior: Clip.hardEdge,
                             decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
-                            child: CustomNetworkImage(imageUrl: e.url!),
+                            child: CustomNetworkImage(imageUrl: e.imageUrl!),
                           ),
                         ],
                       ),

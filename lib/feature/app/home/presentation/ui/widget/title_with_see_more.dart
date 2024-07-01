@@ -3,11 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:remy/core/utils/extensions/build_context.dart';
 
+import '../../../data/model/home_model.dart';
+
 class TitleWithSeeMore extends StatelessWidget {
+  final HomeModel ?data;
+
   const TitleWithSeeMore({
     Key? key,
     required this.title,
     required this.onSeeMore,
+    required this.data,
   }) : super(key: key);
 
   final String title;

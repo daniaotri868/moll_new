@@ -4,6 +4,9 @@ import 'package:remy/feature/app/home/presentation/ui/screen/home_screen.dart';
 import 'package:remy/feature/app/root/presentation/state/provider/nav_bar_provider.dart';
 import 'package:remy/feature/app/root/presentation/ui/widget/root_navbar.dart';
 
+import '../../../../home/presentation/ui/screen/cart_page.dart';
+import '../../../../home/presentation/ui/screen/moll_screen.dart';
+
 class RootScreen extends StatelessWidget {
   const RootScreen({super.key});
 
@@ -15,12 +18,8 @@ class RootScreen extends StatelessWidget {
           controller: navProvider.pageController,
           physics: const NeverScrollableScrollPhysics(),
           children: const [
-            Center(
-              child: Text("1"),
-            ),
-            Center(
-              child: Text("2"),
-            ),
+            CartPage(),
+            MollScreen(),
             HomeScreen(),
             Center(
               child: Text("4"),

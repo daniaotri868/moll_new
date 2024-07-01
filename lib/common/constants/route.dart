@@ -2,8 +2,8 @@ abstract class EndPoints {
   EndPoints._();
 
   // static const baseUrl = "http://192.168.1.250:86";
-  static const baseUrl = "http://3.214.164.25:92/api/";
-  static const address = "http://3.214.164.25:92/";
+  static const baseUrl = "https://074f-5-0-49-131.ngrok-free.app/api/Mobile/";
+  static const address = "https://074f-5-0-49-131.ngrok-free.app";
   static double latitude = 0;
   static double longitude = 0;
   // static const baseUrl = "http://192.168.1.250:86/api/";
@@ -22,10 +22,11 @@ abstract class EndPoints {
 class _Auth {
   const _Auth();
 
-  final register = 'Account/CustomerRegister';
-  final  confirm = 'Account/ConfirmCode';
-  final updateUserInfo='Customer/UpdateUserAddressInfo';
+  final login = 'Customer/LogIn';
+  final sign = 'Customer/SignUp';
+  final updateUserInfo='Customer/Modify';
   final refreshToken='Customer/RefreshToken';
+  final area='Location/GetAllAreas';
 }
 
 class _Search{
@@ -56,7 +57,8 @@ class _Home {
   const _Home();
 
   final getAllBanner = 'Banner/BannerGetAll';
-  final getAllHome = 'Customer/GetCustomerHomeData';
+  final getAllMoll = 'Mall/GetAll';
+  final getHome = 'Home/Get';
   final getProductDetails = 'Product/GetProductDetails';
   final getProductByCategory = 'Product/GetProductByCategory';
   final getAllNotification = 'Notification/NotificationGetForUser';
@@ -73,7 +75,7 @@ class _Profile{
   const _Profile();
   final  confirm = 'Customer/ConfirmCode';
 
-  final getUserInfo='Customer/GetCustomerInfo';
+  final getUserInfo='Customer/GetMyProfile';
   final updateUserInfo='Customer/UpdateUserInfo';
   final MyOrderInfo='Order/GetCustomerOrders';
   final feedbackInfo='Feedback';

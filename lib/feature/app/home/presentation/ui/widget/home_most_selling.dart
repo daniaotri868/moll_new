@@ -1,10 +1,16 @@
+
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:remy/feature/app/home/data/model/home_model.dart'as c;
 import 'package:remy/feature/app/home/presentation/ui/widget/title_with_see_more.dart';
-import 'package:remy/feature/app/presentation/widgets/product_item.dart';
+
+import '../../../../presentation/widgets/product_item.dart';
 
 class HomeMostSelling extends StatelessWidget {
-  const HomeMostSelling({super.key});
+  final c.HomeModel ?data;
+   HomeMostSelling({super.key,required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -13,20 +19,17 @@ class HomeMostSelling extends StatelessWidget {
       children: [
         Padding(
           padding: EdgeInsets.symmetric(horizontal: 16.r),
-          child: TitleWithSeeMore(title: "الأكثر مبيعاً", onSeeMore: () {}),
+          child: TitleWithSeeMore(title: "الأكثر مبيعاً", onSeeMore: () {},data: data,),
         ),
         8.verticalSpace,
-        Padding(
-          padding: EdgeInsets.only(right: 16.r),
-          child: SingleChildScrollView(
+        SizedBox(
+          height: 200,
+          child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            child: Row(
-              children: [
-                for (int i = 0; i < 10; i++) const ProductItem(),
-              ],
-            ),
+            itemCount:data?.products!.length??0 ,
+            itemBuilder: (context, index) => MollItem(item: data?.products![index],),
           ),
-        ),
+        )
       ],
     );
   }
