@@ -9,6 +9,7 @@ import 'package:remy/core/utils/extensions/build_context.dart';
 import 'package:remy/feature/app/home/presentation/ui/screen/product_dep.dart';
 import 'package:remy/feature/app/presentation/pages/empty_screen.dart';
 import 'package:remy/feature/app/presentation/pages/loading_screen.dart';
+import 'package:remy/feature/app/presentation/widgets/app_text_field.dart';
 
 import '../../../../auth/presentation/ui/screen/login_screen.dart';
 import '../../../../presentation/pages/error_screen.dart';
@@ -29,6 +30,8 @@ class AllDepartmentScreen extends StatefulWidget {
 
 class _AllDepartmentScreenState extends State<AllDepartmentScreen> {
   @override
+  TextEditingController searchController =TextEditingController();
+
   void initState() {
     // TODO: implement initState
     super.initState();
@@ -43,65 +46,80 @@ class _AllDepartmentScreenState extends State<AllDepartmentScreen> {
           body:PageStateBuilder(
             success: (data) =>  Padding(
               padding: const EdgeInsets.all(8.0),
-              child: GridView.builder(
-                gridDelegate:
-                const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 10,
-                    mainAxisSpacing: 6,
-                    childAspectRatio: 3 / 4),
-                itemBuilder: (context, index) =>InkWell(
-                  onTap: () {
-                    print("------------");
-                      context.pushNamed(AllProductDepartmentScreen.name,extra: data.departments?[index].id??"");
-                  },
-                  child: Container(
-                    padding: EdgeInsets.only(left: 12.r),
-                    width: 250.w,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.all(
-                        Radius.circular(18.r),
-                      ),
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 150,
-                          child: ClipRRect(
+              child: Column(
+                children: [
+                  AppTextField(
+                      name: 'search',
+                      controller:searchController ,
+                      title: "ابحث عنها",
+                      onSaved: (val) {
+                        context.read<HomeBloc>().add(AllDepartmentEvent(detailsParams:DetailsParams (id: widget.idMoll??"",userId: LoginScreen.userId,search: val)));
+
+                      },
+                  ),
+                  Expanded(
+                    child: GridView.builder(
+                      gridDelegate:
+                      const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          crossAxisSpacing: 10,
+                          mainAxisSpacing: 6,
+                          childAspectRatio: 3 / 4),
+                      itemBuilder: (context, index) =>InkWell(
+                        onTap: () {
+                          print("------------");
+                            context.pushNamed(AllProductDepartmentScreen.name,extra: data.departments?[index].id??"");
+                        },
+                        child: Container(
+                          padding: EdgeInsets.only(left: 12.r),
+                          width: 250.w,
+                          decoration: BoxDecoration(
                             borderRadius: BorderRadius.all(
                               Radius.circular(18.r),
                             ),
-                            child: FancyShimmerImage(
-                              // imageUrl: faker.image.image(random: true),
-                              imageUrl:  "http://3.223.131.190:81/Products/0ec15bf3-8436-4a60-b54b-62784b398599.jpg",
-                            ),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(
+                                height: 150,
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.all(
+                                    Radius.circular(18.r),
+                                  ),
+                                  child: FancyShimmerImage(
+                                    // imageUrl: faker.image.image(random: true),
+                                    imageUrl:  "http://3.223.131.190:81/Products/0ec15bf3-8436-4a60-b54b-62784b398599.jpg",
+                                  ),
+                                ),
+                              ),
+                              8.verticalSpace,
+                              // Text(
+                              //   item?.name??"",
+                              //   style: context.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w700),
+                              // ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    data.departments?[index].name??"",
+                                    style: context.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w700),
+                                  ),
+                                  Text(
+                                    data.departments?[index].phoneNumber??"",
+                                    style: context.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w700),
+                                  ),
+
+                                ],
+                              ),
+                            ],
                           ),
                         ),
-                        8.verticalSpace,
-                        // Text(
-                        //   item?.name??"",
-                        //   style: context.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w700),
-                        // ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              data.departments?[index].name??"",
-                              style: context.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w700),
-                            ),
-                            Text(
-                              data.departments?[index].phoneNumber??"",
-                              style: context.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w700),
-                            ),
-
-                          ],
-                        ),
-                      ],
+                      ),
+                      itemCount: data.departments?.length??0,
                     ),
                   ),
-                ),
-                itemCount: data.departments?.length??0,
+                ],
               ),
             ),
             result: state.getAllDepartment,

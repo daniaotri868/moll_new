@@ -21,16 +21,19 @@ class DepartmentDetailsUseCase extends UseCase<Result<ResponseWrapper<GetAllDepa
 class DetailsParams {
   final String userId;
   final String id;
+  final String ?search;
 
   DetailsParams({
     required this.userId,
     required this.id,
+     this.search,
   });
 
   Map<String, dynamic> toMap() {
     return {
       'Id': id,
-      'UserId':userId
+      'UserId':userId,
+      'Name':search
     };
   }
 }
