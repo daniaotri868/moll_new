@@ -20,7 +20,7 @@ import '../../../../presentation/widgets/app_elvated_button.dart';
 import '../../../domain/use_case/department_details_use_case.dart';
 
 class DetailsMall extends StatefulWidget {
-  static String name="DetailsProduct";
+  static String name="DetailsMull";
   final String idMall;
   const DetailsMall({super.key,required this.idMall});
 
@@ -33,6 +33,7 @@ class _DetailsMallState extends State<DetailsMall> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    print("ggggggggggggggg");
     context.read<HomeBloc>().add(MollDetailsEvent(detailsParams: DetailsParams(id: widget.idMall,userId: LoginScreen.userId)));
   }
   @override
@@ -118,7 +119,7 @@ class _DetailsMallState extends State<DetailsMall> {
                         30.verticalSpace,
                         AppText(data.name??"", style: context.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w700),),
                         30.verticalSpace,
-                        AppText(data.mallName.toString()??"", style: context.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w700),),
+                        AppText("رقم الهاتف: ${data.phoneNumber}", style: context.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w700),),
                         20.verticalSpace,
                         Row(
                           children: [
@@ -138,7 +139,7 @@ class _DetailsMallState extends State<DetailsMall> {
                                 print(rating);
                               },
                             ),
-                            AppText(data.evaluation.toString()??"", style: context.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w700),),
+                            AppText(data.evaluation==null?"0":data.evaluation, style: context.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w700),),
                           ],
                         ),
                         30.verticalSpace,
@@ -146,48 +147,14 @@ class _DetailsMallState extends State<DetailsMall> {
                           children: [
                             Column(
                               children: [
-                                if(data.offer?.priceAfterDiscount!=0)AppText(data.price.toString()??"", style: context.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w700,  decoration: TextDecoration.lineThrough,),),
-                                AppText((data.offer?.priceAfterDiscount!=0)?data.offer?.priceAfterDiscount.toString()??"":data.price.toString()??"", style: context.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w700),),
+                                // if(data.offer?.priceAfterDiscount!=0)AppText(data.price.toString()??"", style: context.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w700,  decoration: TextDecoration.lineThrough,),),
+                                // AppText((data.offer?.priceAfterDiscount!=0)?data.offer?.priceAfterDiscount.toString()??"":data.price.toString()??"", style: context.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w700),),
 
                               ],
                             ),
                             20.horizontalSpace,
-                            Container(height: 20,color: Colors.black,width: 2,),
-                            20.horizontalSpace,
-                            Row(
-                              children: [
-                                InkWell(
-                                  onTap:(){
-                                    setState(() {
-                                      if(data.quantity!=q)q++;
-                                    });
-                                  },
-                                  child: CircleAvatar(
-                                    radius: 10,
-                                    child: Icon(Icons.add,color: context.colorScheme.primary,size: 15,),
-                                    backgroundColor: context.colorScheme.onPrimary,
-                                  ),
-                                ),
-                                5.horizontalSpace,
-                                AppText(q.toString()),
-                                5.horizontalSpace,
-                                InkWell(
-                                  onTap: () {
-                                    setState(() {
-                                      if(q!=1)q--;
-                                    });
-                                  },
-                                  child: CircleAvatar(
-                                    radius: 10,
-                                    child: Padding(
-                                      padding: REdgeInsetsDirectional.only(bottom: 20),
-                                      child: Icon(Icons.minimize_rounded,color: context.colorScheme.primary,size: 15,),
-                                    ),
-                                    backgroundColor: context.colorScheme.onPrimary,
-                                  ),
-                                ),
-                              ],
-                            )
+
+
                           ],
                         ),
 
@@ -195,60 +162,12 @@ class _DetailsMallState extends State<DetailsMall> {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        flex: 2,
-                        child: InkWell(
-                          onTap: () {
-                            context.read<HomeBloc>().add(SaveProductsToPosEvent(
-                                id: data.id,
-                                qun: q,
-                                price: data.price,
-                                name: data.name,
-                                offer: data.offer!.priceAfterDiscount,
-                                max: data.quantity
-                            ));
-                          },
-                          child: Container(
-                            height: 50,
-                            decoration: BoxDecoration(
-                              color: context.colorScheme.primary,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Center(child:AppText("إضافة للسلة", style: context.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w700,color: Colors.white),),
-                            ),
-                          ),
-                        ),
-                      ),
-                      5.horizontalSpace,
-                      Expanded(
-                        child: InkWell(
-                          onTap: () {
 
-                          },
-                          child: Container(
-                            height: 50,
-                            decoration: BoxDecoration(
-                              color: context.colorScheme.primary,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: Center(child:Icon(Icons.favorite,color: Colors.white,),
-                            ),
-                          ),
-                        ),
-                      ),
-
-                    ],
-                  ),
-                ),
               ],
             ),
 
           ),
-          result: state.getProductDetails,
+          result: state.getMollDetails,
           loading: Scaffold(body: LoadingScreen(),),
           error: (error) => Scaffold(
             body: ErrorScreen(

@@ -8,22 +8,29 @@ import 'package:remy/common/models/page_state/bloc_status.dart';
 import 'package:remy/common/models/page_state/page_state.dart';
 import '../../../../../core/api/result.dart';
 import '../../data/model/all_department_model.dart';
+import '../../data/model/all_order_model.dart';
 import '../../data/model/department_details_model.dart';
 import '../../data/model/department_product.dart';
 import '../../data/model/home_model.dart';
 import '../../data/model/moll_details.dart';
 import '../../data/model/moll_model.dart';
+import '../../data/model/order_details_model.dart';
 import '../../data/model/product_details_model.dart';
 
 import '../../domain/use_case/change_fav_usecase.dart';
+import '../../domain/use_case/confirm_uscase.dart';
 import '../../domain/use_case/department_details_use_case.dart';
 import '../../domain/use_case/department_usecase.dart';
 import '../../domain/use_case/get_all_fav_usecase.dart';
 import '../../domain/use_case/get_department_product.dart';
 import '../../domain/use_case/get_home_usecase.dart';
+import '../../domain/use_case/get_order_usecase.dart';
 import '../../domain/use_case/get_product_details_usecase.dart';
 import '../../domain/use_case/moll_use_case.dart';
 import '../../domain/use_case/moll_details_use_case.dart';
+import '../../domain/use_case/order_details.dart';
+import '../../domain/use_case/post_order.dart';
+import '../../domain/use_case/rate_usecase.dart';
 
 part 'auth_event.dart';
 
@@ -40,8 +47,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final GetHomeUseCase getHomeUseCase;
   final GetFavProductUseCase getFavProductUseCase;
   final ChangeFavUseCase changeFavUseCase;
+  final GetOrdersUseCase getOrdersUseCase;
+  final CreateOrdersUseCase createOrdersUseCase;
+  final OrderDetailsUseCase orderDetailsUseCase;
+  final ConfirmOrdersUseCase confirmOrdersUseCase;
+  final RateOrdersUseCase rateOrdersUseCase;
 
-  HomeBloc(this.getMollDetailsUseCase, this.getAllMollUseCase, this.getAllDepartmentUseCase, this.departmentDetailsUseCase, this.getProductDetailsUseCase, this.getDepartmentProductUseCase, this.getHomeUseCase, this.getFavProductUseCase, this.changeFavUseCase
+
+  HomeBloc(this.getMollDetailsUseCase,this.rateOrdersUseCase,this.confirmOrdersUseCase,this.orderDetailsUseCase,this.createOrdersUseCase, this.getOrdersUseCase,this.getAllMollUseCase, this.getAllDepartmentUseCase, this.departmentDetailsUseCase, this.getProductDetailsUseCase, this.getDepartmentProductUseCase, this.getHomeUseCase, this.getFavProductUseCase, this.changeFavUseCase
 
   ) : super( HomeState()) {
     on<ProductDetailsEvent>(_onProductDetailsEvent);
@@ -51,8 +64,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<DepartmentDetailsEvent>(_onDepartmentDetailsEvent);
     on<DepartmentProductEvent>(_onDepartmentProductEvent);
     on<GetHomeEvent>(_onGetHomeEvent);
+    on<CreateOrderEvent>(_onCreateOrderEvent);
+    on<GetOrderEvent>(_onGetOrderEvent);
     on<GetAllFavEvent>(_onGetAllFavEvent);
     on<ChangeFavEvent>(_onChangeFavEvent);
+    on<ConfirmOrderEvent>(_onConfirmOrderEvent);
+    on<GetOrderDetailsEvent>(_onGetOrderDetailsEvent);
+    on<RateOrderEvent>(_onRateOrderEvent);
     on<SaveProductsToPosEvent>(_onSaveBrand);
     on<DeleteProductsToPosEvent>(_onDelete);
     on<updateProductToOrderInPosEvent>(_onupdateProductToOrderInPosEvent);
@@ -73,6 +91,54 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       case Failure(exception: final exception, message: final message):
         emit(state.copyWith(
           getProductDetails:  PageState.error(exception: exception, message: message),
+        ));
+    }
+  }
+  FutureOr<void> _onGetOrderEvent(
+      GetOrderEvent event, Emitter<HomeState> emit) async {
+    emit(state.copyWith(getOrders:PageState.loading()));
+    final result = await getOrdersUseCase(GetOrderParams(userId: event.getOrderParams.userId,type:event.getOrderParams.type ));
+    switch (result) {
+      case Success(value: final data):
+        emit(state.copyWith(
+          getOrders:  PageState.loaded(data: data.data),
+           ));
+      case Failure(exception: final exception, message: final message):
+        emit(state.copyWith(
+          getOrders:   PageState.error(exception: exception, message: message),
+        ));
+    }
+  }
+
+  FutureOr<void> _onGetOrderDetailsEvent(
+      GetOrderDetailsEvent event, Emitter<HomeState> emit) async {
+    emit(state.copyWith(orderDetails:PageState.loading()));
+    final result = await orderDetailsUseCase(OrderDetailsParams(id:event.orderDetailsParams.id ,userId: event.orderDetailsParams.userId,search:"" ));
+    switch (result) {
+      case Success(value: final data):
+        emit(state.copyWith(
+          orderDetails:  PageState.loaded(data: data.data),
+           ));
+      case Failure(exception: final exception, message: final message):
+        emit(state.copyWith(
+          orderDetails:   PageState.error(exception: exception, message: message),
+        ));
+    }
+  }
+ FutureOr<void> _onCreateOrderEvent(
+     CreateOrderEvent event, Emitter<HomeState> emit) async {
+    emit(state.copyWith(createOrder: PageState.loading()));
+    final result = await createOrdersUseCase(CreateOrderParams(userId:event.createOrderParams.userId ,
+        address: event.createOrderParams.address,areaId: event.createOrderParams.areaId,products: event.createOrderParams.products));
+    switch (result) {
+      case Success(value: final data):
+        event.data(data.data);
+        emit(state.copyWith(
+          createOrder:  PageState.loaded(data: data.data),
+           ));
+      case Failure(exception: final exception, message: final message):
+        emit(state.copyWith(
+          createOrder: PageState.error(exception: exception, message: message),
         ));
     }
   }
@@ -121,6 +187,39 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       case Failure(exception: final exception, message: final message):
         emit(state.copyWith(
           changeFav:  BlocStatus.fail(error: message),
+        ));
+    }
+  }
+  FutureOr<void> _onConfirmOrderEvent(
+      ConfirmOrderEvent event, Emitter<HomeState> emit) async {
+    emit(state.copyWith(confirm: BlocStatus.loading()));
+    final result = await confirmOrdersUseCase(ConfirmOrderParams(userId: event.confirmOrderParams.userId, id: event.confirmOrderParams.id,note: event.confirmOrderParams.note));
+    switch (result) {
+      case Success(value: final data):
+        event.onSuccess();
+        emit(state.copyWith(
+          confirm: BlocStatus.success(),
+           ));
+      case Failure(exception: final exception, message: final message):
+        emit(state.copyWith(
+          confirm:  BlocStatus.fail(error: message),
+        ));
+    }
+  }
+
+  FutureOr<void> _onRateOrderEvent(
+      RateOrderEvent event, Emitter<HomeState> emit) async {
+    emit(state.copyWith(rate: BlocStatus.loading()));
+    final result = await rateOrdersUseCase(RateOrderParams(userId: event.confirmOrderParams.userId, id: event.confirmOrderParams.id,note: event.confirmOrderParams.note));
+    switch (result) {
+      case Success(value: final data):
+        event.onSuccess();
+        emit(state.copyWith(
+          rate: BlocStatus.success(),
+           ));
+      case Failure(exception: final exception, message: final message):
+        emit(state.copyWith(
+          rate:  BlocStatus.fail(error: message),
         ));
     }
   }

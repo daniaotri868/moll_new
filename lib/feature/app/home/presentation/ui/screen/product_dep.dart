@@ -9,6 +9,7 @@ import 'package:remy/core/utils/extensions/build_context.dart';
 import 'package:remy/feature/app/presentation/pages/empty_screen.dart';
 import 'package:remy/feature/app/presentation/pages/loading_screen.dart';
 
+import '../../../../../../common/constants/route.dart';
 import '../../../../auth/presentation/ui/screen/login_screen.dart';
 import '../../../../presentation/pages/error_screen.dart';
 import '../../../../presentation/widgets/app_text.dart';
@@ -41,6 +42,10 @@ class _AllProductDepartmentScreenState extends State<AllProductDepartmentScreen>
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
         return Scaffold(
+          appBar:  AppBar(
+            title: AppText("منتجات الأقسام"),
+            centerTitle: true,
+          ),
           body:PageStateBuilder(
             success: (data) => (data.products??[]).isEmpty?EmptyScreen(): Padding(
               padding: const EdgeInsets.all(8.0),
@@ -74,7 +79,7 @@ class _AllProductDepartmentScreenState extends State<AllProductDepartmentScreen>
                             ),
                             child: FancyShimmerImage(
                               // imageUrl: faker.image.image(random: true),
-                              imageUrl:  "http://3.223.131.190:81/Products/0ec15bf3-8436-4a60-b54b-62784b398599.jpg",
+                              imageUrl:  "${EndPoints.address}/${data.products?[index].imageUrl}",
                             ),
                           ),
                         ),

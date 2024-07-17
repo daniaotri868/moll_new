@@ -5,12 +5,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:remy/core/utils/extensions/build_context.dart';
 
+import '../../../../common/constants/route.dart';
 import '../../home/data/model/department_product.dart';
 import '../../home/data/model/home_model.dart';
 import '../../home/data/model/moll_model.dart';
 
 class MollItem extends StatelessWidget {
-  final Product ?item;
+  final ProductItem ?item;
   const MollItem({super.key,this.item});
 
   @override
@@ -31,14 +32,14 @@ class MollItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: 50,
+              height: 90,
               child: ClipRRect(
                 borderRadius: BorderRadius.all(
                   Radius.circular(18.r),
                 ),
                 child: FancyShimmerImage(
                   // imageUrl: faker.image.image(random: true),
-                  imageUrl: item?.imageUrl??"",
+                  imageUrl: "${EndPoints.address}/${item?.imageUrl??""}",
                 ),
               ),
             ),

@@ -5,6 +5,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:remy/common/constants/app_string.dart';
 import 'package:remy/common/models/page_state/page_state.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
 import 'package:remy/core/utils/extensions/build_context.dart';
 import 'package:remy/feature/app/auth/presentation/bloc/auth_bloc.dart';
 import 'package:remy/feature/app/presentation/widgets/app_date_picker.dart';
@@ -45,6 +47,7 @@ class _SignupScreenState extends State<SignupScreen> {
   TextEditingController phoneController =TextEditingController();
 
   TextEditingController oldPassword =TextEditingController();
+  final formKey = GlobalKey<FormState>();
 
   String ?idArea="" ;
 
@@ -54,164 +57,207 @@ class _SignupScreenState extends State<SignupScreen> {
     return Scaffold(
       backgroundColor: context.colorScheme.primary,
       body: SingleChildScrollView(
-        child: Column(
-          children: [
-            Container(
-              width: context.fullWidth,
-              height: context.fullHeight * 0.2,
-              color: context.colorScheme.primary,
-            ),
-            Container(
-              decoration: BoxDecoration(
-                color: context.colorScheme.onPrimary,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(46.r),
-                  topRight: Radius.circular(46.r),
-                ),
+        child: Form(
+        key: formKey,
+          child: Column(
+            children: [
+              Container(
+                width: context.fullWidth,
+                height: context.fullHeight * 0.2,
+                color: context.colorScheme.primary,
               ),
-              child: Padding(
-                padding: EdgeInsets.only(top: 35.r, right: 47.r, left: 47.r),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      AppString.signUp,
-                      style: Theme.of(context).textTheme.displaySmall?.copyWith(fontWeight: FontWeight.bold),
-                    ),
-                    45.verticalSpace,
-                    AppTextField(
-                      name: "firstName",
-                      controller: firstName,
-                      title: AppString.firstName,
-                      prefixIcon: Icon(
-                        Icons.person,
-                        color: context.colorScheme.primary,
+              Container(
+                decoration: BoxDecoration(
+                  color: context.colorScheme.onPrimary,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(46.r),
+                    topRight: Radius.circular(46.r),
+                  ),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.only(top: 35.r, right: 47.r, left: 47.r),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        AppString.signUp,
+                        style: Theme.of(context).textTheme.displaySmall?.copyWith(fontWeight: FontWeight.bold),
                       ),
-                    ),
-                    45.verticalSpace,
-                    AppTextField(
-                      name: "lastName",
-                      controller: lastName,
-                      title: AppString.lastName,
-                      prefixIcon: Icon(
-                        Icons.person,
-                        color: context.colorScheme.primary,
+                      45.verticalSpace,
+                      AppTextField(
+                        name: "firstName",
+                        controller: firstName,
+                        title: AppString.firstName,
+                        validator: (text) => text != null && text.length >0
+                            ? null
+                            : "ادخل الاسم الاول",
+                        prefixIcon: Icon(
+                          Icons.person,
+                          color: context.colorScheme.primary,
+                        ),
                       ),
-                    ),
-                    45.verticalSpace,
-                    AppTextField(
-                      name: "email",
-                      controller: email,
-                      title: AppString.email,
-                      prefixIcon: Icon(
-                        Icons.email,
-                        color: context.colorScheme.primary,
+                      45.verticalSpace,
+                      AppTextField(
+                        name: "lastName",
+                        textInputType:TextInputType.text,
+                        controller: lastName,
+                        title: AppString.lastName,
+                        validator: (text) => text != null && text.length >0
+                            ? null
+                            : "ادحل الاسم الثاني",
+                        prefixIcon: Icon(
+                          Icons.person,
+                          color: context.colorScheme.primary,
+                        ),
                       ),
-                    ),
-                    45.verticalSpace,
-                    AppTextField(
-                      name: "phone",
-                      controller: phoneController,
-                      title: "رقم الهاتف",
-                      prefixIcon: Icon(
-                        Icons.email,
-                        color: context.colorScheme.primary,
+                      45.verticalSpace,
+                      AppTextField(
+                        name: "email",
+                        controller: email,
+                        textInputType:TextInputType.text,
+                        title: AppString.email,
+                        validator: (text) => text != null && text.length >1
+                            ? null
+                            : "ادخل الايميل",
+                        prefixIcon: Icon(
+                          Icons.email,
+                          color: context.colorScheme.primary,
+                        ),
                       ),
-                    ),
-                    45.verticalSpace,
-                    AppTextField(
-                      name: "Address",
-                      controller: addressController,
-                      title: "العنوان",
-                      prefixIcon: Icon(
-                        Icons.email,
-                        color: context.colorScheme.primary,
-                      ),
-                    ),
-                    43.verticalSpace,
-                    AppTextField(
-                      name: " password",
-                      title: AppString.password,
-                      obscure: true,
-                      controller: oldPassword,
-                      isPasswordFiled: true,
-                      prefixIcon: Icon(
-                        Icons.lock,
-                        color: context.colorScheme.primary,
-                      ),
-                    ),
-                    20.verticalSpace,
-                PageStateBuilder(
-                    init: const SizedBox.shrink(),
-                    success: (data) => AppDropDownMenu(
-                        hint: "أختر منطقة",
-                        onChange: (value) {
-                          idArea=value.id;
-                          print(idArea);
-                        },
-                        // border: Border(top: BorderSide(color: Colors.cyan,width: 2)),
-                        // hintText: "اختر يوم",
-                        // initialValue:day[1],
-                        // value: _selectedValueCategoryMain,
-                        // onChanged: (value) {
-                        //   setState(() {
-                        //     context.read<CartBloc>().add(DaySelectEvent(id:value?.id ));
-                        //     _selectedValueCategoryMain = value;
-                        //   });
-                        // },
-                        items: data
-                    ),
-                    loading: const LoadingScreen(),
-                    error: (error) =>  ErrorScreen(onRefresh: () {
-                      context.read<AuthBloc>().add(AllAreaEvent());
+                      45.verticalSpace,
+                      AppTextField(
+                        name: "phone",
+                        textInputType:TextInputType.number,
+                        controller: phoneController,
+                        title: "رقم الهاتف",
 
-                    },),
-                    result: state.listArea,
-                    empty: const EmptyScreen()),
-                    50.verticalSpace,
-                    AppElevatedButton(
-                      child: const Text(AppString.next),
-                      onPressed: () {
-                        context.read<AuthBloc>().add(CheckCodeEvent(
-                            FirstName: firstName.text,
-                            LastName: lastName.text,
-                             PhoneNumber: phoneController.text,
-                            DeviceToken: "",
-                            Email: email.text,
-                            Password: oldPassword.text,
-                            Image: "",
-                             Address:addressController.text ,
-                            AreaId: idArea??"",
-                          onSuccess: () {
-                            context.goNamed(GRouter.config.homeRoutes.homeScreen);
+                        validator: (text) => text != null && text.length>1
+                            ? null
+                            : "ادخل رقم الهاتف",
+                        prefixIcon: Icon(
+                          Icons.email,
+                          color: context.colorScheme.primary,
+                        ),
+                      ),
+                      45.verticalSpace,
+                      AppTextField(
+                        name: "Address",
+                        controller: addressController,
+                        title: "العنوان",
+                        textInputType:TextInputType.text,
+                        validator: (text) => text != null && text.length>1
+                            ? null
+                            : "ادخل الايميل",
+                        prefixIcon: Icon(
+                          Icons.email,
+                          color: context.colorScheme.primary,
+                        ),
+                      ),
+                      43.verticalSpace,
+                      AppTextField(
+                        name: " password",
+                        title: AppString.password,
+                        obscure: true,
+                        controller: oldPassword,
+                        validator: (text) => text != null && text.length>4
+                            ? null
+                            : "ادخل كلمة السر",
+                        isPasswordFiled: true,
+                        prefixIcon: Icon(
+                          Icons.lock,
+                          color: context.colorScheme.primary,
+                        ),
+                      ),
+                      20.verticalSpace,
+                  PageStateBuilder(
+                      init: const SizedBox.shrink(),
+                      success: (data) => AppDropDownMenu(
+                          hint: "أختر منطقة",
+                          onChange: (value) {
+                            idArea=value.id;
+                            print(idArea);
                           },
-                        ));
-                      },
-                    ),
-                    21.verticalSpace,
-                    SizedBox(
-                      width: context.fullWidth,
-                      child: Column(
-                        children: [
-                          const Text(AppString.doYouHaveAccount),
-                          TextButton(
-                            onPressed: () {
-
-                            },
-                            child: Text(
-                              AppString.signUp,
-                              style: TextStyle(color: context.colorScheme.primary),
-                            ),
-                          ),
-                        ],
+                          // border: Border(top: BorderSide(color: Colors.cyan,width: 2)),
+                          // hintText: "اختر يوم",
+                          // initialValue:day[1],
+                          // value: _selectedValueCategoryMain,
+                          // onChanged: (value) {
+                          //   setState(() {
+                          //     context.read<CartBloc>().add(DaySelectEvent(id:value?.id ));
+                          //     _selectedValueCategoryMain = value;
+                          //   });
+                          // },
+                          items: data
                       ),
-                    ),
+                      loading: const LoadingScreen(),
+                      error: (error) =>  ErrorScreen(onRefresh: () {
+                        context.read<AuthBloc>().add(AllAreaEvent());
 
-                  ],
+                      },),
+                      result: state.listArea,
+                      empty: const EmptyScreen()),
+                      50.verticalSpace,
+                      AppElevatedButton(
+                        child: const Text(AppString.next),
+                        onPressed: () {
+              if (formKey.currentState!.validate()||idArea=="") {
+
+                if(idArea!=''){
+                  context.read<AuthBloc>().add(CheckCodeEvent(
+                    FirstName: firstName.text,
+                    LastName: lastName.text,
+                    PhoneNumber: phoneController.text,
+                    DeviceToken: "",
+                    Email: email.text,
+                    Password: oldPassword.text,
+                    Image: "",
+                    Address:addressController.text ,
+                    AreaId: idArea??"",
+                    onSuccess: () {
+                      context.goNamed(GRouter.config.homeRoutes.homeScreen);
+                    },
+                  ));
+
+
+                }else
+                  {
+                    Fluttertoast.showToast(
+                        msg: "ادخل المنطقة",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor:  Colors.black,
+                        textColor: Colors.white,
+                        fontSize: 16.0);
+                  }
+              }
+                        },
+                      ),
+                      21.verticalSpace,
+                      SizedBox(
+                        width: context.fullWidth,
+                        child: Column(
+                          children: [
+                            const Text(AppString.doYouHaveAccount),
+                            TextButton(
+                              onPressed: () {
+
+                              },
+                              child: Text(
+                                AppString.signUp,
+                                style: TextStyle(color: context.colorScheme.primary),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

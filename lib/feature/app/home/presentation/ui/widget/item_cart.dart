@@ -6,6 +6,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:remy/core/utils/extensions/build_context.dart';
 import 'package:remy/feature/app/home/data/model/home_model.dart';
 
+import '../../../../../../common/constants/route.dart';
 import '../../../../presentation/widgets/app_text.dart';
 import '../../bloc/auth_bloc.dart';
 
@@ -52,7 +53,7 @@ class _ItemCartState extends State<ItemCart> {
                 ),
                 child: FancyShimmerImage(
                   // imageUrl: faker.image.image(random: true),
-                  imageUrl:  "http://3.223.131.190:81/Products/0ec15bf3-8436-4a60-b54b-62784b398599.jpg",
+                  imageUrl:  "https://a3e1-94-47-95-90.ngrok-free.app/Seed/0d744eec-e89b-4639-82c1-69178e5e82ae_EZ.jpg",
                 ),
               ),
             ),

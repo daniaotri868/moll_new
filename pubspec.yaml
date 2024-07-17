@@ -81,6 +81,8 @@ dependencies:
   text_scroll: ^0.2.0
   flutter_form_builder: ^9.1.0
 #  form_builder_validators: ^9.1.0
+  google_maps_flutter: ^2.6.1
+
   form_field_validator: ^1.1.0
   fancy_shimmer_image: ^2.0.2
   dotted_border: ^2.1.0

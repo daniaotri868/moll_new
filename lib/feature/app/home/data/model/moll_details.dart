@@ -39,8 +39,8 @@ class GetMollDetailsModel {
     evaluation: json["evaluation"],
     imageUrl: json["imageUrl"],
     subImageUrls: List<String>.from(json["subImageUrls"].map((x) => x)),
-    mallOffer: MallOffer.fromJson(json["mallOffer"]),
-    ads: List<Ad>.from(json["ads"].map((x) => Ad.fromJson(x))),
+    mallOffer: MallOffer.fromJson(json["mallOffer"]==null?{}:json["mallOffer"]),
+    // ads: List<Ad>.from((json["ads"]==[]).map((x) => Ad.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
@@ -52,7 +52,7 @@ class GetMollDetailsModel {
     "imageUrl": imageUrl,
     "subImageUrls": List<dynamic>.from((subImageUrls??[]).map((x) => x)),
     "mallOffer": mallOffer?.toJson(),
-    "ads": List<dynamic>.from((ads??[]).map((x) => x.toJson())),
+    // "ads": List<dynamic>.from((ads??[]).map((x) => x.toJson())),
   };
 }
 
@@ -110,8 +110,8 @@ class MallOffer {
     name: json["name"],
     type: json["type"],
     value: json["value"],
-    startDate: DateTime.parse(json["startDate"]),
-    endDate: DateTime.parse(json["endDate"]),
+    startDate: DateTime.parse(json["startDate"]==null?"${DateTime.now()}":json["startDate"]),
+    endDate: DateTime.parse(json["endDate"]==null?"${DateTime.now()}":json["endDate"]),
   );
 
   Map<String, dynamic> toJson() => {

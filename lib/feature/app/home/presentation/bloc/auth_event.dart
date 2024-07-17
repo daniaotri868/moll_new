@@ -89,5 +89,39 @@ class ProductDetailsEvent extends HomeEvent {
   ProductDetailsEvent({required this.detailsParams,});
 }
 
+class CreateOrderEvent extends HomeEvent {
+  final CreateOrderParams createOrderParams;
+  final Function(OrderDetailsModel ) data;
+
+  CreateOrderEvent({required this.createOrderParams,required this.data});
+}
+class ConfirmOrderEvent extends HomeEvent {
+  final ConfirmOrderParams confirmOrderParams;
+  final VoidCallback onSuccess;
+
+
+  ConfirmOrderEvent({required this.confirmOrderParams,required this.onSuccess});
+}
+class RateOrderEvent extends HomeEvent {
+  final RateOrderParams confirmOrderParams;
+  final VoidCallback onSuccess;
+
+
+  RateOrderEvent({required this.confirmOrderParams,required this.onSuccess});
+}
+
+class GetOrderEvent extends HomeEvent {
+  final GetOrderParams getOrderParams;
+
+  GetOrderEvent({required this.getOrderParams,});
+}
+
+class GetOrderDetailsEvent extends HomeEvent {
+  final OrderDetailsParams orderDetailsParams;
+
+
+  GetOrderDetailsEvent({required this.orderDetailsParams,});
+}
+
 
 

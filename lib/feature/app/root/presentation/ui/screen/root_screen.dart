@@ -6,6 +6,7 @@ import 'package:remy/feature/app/root/presentation/ui/widget/root_navbar.dart';
 
 import '../../../../home/presentation/ui/screen/cart_page.dart';
 import '../../../../home/presentation/ui/screen/moll_screen.dart';
+import '../../../../home/presentation/ui/screen/setting.dart';
 
 class RootScreen extends StatelessWidget {
   const RootScreen({super.key});
@@ -24,9 +25,7 @@ class RootScreen extends StatelessWidget {
             Center(
               child: Text("4"),
             ),
-            Center(
-              child: Text("5"),
-            ),
+            Setting()
           ],
         ),
       ),

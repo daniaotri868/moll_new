@@ -11,8 +11,10 @@ import 'package:remy/feature/app/presentation/pages/empty_screen.dart';
 import 'package:remy/feature/app/presentation/pages/loading_screen.dart';
 import 'package:remy/feature/app/presentation/widgets/app_text_field.dart';
 
+import '../../../../../../common/constants/route.dart';
 import '../../../../auth/presentation/ui/screen/login_screen.dart';
 import '../../../../presentation/pages/error_screen.dart';
+import '../../../../presentation/widgets/app_text.dart';
 import '../../../../presentation/widgets/product_item.dart';
 import '../../../domain/use_case/department_details_use_case.dart';
 import '../../../domain/use_case/moll_use_case.dart';
@@ -43,21 +45,26 @@ class _AllDepartmentScreenState extends State<AllDepartmentScreen> {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
         return Scaffold(
-          body:PageStateBuilder(
-            success: (data) =>  Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Column(
-                children: [
-                  AppTextField(
-                      name: 'search',
-                      controller:searchController ,
-                      title: "ابحث عنها",
-                      onSaved: (val) {
-                        context.read<HomeBloc>().add(AllDepartmentEvent(detailsParams:DetailsParams (id: widget.idMoll??"",userId: LoginScreen.userId,search: val)));
+          appBar:  AppBar(
+            title: AppText("الأقسام"),
+            centerTitle: true,
+          ),
+          body:Column(
+            children: [
+              AppTextField(
+                name: 'search',
+                textInputAction: TextInputAction.done,
+                controller:searchController ,
+                hintText: "ابحث عنها",
+                onSubmitted: (val) {
+                  context.read<HomeBloc>().add(AllDepartmentEvent(detailsParams:DetailsParams (id: widget.idMoll??"",userId: LoginScreen.userId,search: val)));
 
-                      },
-                  ),
-                  Expanded(
+                },
+              ),
+              Expanded(
+                child: PageStateBuilder(
+                  success: (data) =>  Padding(
+                    padding: const EdgeInsets.all(8.0),
                     child: GridView.builder(
                       gridDelegate:
                       const SliverGridDelegateWithFixedCrossAxisCount(
@@ -89,7 +96,7 @@ class _AllDepartmentScreenState extends State<AllDepartmentScreen> {
                                   ),
                                   child: FancyShimmerImage(
                                     // imageUrl: faker.image.image(random: true),
-                                    imageUrl:  "http://3.223.131.190:81/Products/0ec15bf3-8436-4a60-b54b-62784b398599.jpg",
+                                    imageUrl:  "${EndPoints.address}/${data.departments?[index].imageUrl}",
                                   ),
                                 ),
                               ),
@@ -109,7 +116,7 @@ class _AllDepartmentScreenState extends State<AllDepartmentScreen> {
                                     data.departments?[index].phoneNumber??"",
                                     style: context.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w700),
                                   ),
-
+                                  
                                 ],
                               ),
                             ],
@@ -119,19 +126,19 @@ class _AllDepartmentScreenState extends State<AllDepartmentScreen> {
                       itemCount: data.departments?.length??0,
                     ),
                   ),
-                ],
+                  result: state.getAllDepartment,
+                  loading: LoadingScreen(),
+                  error: (error) => ErrorScreen(
+                    onRefresh: () {
+                      context.read<HomeBloc>().add(AllDepartmentEvent(detailsParams:DetailsParams (id: widget.idMoll??"",userId: LoginScreen.userId)));
+                
+                    },
+                  ),
+                  empty: EmptyScreen(),
+                  init: Container(),
+                ),
               ),
-            ),
-            result: state.getAllDepartment,
-            loading: LoadingScreen(),
-            error: (error) => ErrorScreen(
-              onRefresh: () {
-                context.read<HomeBloc>().add(AllDepartmentEvent(detailsParams:DetailsParams (id: widget.idMoll??"",userId: LoginScreen.userId)));
-
-              },
-            ),
-            empty: EmptyScreen(),
-            init: Container(),
+            ],
           ),
         );
       },

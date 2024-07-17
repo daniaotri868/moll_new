@@ -1,5 +1,6 @@
 
 import 'package:injectable/injectable.dart';
+import 'package:remy/core/api/params.dart';
 
 import '../../../../../common/constants/route.dart';
 import '../../../../../common/models/response_wrapper/response_wrapper.dart';
@@ -7,11 +8,13 @@ import '../../../../../core/api/api_utils.dart';
 import '../../../../../core/api/client.dart';
 import '../../../../../core/api/client_config.dart';
 import '../model/all_department_model.dart';
+import '../model/all_order_model.dart';
 import '../model/department_details_model.dart';
 import '../model/department_product.dart';
 import '../model/home_model.dart';
 import '../model/moll_details.dart';
 import '../model/moll_model.dart';
+import '../model/order_details_model.dart';
 import '../model/product_details_model.dart';
 
 @injectable
@@ -62,6 +65,86 @@ class HomeRemoteDataSource {
         {},
         (json) {
           return GetProductDetailsModel.fromJson(response.data);
+        },
+      );
+    });
+  }
+Future<ResponseWrapper<OrderDetailsModel>> createOrder(Map<String, dynamic> params) async {
+    return throwAppException(() async {
+      final response = await clientApi.request(RequestConfig(
+        endpoint: 'Order/Add',
+        data: params,
+        clientMethod: ClientMethod.post,
+      ));
+      return ResponseWrapper.fromJson(
+        {},
+        (json) {
+          return  OrderDetailsModel.fromJson(response.data);
+        },
+      );
+    });
+  }
+Future<ResponseWrapper<bool>> confirmOrder(Map<String, dynamic> params) async {
+    return throwAppException(() async {
+      final response = await clientApi.request(RequestConfig(
+        endpoint: 'Order/Confirm',
+        data: params,
+        clientMethod: ClientMethod.post,
+      ));
+      return ResponseWrapper.fromJson(
+        {},
+        (json) {
+          return  true;
+        },
+      );
+    });
+  }
+
+Future<ResponseWrapper<bool>> rateOrder(Map<String, dynamic> params) async {
+    return throwAppException(() async {
+      final response = await clientApi.request(RequestConfig(
+        endpoint: 'Order/Confirm',
+        data: params,
+        clientMethod: ClientMethod.post,
+      ));
+      return ResponseWrapper.fromJson(
+        {},
+        (json) {
+          return  true;
+        },
+      );
+    });
+  }
+
+  Future<ResponseWrapper<List<AllOrderModel>>> getOrders(Map<String, dynamic> params) async {
+    return throwAppException(() async {
+      final response = await clientApi.request(RequestConfig(
+        endpoint: 'Order/GetAll',
+        queryParameters: params,
+        clientMethod: ClientMethod.get,
+      ));
+      return ResponseWrapper.fromJson(
+        {},
+        (json) {
+          final list = List<dynamic>.of(response.data)
+              .map<AllOrderModel>((e) => AllOrderModel.fromJson(e))
+              .toList();
+          return list;
+        },
+      );
+    });
+  }
+  Future<ResponseWrapper<OrderDetailsModel>> orderDetails(Map<String, dynamic> params) async {
+    return throwAppException(() async {
+      final response = await clientApi.request(RequestConfig(
+        endpoint: 'Order/GetById',
+        queryParameters: params,
+        clientMethod: ClientMethod.get,
+      ));
+      return ResponseWrapper.fromJson(
+        {},
+        (json) {
+          return OrderDetailsModel.fromJson(response.data);
         },
       );
     });
@@ -119,9 +202,9 @@ class HomeRemoteDataSource {
       Map<String, dynamic> params) async {
     return throwAppException(() async {
       final response = await clientApi.request(RequestConfig(
-        endpoint: EndPoints.auth.sign,
-        data: params,
-        clientMethod: ClientMethod.post,
+        endpoint: 'Mall/GetById',
+        queryParameters: params,
+        clientMethod: ClientMethod.get,
       ));
       return ResponseWrapper.fromJson(
         response.data,

@@ -80,8 +80,8 @@ class AuthRemoteDataSource {
     return throwAppException(() async {
       final response = await clientApi.request(RequestConfig(
         endpoint: EndPoints.profile.getUserInfo,
-        data: params,
-        clientMethod: ClientMethod.post,
+        queryParameters: params,
+        clientMethod: ClientMethod.get,
       ));
       return ResponseWrapper.fromJson(
         {},

@@ -10,7 +10,7 @@ String homeModelToJson(HomeModel data) => json.encode(data.toJson());
 
 class HomeModel {
   final List<Ad> ?ads;
-  final List<Product> ?products;
+  final List<ProductItem> ?products;
   final List<Mall> ?malls;
 
   HomeModel({
@@ -21,7 +21,7 @@ class HomeModel {
 
   factory HomeModel.fromJson(Map<String, dynamic> json) => HomeModel(
     ads: List<Ad>.from(json["ads"].map((x) => Ad.fromJson(x))),
-    products: List<Product>.from(json["products"].map((x) => Product.fromJson(x))),
+    products: List<ProductItem>.from(json["products"].map((x) => ProductItem.fromJson(x))),
     malls: List<Mall>.from(json["malls"].map((x) => Mall.fromJson(x))),
   );
 
@@ -104,7 +104,7 @@ class Mall {
   };
 }
 
-class Product {
+class ProductItem {
   final String ?id;
   final String ?name;
   final String ?imageUrl;
@@ -112,7 +112,7 @@ class Product {
   final int ?price;
   final int ?evaluation;
 
-  Product({
+  ProductItem({
     this.id,
     this.name,
     this.imageUrl,
@@ -121,7 +121,7 @@ class Product {
     this.evaluation,
   });
 
-  factory Product.fromJson(Map<String, dynamic> json) => Product(
+  factory ProductItem.fromJson(Map<String, dynamic> json) => ProductItem(
     id: json["id"],
     name: json["name"],
     imageUrl: json["imageUrl"],

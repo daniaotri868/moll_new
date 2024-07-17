@@ -19,96 +19,110 @@ class LoginScreen extends StatelessWidget {
   @override
   TextEditingController email=TextEditingController();
   TextEditingController password =TextEditingController();
+  final formKey = GlobalKey<FormState>();
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: context.colorScheme.primary,
       body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            Container(
-              width: context.fullWidth,
-              height: context.fullHeight * 0.4,
-              color: context.colorScheme.primary,
-            ),
-            Container(
-              decoration: BoxDecoration(
-                color: context.colorScheme.onPrimary,
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(46.r),
-                  topRight: Radius.circular(46.r),
-                ),
+        child: Form(
+          key:formKey ,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              Container(
+                width: context.fullWidth,
+                height: context.fullHeight * 0.4,
+                color: context.colorScheme.primary,
               ),
-              child: Padding(
-                padding: EdgeInsets.only(top: 35.r, right: 47.r, left: 47.r),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      AppString.login,
-                      style: Theme.of(context).textTheme.displaySmall?.copyWith(fontWeight: FontWeight.bold),
-                    ),
-                    45.verticalSpace,
-                    AppTextField(
-                      name: "email",
-                      controller:email ,
-                      title: AppString.email,
-                      prefixIcon: Icon(
-                        Icons.email,
-                        color: context.colorScheme.primary,
+              Container(
+                decoration: BoxDecoration(
+                  color: context.colorScheme.onPrimary,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(46.r),
+                    topRight: Radius.circular(46.r),
+                  ),
+                ),
+                child: Padding(
+                  padding: EdgeInsets.only(top: 35.r, right: 47.r, left: 47.r),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        AppString.login,
+                        style: Theme.of(context).textTheme.displaySmall?.copyWith(fontWeight: FontWeight.bold),
                       ),
-                    ),
-                    43.verticalSpace,
-                    AppTextField(
-                      name: "password",
-                      title: AppString.password,
-                      obscure: true,
-                      controller: password,
-                      isPasswordFiled: true,
-                      prefixIcon: Icon(
-                        Icons.lock,
-                        color: context.colorScheme.primary,
+                      45.verticalSpace,
+                      AppTextField(
+                        name: "email",
+                        controller:email ,
+                        title: AppString.email,
+                       textInputType:TextInputType.emailAddress,
+                        validator: (text) => text != null && text.length>2
+                            ? null
+                            : "ادخل الايميل",
+                        prefixIcon: Icon(
+                          Icons.email,
+                          color: context.colorScheme.primary,
+                        ),
                       ),
-                    ),
-                    50.verticalSpace,
-                    AppElevatedButton(
-                      child: const Text(AppString.next),
-                      onPressed: () {
+                      43.verticalSpace,
+                      AppTextField(
+                        name: "password",
+                        title: AppString.password,
+                        obscure: true,
+                        validator: (text) => text != null && text.length>4
+                            ? null
+                            : "ادخل كلمة السر",
+                        controller: password,
+                        isPasswordFiled: true,
+                        prefixIcon: Icon(
+                          Icons.lock,
+                          color: context.colorScheme.primary,
+                        ),
+                      ),
+                      50.verticalSpace,
+                      AppElevatedButton(
+                        child: const Text(AppString.next),
+                        onPressed: () {
 
-                        context.read<AuthBloc>().add(RegisterEvent(
-                          email: email.text,
-                          password: password.text,
-                          onSuccess: () {
-                            context.goNamed(GRouter.config.homeRoutes.homeScreen);
-                          },
-                        ));
+    if (formKey.currentState!.validate()) {
+      context.read<AuthBloc>().add(RegisterEvent(
+        email: email.text,
+        password: password.text,
+        onSuccess: () {
+          context.goNamed(GRouter.config.homeRoutes.homeScreen);
+        },
+      ));
+    }
 
-                      },
-                    ),
-                    21.verticalSpace,
-                    SizedBox(
-                      width: context.fullWidth,
-                      child: Column(
-                        children: [
-                          const Text(AppString.doYouHaveAccount),
-                          TextButton(
-                            onPressed: () {
-                              context.goNamed(GRouter.config.authRoutes.signUp);
+                        },
+                      ),
+                      21.verticalSpace,
+                      SizedBox(
+                        width: context.fullWidth,
+                        child: Column(
+                          children: [
+                            const Text(AppString.doYouHaveAccount),
+                            TextButton(
+                              onPressed: () {
+                                context.goNamed(GRouter.config.authRoutes.signUp);
 
-                            },
-                            child: Text(
-                              AppString.signUp,
-                              style: TextStyle(color: context.colorScheme.primary),
+                              },
+                              child: Text(
+                                AppString.signUp,
+                                style: TextStyle(color: context.colorScheme.primary),
+                              ),
                             ),
-                          ),
-                        ],
+                          ],
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

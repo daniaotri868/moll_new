@@ -1,6 +1,7 @@
 import 'dart:ui';
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -8,6 +9,7 @@ import 'package:remy/core/utils/extensions/build_context.dart';
 import 'package:remy/feature/app/home/data/model/home_ads_model.dart';
 import 'package:remy/feature/app/presentation/widgets/custom_network_image.dart';
 
+import '../../../../../../common/constants/route.dart';
 import '../../../data/model/home_model.dart';
 
 class HomeAdsSlider extends StatelessWidget {
@@ -51,17 +53,17 @@ class HomeAdsSlider extends StatelessWidget {
                                       Positioned.fill(
                                         child: ImageFiltered(
                                           imageFilter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
-                                          child: CustomNetworkImage(
-                                            imageUrl:"${e.imageUrl}"!,
-                                            fit: BoxFit.cover,
+                                          child:FancyShimmerImage(
+                                            // imageUrl: faker.image.image(random: true),
+                                            imageUrl:"${EndPoints.address}/${e.imageUrl}",
                                           ),
                                         ),
                                       ),
                                       Center(
-                                          child: CustomNetworkImage(
-                                        imageUrl: e.imageUrl!,
-                                        fit: BoxFit.scaleDown,
-                                      )),
+                                          child:FancyShimmerImage(
+                                            // imageUrl: faker.image.image(random: true),
+                                            imageUrl:  "${EndPoints.address}/${e.imageUrl}",
+                                          ),),
                                       Positioned(
                                         top: 24,
                                         right: 24,
@@ -105,7 +107,11 @@ class HomeAdsSlider extends StatelessWidget {
                             width: double.maxFinite,
                             clipBehavior: Clip.hardEdge,
                             decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
-                            child: CustomNetworkImage(imageUrl: e.imageUrl!),
+                            child:
+                            FancyShimmerImage(
+                              // imageUrl: faker.image.image(random: true),
+                              imageUrl:  "${EndPoints.address}/${e.imageUrl}",
+                            ),
                           ),
                         ],
                       ),
