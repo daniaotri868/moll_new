@@ -105,7 +105,7 @@ class _MollScreenState extends State<MollScreen> {
                                     child: IconButton(onPressed: () {
                                       print("ppppppppp");
                                       context.pushNamed(DetailsMall.name,extra:data.malls?[index].id??"");
-                                    }, icon: Icon(Icons.question_mark,color: Colors.white,)),
+                                    }, icon: Icon(Icons.question_mark,color: Colors.black,)),
                                   ),
 
                                 ],

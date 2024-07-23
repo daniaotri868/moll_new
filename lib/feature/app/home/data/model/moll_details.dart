@@ -11,6 +11,8 @@ String getMollDetailsModelToJson(GetMollDetailsModel data) => json.encode(data.t
 class GetMollDetailsModel {
   final String ?id;
   final String ?name;
+  final double ?lng;
+  final double ?lat;
   final String ?location;
   final String ?phoneNumber;
   final dynamic ?evaluation;
@@ -22,6 +24,8 @@ class GetMollDetailsModel {
   GetMollDetailsModel({
     this.id,
     this.name,
+    this.lat,
+    this.lng,
     this.location,
     this.phoneNumber,
     this.evaluation,
@@ -34,6 +38,8 @@ class GetMollDetailsModel {
   factory GetMollDetailsModel.fromJson(Map<String, dynamic> json) => GetMollDetailsModel(
     id: json["id"],
     name: json["name"],
+    lng: json["lng"],
+    lat: json["lat"],
     location: json["location"],
     phoneNumber: json["phoneNumber"],
     evaluation: json["evaluation"],
@@ -46,6 +52,8 @@ class GetMollDetailsModel {
   Map<String, dynamic> toJson() => {
     "id": id,
     "name": name,
+    "lat": lat,
+    "lng": lng,
     "location": location,
     "phoneNumber": phoneNumber,
     "evaluation": evaluation,

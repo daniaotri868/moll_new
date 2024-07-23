@@ -54,7 +54,7 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
                     RichText(
-                      text: TextSpan(
+                      text: TextSpan (
                         text: ' رقم الطلب :  ',
                         style: context.textTheme.titleMedium!.copyWith(
                             color: context.colorScheme.tertiaryContainer),
