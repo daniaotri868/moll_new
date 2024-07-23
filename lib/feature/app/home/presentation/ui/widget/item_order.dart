@@ -24,8 +24,15 @@ class _ItemOrderState extends State<ItemOrder> {
           : REdgeInsetsDirectional.only(start: 24.w, end: 24.w, bottom: 10),
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10.r),
+          borderRadius: BorderRadius.circular(15.r),
           color: Colors.white,
+          boxShadow: [
+            BoxShadow(color: Color(0x0F101828), offset: Offset(0, 1), blurRadius: 2),
+            BoxShadow(color: Color(0x1A101828), offset: Offset(0, 1), blurRadius: 3),
+          ],
+          border: Border.all(
+            color: Colors.white38,
+          ),
         ),
         child: Row(
           children: [

@@ -39,7 +39,10 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
   Widget build(BuildContext context) {
     return AppScaffold(
       backgroundColor: context.colorScheme.onPrimary,
-      // appBar: AppBarWidget(context: context, title: "تفاصيل الطلب"),
+      appBar: AppBar(
+        title: Text("طلباتي"),
+        centerTitle: true,
+      ),
       body: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
           return state.orderDetails.when(
@@ -55,14 +58,14 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                   children: [
                     RichText(
                       text: TextSpan (
-                        text: ' رقم الطلب :  ',
+                        text: 'رقم الطلب :  ',
                         style: context.textTheme.titleMedium!.copyWith(
-                            color: context.colorScheme.tertiaryContainer),
+                            color: Colors.black.withOpacity(0.5)),
                         children: [
                           TextSpan(
                             text: data.number,
                             style: context.textTheme.bodyMedium!.copyWith(
-                              color: context.colorScheme.inversePrimary,
+                              color: Colors.black.withOpacity(0.5),
                               fontWeight: FontWeight.bold,
                             ),
                           ),
@@ -74,19 +77,37 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          'تاريخ الطلب : ',
+                          'العنوان : ',
                           style: context.textTheme.titleMedium!.copyWith(
-                            color: context.colorScheme.tertiaryContainer,
+                            color: Colors.black.withOpacity(0.5),
                           ),
                         ),
                         RichText(
                           text: TextSpan(
                             text: data.address,
                             style: context.textTheme.titleSmall!.copyWith(
-                              color: context.colorScheme.tertiaryContainer,
+                              color: Colors.black.withOpacity(0.5),
                             ),
                           ),
                         ),
+                      ],
+                    ),
+                    Divider(),
+                    10.verticalSpace,
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'التكلفة : ',
+                          style: context.textTheme.titleMedium!.copyWith(
+                            color: Colors.black.withOpacity(0.5),
+                          ),
+                        ),
+                        Text(
+                         "${data.totalCost}",
+                          style: context.textTheme.titleSmall!.copyWith(
+                              color: Colors.black.withOpacity(0.5)),
+                        )
                       ],
                     ),
                     10.verticalSpace,
@@ -94,15 +115,15 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          '  التكلفة : ',
+                          'سعر التوصيل : ',
                           style: context.textTheme.titleMedium!.copyWith(
-                            color: context.colorScheme.tertiaryContainer,
+                            color: Colors.black.withOpacity(0.5),
                           ),
                         ),
                         Text(
-                         "${data.deliveryCost}",
+                         "${data.deliveryCost??0}",
                           style: context.textTheme.titleSmall!.copyWith(
-                              color: context.colorScheme.tertiaryContainer),
+                              color: Colors.black.withOpacity(0.5)),
                         )
                       ],
                     ),
@@ -113,7 +134,7 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                         Text(
                           'الإجمالي',
                           style: context.textTheme.titleMedium!.copyWith(
-                            color: context.colorScheme.tertiaryContainer,
+                            color: Colors.black.withOpacity(0.5),
                           ),
                         ),
                         Text(
@@ -126,8 +147,8 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                     10.verticalSpace,
                     SizedBox(
                       height: data.products?.length == 2 || data.products?.length == 1
-                          ? 200
-                          : 300.h,
+                          ? 400
+                          : 500.h,
                       child: ListView.builder(
                         itemBuilder: (context, index) => ItemOrder(
                           padding: true,

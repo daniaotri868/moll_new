@@ -15,6 +15,7 @@ import '../../../feature/app/home/presentation/ui/screen/details_product.dart';
 import '../../../feature/app/home/presentation/ui/screen/order_details_page.dart';
 import '../../../feature/app/home/presentation/ui/screen/order_screen.dart';
 import '../../../feature/app/home/presentation/ui/screen/product_dep.dart';
+import '../../../feature/app/home/presentation/ui/screen/profile_page.dart';
 import '../../../feature/app/home/presentation/ui/screen/profile_screen.dart';
 import '../../../feature/app/home/presentation/ui/screen/select_location.dart';
 import '../../../feature/app/home/presentation/ui/screen/show_order_screen.dart';

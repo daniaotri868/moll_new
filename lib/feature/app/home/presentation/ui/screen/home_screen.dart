@@ -10,6 +10,8 @@ import 'package:go_router/go_router.dart';
 import 'package:remy/core/config/theme/my_color_scheme.dart';
 import 'package:remy/core/utils/extensions/build_context.dart';
 import 'package:remy/feature/app/home/data/model/home_ads_model.dart';
+import 'package:remy/feature/app/home/presentation/ui/screen/profile_page.dart';
+import 'package:remy/feature/app/home/presentation/ui/screen/show_order_screen.dart';
 import 'package:remy/feature/app/home/presentation/ui/widget/home_ads.dart';
 import 'package:remy/feature/app/home/presentation/ui/widget/home_app_bar.dart';
 import 'package:remy/feature/app/home/presentation/ui/widget/home_most_selling.dart';
@@ -29,6 +31,7 @@ import '../../../../presentation/widgets/app_text.dart';
 import '../../../domain/use_case/moll_use_case.dart';
 import '../../bloc/auth_bloc.dart';
 import 'details_product.dart';
+final GlobalKey<ScaffoldState> drawerKey = GlobalKey();
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -38,6 +41,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+
 @override
   void initState() {
     // TODO: implement initState
@@ -49,6 +53,41 @@ class _HomeScreenState extends State<HomeScreen> {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
         return Scaffold(
+          key:drawerKey ,
+          drawer: Drawer(
+            child: Column(
+              children: [
+                60.verticalSpace,
+                // AppText("تفاصيل",style:context.textTheme.labelLarge?.copyWith(fontWeight: FontWeight.w700,color: context.colorScheme.primary) ,),
+                TextButton(onPressed: () {
+                  context.pushNamed(ProfileScreen.name);
+
+                }, child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(Icons.person),
+                    Text("الملف الشخصي"),
+                  ],
+                )),
+                20.verticalSpace,
+                Divider(),
+                20.verticalSpace,
+                TextButton(onPressed: () {
+                  context.pushNamed(OrderPage.name);
+
+                }, child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(Icons.shopping_cart),
+                    Text("طلباتي "),
+                  ],
+                )),
+                Divider(),
+              ],
+            ),
+          ),
           body: PageStateBuilder(
               init: const SizedBox.shrink(),
               success: (data) =>SingleChildScrollView(
@@ -56,7 +95,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     20.verticalSpace,
-                     HomeAppBar(data: data,),
+                     HomeAppBar(data: data,onTap: () {
+                       drawerKey.currentState!.openDrawer();
+                     },),
                     SizedBox(
                       height: 20.h,
                     ),

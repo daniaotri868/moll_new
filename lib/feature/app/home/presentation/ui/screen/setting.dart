@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:remy/core/config/routing/router.dart';
 import 'package:remy/core/config/theme/app_theme.dart';
 import 'package:remy/core/utils/extensions/build_context.dart';
+import 'package:remy/feature/app/home/presentation/ui/screen/profile_page.dart';
 import 'package:remy/feature/app/home/presentation/ui/screen/profile_screen.dart';
 import 'package:remy/feature/app/home/presentation/ui/screen/show_order_screen.dart';
 import 'package:remy/feature/app/presentation/widgets/app_text.dart';

@@ -8,7 +8,8 @@ import '../../../data/model/home_model.dart';
 
 class HomeAppBar extends StatelessWidget {
   HomeModel ?data;
-   HomeAppBar({super.key,required this.data});
+  VoidCallback ?onTap;
+   HomeAppBar({super.key,required this.data,this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -21,12 +22,15 @@ class HomeAppBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          RoundedContainer(
-            icon: const AppSvgPicture(
-              Assets.homeMenue,
+          InkWell(
+            onTap: onTap,
+            child: RoundedContainer(
+              icon: const AppSvgPicture(
+                Assets.homeMenue,
+              ),
+              height: 44.r,
+              width: 44.r,
             ),
-            height: 44.r,
-            width: 44.r,
           ),
           RoundedContainer(
             icon: const Icon(

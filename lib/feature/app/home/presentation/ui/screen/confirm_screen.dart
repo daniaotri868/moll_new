@@ -12,6 +12,7 @@ import 'package:remy/feature/app/auth/presentation/ui/screen/login_screen.dart';
 import 'package:remy/feature/app/home/presentation/bloc/auth_bloc.dart';
 import 'package:remy/feature/app/root/presentation/ui/screen/root_screen.dart';
 
+import '../../../../../../common/constants/route.dart';
 import '../../../../../../core/utils/responsive_padding.dart';
 import '../../../../presentation/widgets/animated_dialog.dart';
 import '../../../../presentation/widgets/app_text.dart';
@@ -77,7 +78,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                                   ),
                                   child: FancyShimmerImage(
                                     // imageUrl: faker.image.image(random: true),
-                                    imageUrl:  "http://3.223.131.190:81/Products/0ec15bf3-8436-4a60-b54b-62784b398599.jpg",
+                                    imageUrl:   "${EndPoints.address}/${widget.data?.products?[index].name??""}",
                                   ),
                                 ),
                               ),

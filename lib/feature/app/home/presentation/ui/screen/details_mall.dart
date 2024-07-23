@@ -10,7 +10,7 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:json_serializable/type_helper.dart';
+// import 'package:json_serializable/type_helper.dart';
 import 'package:location/location.dart';
 import 'package:location_platform_interface/location_platform_interface.dart';
 import 'package:remy/core/utils/extensions/build_context.dart';
@@ -73,9 +73,7 @@ class _DetailsMallState extends State<DetailsMall> {
       builder: (context, state) {
         return PageStateBuilder(
           success: (data) {
-            setState(() {
               mollLocation=LatLng(data.lat??0, data.lng??0);
-            });
             return Scaffold(
               body:  Column(
                 children: [
@@ -193,13 +191,14 @@ class _DetailsMallState extends State<DetailsMall> {
                       ),
                     ),
                   ),
-                  Container(
-                    height: 200,
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        color: Colors.white
-                    ),
-                    child: Expanded(
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Container(
+                      height: 300,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(20),
+                          color: Colors.white
+                      ),
                       child: GoogleMap(
                           initialCameraPosition: CameraPosition(
                             target: LatLng(currentP.value?.latitude??0.0, currentP.value?.longitude??0.0),
