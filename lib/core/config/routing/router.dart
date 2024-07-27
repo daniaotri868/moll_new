@@ -9,6 +9,7 @@ import '../../../feature/app/home/data/model/home_model.dart';
 import '../../../feature/app/home/data/model/order_details_model.dart';
 import '../../../feature/app/home/domain/use_case/order_details.dart';
 import '../../../feature/app/home/presentation/ui/screen/all_dep.dart';
+import '../../../feature/app/home/presentation/ui/screen/cart_page.dart';
 import '../../../feature/app/home/presentation/ui/screen/confirm_edite.dart';
 import '../../../feature/app/home/presentation/ui/screen/confirm_screen.dart';
 import '../../../feature/app/home/presentation/ui/screen/department_screen.dart';
@@ -61,6 +62,17 @@ class GRouter {
             pageBuilder: (BuildContext context, GoRouterState state) {
               return _builderPage(
                 child:  ProductHomeScreen(products: state.extra as List<ProductItem>,),
+                state: state,
+              );
+            },
+
+          ),
+          GoRoute(
+            path: CartPage.name,
+            name: CartPage.name,
+            pageBuilder: (BuildContext context, GoRouterState state) {
+              return _builderPage(
+                child:  CartPage(),
                 state: state,
               );
             },

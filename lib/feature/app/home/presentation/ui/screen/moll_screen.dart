@@ -41,9 +41,40 @@ class _MollScreenState extends State<MollScreen> {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
         return Scaffold(
-          appBar:  AppBar(
-            title: AppText("مولات"),
+          appBar:   AppBar(
+            toolbarHeight: 90,
+            title: AppText("مولات",              style: context.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold,color: context.colorScheme.primary),
+            ),
             centerTitle: true,
+            automaticallyImplyLeading: false,
+            leading:  Padding(
+              padding: const EdgeInsets.only(top: 15,bottom: 25,right: 8),
+              child: InkWell(
+                onTap: () {
+                  context.pop();
+                },
+                child: SizedBox(
+                  height: 30,
+                  child: Container(
+                    height: 20,
+                    decoration:  BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(color: Color(0x0F101828), offset: Offset(0, 1), blurRadius: 2),
+                          // BoxShadow(color: Color(0x1A101828), offset: Offset(0, 1), blurRadius: 3),
+                        ],
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white
+                    ),
+                    child: Center(
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 5),
+                        child: Icon(Icons.arrow_back_ios,color: context.colorScheme.primary,),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ),
           body:Column(
             children: [

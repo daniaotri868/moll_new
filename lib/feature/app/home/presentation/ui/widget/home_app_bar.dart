@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:remy/core/config/routing/router.dart';
 import 'package:remy/feature/app/presentation/widgets/app_svg_picture.dart';
 import 'package:remy/feature/app/presentation/widgets/rounded_container.dart';
 import 'package:remy/generated/assets.dart';
 
 import '../../../data/model/home_model.dart';
+import '../screen/cart_page.dart';
 
 class HomeAppBar extends StatelessWidget {
   HomeModel ?data;
@@ -32,12 +35,17 @@ class HomeAppBar extends StatelessWidget {
               width: 44.r,
             ),
           ),
-          RoundedContainer(
-            icon: const Icon(
-              Icons.shopping_cart,
+          InkWell(
+            onTap: () {
+              context.pushNamed(CartPage.name);
+            },
+            child: RoundedContainer(
+              icon: const Icon(
+                Icons.shopping_cart,
+              ),
+              height: 44.r,
+              width: 44.r,
             ),
-            height: 44.r,
-            width: 44.r,
           ),
         ],
       ),

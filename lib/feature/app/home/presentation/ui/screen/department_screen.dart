@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:remy/common/models/page_state/result_builder.dart';
 import 'package:remy/core/utils/extensions/build_context.dart';
 import 'package:remy/feature/app/presentation/pages/empty_screen.dart';
 import 'package:remy/feature/app/presentation/pages/loading_screen.dart';
 
 import '../../../../presentation/pages/error_screen.dart';
+import '../../../../presentation/widgets/app_text.dart';
 import '../../../../presentation/widgets/product_item.dart';
 import '../../../domain/use_case/department_details_use_case.dart';
 import '../../../domain/use_case/moll_use_case.dart';
@@ -36,6 +38,41 @@ class _DetailsScreenState extends State<DetailsScreen> {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
         return Scaffold(
+          appBar:  AppBar(
+            toolbarHeight: 90,
+            title: AppText("الأقسام",              style: context.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold,color: context.colorScheme.primary),
+            ),
+            centerTitle: true,
+            automaticallyImplyLeading: false,
+            leading:  Padding(
+              padding: const EdgeInsets.only(top: 15,bottom: 25,right: 8),
+              child: InkWell(
+                onTap: () {
+                  context.pop();
+                },
+                child: SizedBox(
+                  height: 30,
+                  child: Container(
+                    height: 20,
+                    decoration:  BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(color: Color(0x0F101828), offset: Offset(0, 1), blurRadius: 2),
+                          // BoxShadow(color: Color(0x1A101828), offset: Offset(0, 1), blurRadius: 3),
+                        ],
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white
+                    ),
+                    child: Center(
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 5),
+                        child: Icon(Icons.arrow_back_ios,color: context.colorScheme.primary,),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
           body:PageStateBuilder(
             success: (data) =>  Padding(
               padding: const EdgeInsets.all(8.0),

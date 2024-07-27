@@ -287,7 +287,7 @@ FutureOr<void> _onUpdateOrderEvent(
 FutureOr<void> _onAllDepartmentEvent(
     AllDepartmentEvent event, Emitter<HomeState> emit) async {
     emit(state.copyWith(getAllDepartment: PageState.loading()));
-    final result = await getAllDepartmentUseCase(DetailsParams(userId: event.detailsParams.userId, id: event.detailsParams.id));
+    final result = await getAllDepartmentUseCase(DetailsParams(userId: event.detailsParams.userId, id: event.detailsParams.id,search: event.detailsParams.search));
     switch (result) {
       case Success(value: final data):
         emit(state.copyWith(

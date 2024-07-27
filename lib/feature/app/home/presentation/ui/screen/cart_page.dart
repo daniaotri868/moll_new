@@ -15,6 +15,7 @@ import '../widget/item_cart.dart';
 import 'order_screen.dart';
 
 class CartPage extends StatefulWidget {
+  static String name="CartPage";
    CartPage({super.key});
 
   @override

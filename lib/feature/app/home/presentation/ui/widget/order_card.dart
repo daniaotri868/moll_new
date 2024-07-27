@@ -56,19 +56,19 @@ class _OrderCardState extends State<OrderCard> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   5.verticalSpace,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      AppText(
-                        widget.item.status??"",
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      AppText(
-                        widget.item.dateCreated.toString()??"",
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //   children: [
+                  //     AppText(
+                  //       widget.item.status??"",
+                  //       overflow: TextOverflow.ellipsis,
+                  //     ),
+                  //     AppText(
+                  //       widget.item.dateCreated.toString()??"",
+                  //       overflow: TextOverflow.ellipsis,
+                  //     ),
+                  //   ],
+                  // ),
                   // 2.verticalSpace,
                   Expanded(
                     child: Padding(
