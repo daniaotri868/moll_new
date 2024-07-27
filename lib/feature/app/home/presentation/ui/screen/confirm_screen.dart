@@ -1,8 +1,12 @@
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:go_router/go_router.dart';
 import 'package:remy/core/config/routing/router.dart';
 import 'package:remy/core/config/theme/app_theme.dart';
@@ -20,6 +24,7 @@ import '../../../../presentation/widgets/app_text_field.dart';
 import '../../../data/model/order_details_model.dart';
 import '../../../domain/use_case/confirm_uscase.dart';
 import '../../../domain/use_case/rate_usecase.dart';
+import 'edite_cart.dart';
 
 class ConfirmScreen extends StatefulWidget {
   static String name="ConfirmScreen";
@@ -33,25 +38,58 @@ class ConfirmScreen extends StatefulWidget {
 class _ConfirmScreenState extends State<ConfirmScreen> {
   @override
   TextEditingController controllerNote = TextEditingController();
+  TextEditingController pointsController = TextEditingController(text: "0");
   double rate=0;
 
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: AppText("تأكيد"),
+      appBar:   AppBar(
+        toolbarHeight: 90,
+        title: AppText("تأكيد السلة",              style: context.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold,color: context.colorScheme.primary),
+        ),
         centerTitle: true,
+        automaticallyImplyLeading: false,
+        leading:  Padding(
+          padding: const EdgeInsets.only(top: 15,bottom: 25,right: 8),
+          child: InkWell(
+            onTap: () {
+              context.pop();
+            },
+            child: SizedBox(
+              height: 30,
+              child: Container(
+                height: 20,
+                decoration:  BoxDecoration(
+                    boxShadow: [
+                      BoxShadow(color: Color(0x0F101828), offset: Offset(0, 1), blurRadius: 2),
+                      // BoxShadow(color: Color(0x1A101828), offset: Offset(0, 1), blurRadius: 3),
+                    ],
+                    borderRadius: BorderRadius.circular(10),
+                    color: Colors.white
+                ),
+                child: Center(
+                  child: Padding(
+                    padding: EdgeInsets.only(right: 5),
+                    child: Icon(Icons.arrow_back_ios,color: context.colorScheme.primary,),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
       body: Padding(
         padding: const EdgeInsets.all(12),
-        child: Column(
+        child: ListView(
           children: [
-
-            Expanded(
+            SizedBox(
+              height: 400,
                 child: Container(
                   padding: EdgeInsets.all(8),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: context.colorScheme.primary.withOpacity(0.9))
+                    border: Border.all(color: Colors.black.withOpacity(0.1)
+                    )
                   ),
                   child: ListView.separated(
                       itemBuilder: (context, index) =>  Container(
@@ -63,6 +101,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                             // BoxShadow(color: Color(0x1A101828), offset: Offset(0, 1), blurRadius: 3),
                           ],
                           borderRadius: BorderRadius.circular(15),
+                          color: Colors.white,
                           border: Border.all(
                             color: Colors.white38,
                           ),
@@ -78,7 +117,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                                   ),
                                   child: FancyShimmerImage(
                                     // imageUrl: faker.image.image(random: true),
-                                    imageUrl:   "${EndPoints.address}/${widget.data?.products?[index].name??""}",
+                                    imageUrl:   "${EndPoints.address}/${widget.data?.products?[index].imageUrl??""}",
                                   ),
                                 ),
                               ),
@@ -115,67 +154,100 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
             ),
             20.verticalSpace,
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppText("    اسم المول  "),
+                AppText("   : اسم المول  "),
+                 12.horizontalSpace,
                 AppText(" ${widget.data?.mallName??""} "),
               ],
             ),
             5.verticalSpace,
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppText("عدد المنتجات "),
+                AppText("   :الكود "),
+                12.horizontalSpace,
+
                 AppText("${widget.data?.number??""}"),
               ],
             ),
             5.verticalSpace,
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppText("الملاحظات المذكورة "),
+                AppText("     :الملاحظات المذكورة "),
+                12.horizontalSpace,
+
                 AppText("${widget.data?.note??"لا يوجد"}"),
               ],
             ),
             5.verticalSpace,
             Divider(),
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppText("السعر الإجمالي "),
+                AppText("      :السعر الإجمالي "),
+                12.horizontalSpace,
                 AppText("${widget.data?.finalCost??""}"),
               ],
             ),
             5.verticalSpace,
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppText("سعر التوصيل "),
+                AppText("  : سعر التوصيل "),
+                12.horizontalSpace,
                 AppText("${widget.data?.deliveryCost??"0"}"),
               ],
             ),
             5.verticalSpace,
             Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                AppText("السعر الكلي "),
+                AppText("    :السعر الكلي "),
+                12.horizontalSpace,
                 AppText("${widget.data?.totalCost??""}"),
               ],
             ),
             5.verticalSpace,
+            Divider(),
+            5.verticalSpace,
             AppTextField(
+              minLines: 2,
+              maxLines: 2,
               name: "note",
               controller: controllerNote,
-              hintText: "اكتب ملاحظاتك",
+              title: "اكتب ملاحظاتك",
               // validator: (text) => text != null && text.length >0
               //     ? null
               //     : "ادخل الاسم الاول",
-              prefixIcon: Icon(
-                Icons.person,
-                color: context.colorScheme.primary,
-              ),
+              // prefixIcon: Icon(
+              //   Icons.person,
+              //   color: context.colorScheme.primary,
+              // ),
             ),
-            60.verticalSpace,
+            5.verticalSpace,
+            Row(
+              children: [
+                AppText("عدد النقاط :${widget.data?.pointsCanUse??0}")
+              ],
+            ),
+            AppTextField(
+              name: "note",
+              controller: pointsController,
+              title: "حدد عدد النقاط",
+              textInputType:TextInputType.number,
+
+              // validator:((pointsController.text)<=widget.data?.pointsCanUse??0)?true:false,
+              // validator: (text) =>  int.tryParse(text??"")<widget.data?.pointsCanUse??0
+              //     ? null
+              //     : "ادخل الاسم الاول",
+              // prefixIcon: Icon(
+              //   Icons.person,
+              //   color: context.colorScheme.primary,
+              // ),
+            ),
+            10.verticalSpace,
             Row(
               children: [
                 Expanded(
@@ -223,51 +295,79 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                                 children: [
                                   Expanded(
                                     child: ElevatedButton(onPressed: () {
-                                      context.read<HomeBloc>().add(
+                                      if((int.tryParse("${pointsController.text}")!)<=(widget.data?.pointsCanUse??0))  {context.read<HomeBloc>().add(
                                           ConfirmOrderEvent(
                                             confirmOrderParams: ConfirmOrderParams(
                                               userId:LoginScreen.userId ,
                                               id: widget.data?.id??"",
                                               note: controllerNote.text,
+                                              pointsToUse: int.tryParse("${pointsController.text??"0"}")
                                             ),
                                             onSuccess: () {
 
                                               context.goNamed('/home');
                                             },
                                           )
-                                      );
+                                      );}else Fluttertoast.showToast(
+                                      msg: "عدد النقاط غير مسموح",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.BOTTOM,
+                                      timeInSecForIosWeb: 1,
+                                      backgroundColor:  Colors.black,
+                                      textColor: Colors.white,
+                                      fontSize: 16.0);
                                     }, child: AppText("نعم")),
                                   ),
                                   8.horizontalSpace,
                                   Expanded(
                                     child: ElevatedButton(onPressed: () {
-                                      context.pop();
-                                      context.read<HomeBloc>().add(
-                                          RateOrderEvent(
-                                            confirmOrderParams: RateOrderParams(
-                                              userId:LoginScreen.userId ,
-                                              id: widget.data?.id??"",
-                                              note: controllerNote.text,
-                                            ),
-                                            onSuccess: () {
+                                      print("-----------${int.tryParse("${pointsController.text}"
+                                          )!<(widget.data?.pointsCanUse??0)}");
+                                      if((int.tryParse("${pointsController.text}")!)<=(widget.data?.pointsCanUse??0)) {context.read<HomeBloc>().add(
+                                      RateOrderEvent(
+                                      confirmOrderParams: RateOrderParams(
+                                      userId:LoginScreen.userId ,
+                                      id: widget.data?.id??"",
+                                      note: controllerNote.text,
 
-                                              context.goNamed('/home');
-                                            },
-                                          )
+                                      ),
+                                      onSuccess: () {
+
+                                      // context.goNamed('/home');
+                                      },
+                                      )
                                       ); context.read<HomeBloc>().add(
                                           ConfirmOrderEvent(
                                             confirmOrderParams: ConfirmOrderParams(
-                                              userId:LoginScreen.userId ,
-                                              id: widget.data?.id??"",
-                                              note: controllerNote.text,
+                                                userId:LoginScreen.userId ,
+                                                id: widget.data?.id??"",
+                                                note: controllerNote.text,
+                                                pointsToUse: int.tryParse("${pointsController.text??"0"}")
 
                                             ),
                                             onSuccess: () {
 
                                               context.goNamed('/home');
+                                              Fluttertoast.showToast(
+                                                  msg: "تم تأكيد الطلب بنجاح",
+                                                  toastLength: Toast.LENGTH_SHORT,
+                                                  gravity: ToastGravity.BOTTOM,
+                                                  timeInSecForIosWeb: 1,
+                                                  backgroundColor:  Colors.black,
+                                                  textColor: Colors.white,
+                                                  fontSize: 16.0);
                                             },
                                           )
-                                      );
+                                      );}else{
+                                        Fluttertoast.showToast(
+                                            msg: "عدد النقاط غير مسموح",
+                                            toastLength: Toast.LENGTH_SHORT,
+                                            gravity: ToastGravity.BOTTOM,
+                                            timeInSecForIosWeb: 1,
+                                            backgroundColor:  Colors.black,
+                                            textColor: Colors.white,
+                                            fontSize: 16.0);
+                                      }
                                     }, child: AppText("لا")),
                                   )
                                 ],
@@ -283,9 +383,10 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
 
                   }, child: AppText("تأكيد")),
                 ),
+                20.horizontalSpace,
                 Expanded(
                   child: ElevatedButton(onPressed: () {
-
+                    context.pushNamed(EditeCartPage.name,extra: widget.data?.id);
                   }, child: AppText("تعديل")),
                 ),
               ],

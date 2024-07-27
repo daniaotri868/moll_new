@@ -14,6 +14,7 @@ import '../model/home_model.dart';
 import '../model/moll_details.dart';
 import '../model/moll_model.dart';
 import '../model/order_details_model.dart';
+import '../model/point_model.dart';
 import '../model/product_details_model.dart';
 
 
@@ -54,6 +55,14 @@ class AuthRepositoryImpl extends HomeRepository {
       return result;
     });
   }
+
+  @override
+  Future<Result<ResponseWrapper<List<MyPointsModel>>>> getMyPoints(Map<String, dynamic> params) {
+    return toApiResult(() async {
+      final result = datasource.getMyPoints(params);
+      return result;
+    });
+  }
   @override
   Future<Result<ResponseWrapper<OrderDetailsModel>>> orderDetails(Map<String, dynamic> params) {
     return toApiResult(() async {
@@ -67,7 +76,17 @@ class AuthRepositoryImpl extends HomeRepository {
       final result = datasource.createOrder(params);
       return result;
     });
-  }  @override
+  }
+   @override
+  Future<Result<ResponseWrapper<OrderDetailsModel>>> updateOrder(Map<String, dynamic> params) {
+    return toApiResult(() async {
+      final result = datasource.updateOrder(params);
+      return result;
+    });
+  }
+
+
+  @override
   Future<Result<ResponseWrapper<bool>>> confirmOrder(Map<String, dynamic> params) {
     return toApiResult(() async {
       final result = datasource.confirmOrder(params);

@@ -74,7 +74,7 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                     ),
                     10.verticalSpace,
                     Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           'العنوان : ',
@@ -84,7 +84,7 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                         ),
                         RichText(
                           text: TextSpan(
-                            text: data.address,
+                            text: "الفرقان",
                             style: context.textTheme.titleSmall!.copyWith(
                               color: Colors.black.withOpacity(0.5),
                             ),

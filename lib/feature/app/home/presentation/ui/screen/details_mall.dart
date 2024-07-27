@@ -18,6 +18,7 @@ import 'package:remy/feature/app/home/presentation/bloc/auth_bloc.dart';
 import 'package:remy/feature/app/presentation/widgets/app_text.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../../../../../../common/constants/route.dart';
 import '../../../../../../common/models/page_state/result_builder.dart';
 import '../../../../auth/presentation/ui/screen/login_screen.dart';
 import '../../../../presentation/pages/empty_screen.dart';
@@ -93,43 +94,48 @@ class _DetailsMallState extends State<DetailsMall> {
                       ),
                     ),
                     itemBuilder: (BuildContext context, int index, int realIndex) =>
-                        Container(
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.only(
-                                    bottomRight: Radius.circular(16.r),
-                                    bottomLeft: Radius.circular(16.r))),
-                            child: ClipRRect(
-                                borderRadius: BorderRadius.only(
-                                    bottomRight: Radius.circular(16.r),
-                                    bottomLeft: Radius.circular(16.r)),
-                                child: AspectRatio(
-                                  aspectRatio: 1.h / 1.h,
-                                  child: FancyShimmerImage(
-                                    errorWidget: const Center(
-                                      child: Icon(
-                                        Icons.image_not_supported,
-                                        size: 30,
+                        Stack(
+                          children: [
+                            Container(
+                                decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.only(
+                                        bottomRight: Radius.circular(16.r),
+                                        bottomLeft: Radius.circular(16.r))),
+                                child: ClipRRect(
+                                    borderRadius: BorderRadius.only(
+                                        bottomRight: Radius.circular(16.r),
+                                        bottomLeft: Radius.circular(16.r)),
+                                    child: FancyShimmerImage(
+                                      errorWidget: const Center(
+                                        child: Icon(
+                                          Icons.image_not_supported,
+                                          size: 30,
+                                        ),
                                       ),
-                                    ),
-                                    imageUrl: data.subImageUrls?[index] ?? "",
-                                    boxFit: BoxFit.cover,
-                                    width: double.infinity,
+                                      imageUrl: "${EndPoints.address}/${data.subImageUrls?[index] ?? ""}",
+                                      boxFit: BoxFit.cover,
+                                      width: double.infinity,
+                                    ))),
+                            Padding(
+                              padding: REdgeInsets.only(top: 270,right: 170),
+                              child: Container(
+                                margin: REdgeInsets.only(bottom: 17.h),
+                                child: AnimatedSmoothIndicator(
+                                  activeIndex: activeIndex,
+                                  count: data.subImageUrls?.length ?? 0,
+                                  effect: ExpandingDotsEffect(
+                                    dotColor: Colors.grey,
+                                    activeDotColor: context.colorScheme.primary,
+                                    dotHeight: 10.h,
+                                    dotWidth: 10.w,
                                   ),
-                                ))),
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                   ),
-                  Container(
-                    margin: REdgeInsets.only(bottom: 17.h),
-                    child: AnimatedSmoothIndicator(
-                      activeIndex: activeIndex,
-                      count: data.subImageUrls?.length ?? 0,
-                      effect: ExpandingDotsEffect(
-                        dotColor: Colors.grey,
-                        activeDotColor: context.colorScheme.primary,
-                        dotHeight: 10.h,
-                        dotWidth: 10.w,
-                      ),
-                    ),
-                  ),
+
                   Expanded(
                     child: Container(
                       width: double.infinity,
@@ -258,7 +264,7 @@ class _DetailsMallState extends State<DetailsMall> {
 
   _getPolyline() async {
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
-      googleApiKey: "AIzaSyCuTilAfnGfkZtIx0T3qf-eOmWZ_N2LpoY",
+      googleApiKey: "AIzaSyD2dcs9zzNRVjyiJ9MehLLAErdDX0v5wJ4",
       request: PolylineRequest(
         origin: PointLatLng(currentP.value?.latitude??0 ,currentP.value?.longitude??0 ),
         destination: PointLatLng(mollLocation.latitude ,mollLocation.longitude ),

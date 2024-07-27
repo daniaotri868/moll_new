@@ -49,71 +49,80 @@ class AppDropDownMenu<T> extends StatefulWidget {
 class _AppDropDownMenuState<T> extends ThemeState<AppDropDownMenu> {
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        if (widget.title != null) ...{
-          AppText(
-            widget.title!,
-            style: context.textTheme.titleMedium.sb,
+    return Container(
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(color: Color(0x0F101828), offset: Offset(0, 1), blurRadius: 2),
+          // BoxShadow(color: Color(0x1A101828), offset: Offset(0, 1), blurRadius: 3),
+        ],
+        borderRadius: BorderRadius.circular(10)
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (widget.title != null) ...{
+            AppText(
+              widget.title!,
+              style: context.textTheme.titleMedium.sb,
+            ),
+            13.verticalSpace,
+          },
+          DropdownButtonFormField<T>(
+            isExpanded: true,
+            items:
+                widget.items.mapIndexed((index, e) => DropdownMenuItem<T>(value: e, child: buildItem(index, e))).toList(),
+            onChanged: widget.onChange,
+            onTap: widget.onTap,
+            onSaved: widget.onSaved,
+            validator: widget.validator,
+            menuMaxHeight: widget.menuMaxHeight,
+            icon: widget.icon ?? const SizedBox.shrink(),
+            focusNode: widget.focusNode,
+            value: widget.value,
+            dropdownColor: colorScheme.borderTextField,
+            isDense: false,
+            hint: widget.hint != null
+                ? AppText(
+                    widget.hint!,
+                    style: widget.hintStyle??context.textTheme.bodyMedium?.copyWith(color: context.colorScheme.tertiary),
+                  )
+                : null,
+            borderRadius: BorderRadius.circular(50).r,
+            style: textTheme.bodyLarge?.copyWith(color: context.colorScheme.tertiary),
+            decoration: InputDecoration(
+              filled: true,
+              fillColor:Colors.white,
+              border: OutlineInputBorder(
+                borderSide:(widget.isBorder)!?BorderSide.none: BorderSide(color:Colors.white, width: 0.5),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderSide: (widget.isBorder)!?BorderSide.none: BorderSide(color: Colors.white, width: 0.5),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderSide:(widget.isBorder)!?BorderSide.none: BorderSide(color:  Colors.white, width: 0.5),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              disabledBorder: OutlineInputBorder(
+                borderSide:(widget.isBorder)!? BorderSide.none:BorderSide(color:  Colors.white, width: 0.5),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              errorBorder: OutlineInputBorder(
+                borderSide: (widget.isBorder)!? BorderSide.none:BorderSide(color:  Colors.white, width: 0.5),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              focusedErrorBorder: OutlineInputBorder(
+                borderSide:(widget.isBorder)!? BorderSide.none: BorderSide(color:  Colors.white, width: 0.5),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              contentPadding: HWEdgeInsetsDirectional.only(start: 12, end: 12),
+              prefixIcon: Icon(Icons.keyboard_arrow_down_rounded,
+                  color: widget.items.isEmpty ? colorScheme.primary : colorScheme.primary),
+            ),
           ),
-          13.verticalSpace,
-        },
-        DropdownButtonFormField<T>(
-          isExpanded: true,
-          items:
-              widget.items.mapIndexed((index, e) => DropdownMenuItem<T>(value: e, child: buildItem(index, e))).toList(),
-          onChanged: widget.onChange,
-          onTap: widget.onTap,
-          onSaved: widget.onSaved,
-          validator: widget.validator,
-          menuMaxHeight: widget.menuMaxHeight,
-          icon: widget.icon ?? const SizedBox.shrink(),
-          focusNode: widget.focusNode,
-          value: widget.value,
-          dropdownColor: colorScheme.borderTextField,
-          isDense: false,
-          hint: widget.hint != null
-              ? AppText(
-                  widget.hint!,
-                  style: widget.hintStyle??context.textTheme.bodyLarge?.copyWith(color: context.colorScheme.tertiary),
-                )
-              : null,
-          borderRadius: BorderRadius.circular(50).r,
-          style: textTheme.bodyLarge?.copyWith(color: context.colorScheme.tertiary),
-          decoration: InputDecoration(
-            filled: true,
-            fillColor:AppColors.fillTextField,
-            border: OutlineInputBorder(
-              borderSide:(widget.isBorder)!?BorderSide.none: BorderSide(color:AppColors.grey.shade500, width: 0.5),
-              borderRadius: BorderRadius.circular(kbrBorderTextField),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: (widget.isBorder)!?BorderSide.none: BorderSide(color: AppColors.grey.shade500, width: 0.5),
-              borderRadius: BorderRadius.circular(kbrBorderTextField),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderSide:(widget.isBorder)!?BorderSide.none: BorderSide(color:  AppColors.grey.shade500, width: 0.5),
-              borderRadius: BorderRadius.circular(kbrBorderTextField),
-            ),
-            disabledBorder: OutlineInputBorder(
-              borderSide:(widget.isBorder)!? BorderSide.none:BorderSide(color:  AppColors.grey.shade500, width: 0.5),
-              borderRadius: BorderRadius.circular(kbrBorderTextField),
-            ),
-            errorBorder: OutlineInputBorder(
-              borderSide: (widget.isBorder)!? BorderSide.none:BorderSide(color:  AppColors.grey.shade500, width: 0.5),
-              borderRadius: BorderRadius.circular(kbrBorderTextField),
-            ),
-            focusedErrorBorder: OutlineInputBorder(
-              borderSide:(widget.isBorder)!? BorderSide.none: BorderSide(color:  AppColors.grey.shade500, width: 0.5),
-              borderRadius: BorderRadius.circular(kbrBorderTextField),
-            ),
-            contentPadding: HWEdgeInsetsDirectional.only(start: 12, end: 12),
-            prefixIcon: Icon(Icons.keyboard_arrow_down_rounded,
-                color: widget.items.isEmpty ? colorScheme.primary : colorScheme.primary),
-          ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 

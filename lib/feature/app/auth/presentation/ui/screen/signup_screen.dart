@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:go_router/go_router.dart';
 import 'package:remy/common/constants/app_string.dart';
 import 'package:remy/common/models/page_state/page_state.dart';
@@ -88,9 +89,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         name: "firstName",
                         controller: firstName,
                         title: AppString.firstName,
-                        validator: (text) => text != null && text.length >0
-                            ? null
-                            : "ادخل الاسم الاول",
+                        validator: FormBuilderValidators.required(),
                         prefixIcon: Icon(
                           Icons.person,
                           color: context.colorScheme.primary,
@@ -101,10 +100,9 @@ class _SignupScreenState extends State<SignupScreen> {
                         name: "lastName",
                         textInputType:TextInputType.text,
                         controller: lastName,
+
                         title: AppString.lastName,
-                        validator: (text) => text != null && text.length >0
-                            ? null
-                            : "ادحل الاسم الثاني",
+                        validator: FormBuilderValidators.required(),
                         prefixIcon: Icon(
                           Icons.person,
                           color: context.colorScheme.primary,
@@ -116,9 +114,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         controller: email,
                         textInputType:TextInputType.text,
                         title: AppString.email,
-                        validator: (text) => text != null && text.length >1
-                            ? null
-                            : "ادخل الايميل",
+                        validator: FormBuilderValidators.email(),
                         prefixIcon: Icon(
                           Icons.email,
                           color: context.colorScheme.primary,
@@ -131,9 +127,8 @@ class _SignupScreenState extends State<SignupScreen> {
                         controller: phoneController,
                         title: "رقم الهاتف",
 
-                        validator: (text) => text != null && text.length>1
-                            ? null
-                            : "ادخل رقم الهاتف",
+                        validator: FormBuilderValidators.phoneNumber(),
+
                         prefixIcon: Icon(
                           Icons.email,
                           color: context.colorScheme.primary,
@@ -145,9 +140,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         controller: addressController,
                         title: "العنوان",
                         textInputType:TextInputType.text,
-                        validator: (text) => text != null && text.length>1
-                            ? null
-                            : "ادخل الايميل",
+                        validator: FormBuilderValidators.required(),
                         prefixIcon: Icon(
                           Icons.email,
                           color: context.colorScheme.primary,
@@ -159,9 +152,8 @@ class _SignupScreenState extends State<SignupScreen> {
                         title: AppString.password,
                         obscure: true,
                         controller: oldPassword,
-                        validator: (text) => text != null && text.length>4
-                            ? null
-                            : "ادخل كلمة السر",
+                        validator: FormBuilderValidators.password(minLength: 5),
+
                         isPasswordFiled: true,
                         prefixIcon: Icon(
                           Icons.lock,

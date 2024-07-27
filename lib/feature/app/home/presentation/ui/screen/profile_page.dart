@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:remy/core/utils/extensions/build_context.dart';
 import 'package:remy/feature/app/auth/presentation/bloc/auth_bloc.dart';
@@ -45,9 +46,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return AppScaffold(
         resizeToAvoidBottomInset: false,
-        appBar:AppBar(
+        appBar: AppBar(
+          toolbarHeight: 90,
+          title: AppText("الحساب",              style: context.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold,color: context.colorScheme.primary),
+          ),
           centerTitle: true,
-          title: Text("الحساب"),
+          automaticallyImplyLeading: false,
+          leading:  Padding(
+            padding: const EdgeInsets.only(top: 15,bottom: 25,right: 8),
+            child: InkWell(
+              onTap: () {
+                context.pop();
+              },
+              child: SizedBox(
+                height: 30,
+                child: Container(
+                  height: 20,
+                  decoration:  BoxDecoration(
+                      boxShadow: [
+                        BoxShadow(color: Color(0x0F101828), offset: Offset(0, 1), blurRadius: 2),
+                        // BoxShadow(color: Color(0x1A101828), offset: Offset(0, 1), blurRadius: 3),
+                      ],
+                      borderRadius: BorderRadius.circular(10),
+                      color: Colors.white
+                  ),
+                  child: Center(
+                    child: Padding(
+                      padding: EdgeInsets.only(right: 5),
+                      child: Icon(Icons.arrow_back_ios,color: context.colorScheme.primary,),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
         ),
         body: BlocBuilder<AuthBloc, AuthState>(
         builder: (context, state) {

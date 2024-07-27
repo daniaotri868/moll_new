@@ -27,11 +27,13 @@ class ConfirmOrderParams {
   final String userId;
   final String id;
   final String ?note;
+  final int ?pointsToUse;
 
   ConfirmOrderParams({
     required this.userId,
     required this.id,
     this.note,
+    this.pointsToUse,
   });
 
   Map<String, dynamic> toMap() {
@@ -39,6 +41,7 @@ class ConfirmOrderParams {
       'id': id,
       'userId':userId,
       'note':note,
+      'pointsToUse':pointsToUse,
     };
   }
 }

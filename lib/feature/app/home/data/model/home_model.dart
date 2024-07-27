@@ -149,6 +149,8 @@ class ProductCart {
   final int? offer;
   final int? price;
   final int? max;
+  final String? image;
+  final String? mallId;
 
   ProductCart({
     this.id,
@@ -157,6 +159,8 @@ class ProductCart {
     this.offer,
     this.price,
     this.max,
+    this.image,
+    this.mallId,
   });
 
   ProductCart copyWith({
@@ -165,6 +169,9 @@ class ProductCart {
     int? qun,
     int? offer,
     int? price,
+    int? max,
+    String? image,
+    String? mallId,
   }) {
     return ProductCart(
       id: id ?? this.id,
@@ -172,6 +179,9 @@ class ProductCart {
       qun: qun ?? this.qun,
       offer: offer ?? this.offer,
       price: price ?? this.price,
+      image: image ?? this.image,
+      mallId: mallId ?? this.mallId,
+      max: max ?? this.max,
     );
   }
 }

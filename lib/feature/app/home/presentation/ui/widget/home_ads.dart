@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:remy/core/utils/extensions/build_context.dart';
 import 'package:remy/feature/app/home/data/model/home_ads_model.dart';
+import 'package:remy/feature/app/presentation/widgets/app_text.dart';
 import 'package:remy/feature/app/presentation/widgets/custom_network_image.dart';
 
 import '../../../../../../common/constants/route.dart';
@@ -101,18 +102,27 @@ class HomeAdsSlider extends StatelessWidget {
                                   ));
                             });
                       },
-                      child: Stack(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Container(
-                            width: double.maxFinite,
-                            clipBehavior: Clip.hardEdge,
-                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
-                            child:
-                            FancyShimmerImage(
-                              // imageUrl: faker.image.image(random: true),
-                              imageUrl:  "${EndPoints.address}/${e.imageUrl}",
+                          Expanded(
+                            child: Container(
+                              width: double.maxFinite,
+                              clipBehavior: Clip.hardEdge,
+                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(16)),
+                              child:
+                              FancyShimmerImage(
+                                // imageUrl: faker.image.image(random: true),
+                                imageUrl:  "${EndPoints.address}/${e.imageUrl}",
+                              ),
                             ),
                           ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: AppText("${e.name}",style: context.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w700),
+                            ),
+                          )
                         ],
                       ),
                     ))

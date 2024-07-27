@@ -34,6 +34,7 @@ class ProductDp {
   final int ?price;
   final int ?quantity;
   final String ?imageUrl;
+  final String ?mallId;
   final dynamic ?evaluation;
   final bool ?hasDiscount;
   final dynamic ?priceAfterDiscount;
@@ -46,6 +47,7 @@ class ProductDp {
     this.imageUrl,
     this.evaluation,
     this.hasDiscount,
+    this.mallId,
     this.priceAfterDiscount,
   });
 
@@ -57,6 +59,7 @@ class ProductDp {
     imageUrl: json["imageUrl"],
     evaluation: json["evaluation"],
     hasDiscount: json["hasDiscount"],
+    mallId: json["mallId"],
     priceAfterDiscount: json["priceAfterDiscount"],
   );
 
@@ -68,6 +71,7 @@ class ProductDp {
     "imageUrl": imageUrl,
     "evaluation": evaluation,
     "hasDiscount": hasDiscount,
+    "mallId": mallId,
     "priceAfterDiscount": priceAfterDiscount,
   };
 }

@@ -5,16 +5,23 @@ import 'package:go_router/go_router.dart';
 import 'package:remy/feature/app/auth/presentation/ui/screen/login_screen.dart';
 import 'package:remy/feature/app/auth/presentation/ui/screen/signup_screen.dart';
 import 'package:remy/feature/app/root/presentation/ui/screen/root_screen.dart';
+import '../../../feature/app/home/data/model/home_model.dart';
 import '../../../feature/app/home/data/model/order_details_model.dart';
 import '../../../feature/app/home/domain/use_case/order_details.dart';
 import '../../../feature/app/home/presentation/ui/screen/all_dep.dart';
+import '../../../feature/app/home/presentation/ui/screen/confirm_edite.dart';
 import '../../../feature/app/home/presentation/ui/screen/confirm_screen.dart';
 import '../../../feature/app/home/presentation/ui/screen/department_screen.dart';
 import '../../../feature/app/home/presentation/ui/screen/details_mall.dart';
 import '../../../feature/app/home/presentation/ui/screen/details_product.dart';
+import '../../../feature/app/home/presentation/ui/screen/edite_cart.dart';
+import '../../../feature/app/home/presentation/ui/screen/final_edite.dart';
+import '../../../feature/app/home/presentation/ui/screen/moll_home.dart';
+import '../../../feature/app/home/presentation/ui/screen/my_point.dart';
 import '../../../feature/app/home/presentation/ui/screen/order_details_page.dart';
 import '../../../feature/app/home/presentation/ui/screen/order_screen.dart';
 import '../../../feature/app/home/presentation/ui/screen/product_dep.dart';
+import '../../../feature/app/home/presentation/ui/screen/product_home.dart';
 import '../../../feature/app/home/presentation/ui/screen/profile_page.dart';
 import '../../../feature/app/home/presentation/ui/screen/profile_screen.dart';
 import '../../../feature/app/home/presentation/ui/screen/select_location.dart';
@@ -43,11 +50,32 @@ class GRouter {
           name: _config.homeRoutes.homeScreen,
           pageBuilder: (BuildContext context, GoRouterState state) {
             return _builderPage(
-              child: const RootScreen(),
+              child:  RootScreen(),
               state: state,
             );
           },
         routes: [
+          GoRoute(
+            path: ProductHomeScreen.name,
+            name: ProductHomeScreen.name,
+            pageBuilder: (BuildContext context, GoRouterState state) {
+              return _builderPage(
+                child:  ProductHomeScreen(products: state.extra as List<ProductItem>,),
+                state: state,
+              );
+            },
+
+          ),
+          GoRoute(
+            path: MollHomeScreen.name,
+            name: MollHomeScreen.name,
+            pageBuilder: (BuildContext context, GoRouterState state) {
+              return _builderPage(
+                child:  MollHomeScreen(mall: state.extra as List<Mall>,),
+                state: state,
+              );
+            },
+          ),
           GoRoute(
             path: LocationPage.name,
             name: LocationPage.name,
@@ -94,6 +122,17 @@ class GRouter {
 
           ),
           GoRoute(
+            path: MyPointPage.name,
+            name: MyPointPage.name,
+            pageBuilder: (BuildContext context, GoRouterState state) {
+              return _builderPage(
+                child:  MyPointPage(),
+                state: state,
+              );
+            },
+
+          ),
+          GoRoute(
             path: OrderScreen.name,
             name: OrderScreen.name,
             pageBuilder: (BuildContext context, GoRouterState state) {
@@ -112,7 +151,45 @@ class GRouter {
                       state: state,
                     );
                   },
+                  routes: [
+                    GoRoute(
+                        path: EditeCartPage.name,
+                        name: EditeCartPage.name,
+                        pageBuilder: (BuildContext context, GoRouterState state) {
+                          return _builderPage(
+                            child:  EditeCartPage(id: state.extra as String,),
+                            state: state,
+                          );
+                        },
+                        routes: [
+                          GoRoute(
+                              path: EditeOrderScreen.name,
+                              name: EditeOrderScreen.name,
+                              pageBuilder: (BuildContext context, GoRouterState state) {
+                                return _builderPage(
+                                  child:  EditeOrderScreen(id: state.extra as String,),
+                                  state: state,
+                                );
+                              },
+                              routes: [
+                                GoRoute(
+                                    path: FinalEditeScreen.name,
+                                    name: FinalEditeScreen.name,
+                                    pageBuilder: (BuildContext context, GoRouterState state) {
+                                      return _builderPage(
+                                        child:  FinalEditeScreen(data: state.extra as OrderDetailsModel,),
+                                        state: state,
+                                      );
+                                    },
+                                    routes: [
 
+                                    ]
+                                ),
+                              ]
+                          ),
+                        ]
+                    ),
+                  ]
               ),
             ]
           ),

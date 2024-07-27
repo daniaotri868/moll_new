@@ -19,6 +19,8 @@ class OrderDetailsModel {
   final String ?note;
   final String ?address;
   final int ?distance;
+  final int ?pointsCanUse;
+  final int ?pointValue;
   final String ?currentStage;
   final List<Product> ?products;
 
@@ -30,6 +32,8 @@ class OrderDetailsModel {
     this.finalCost,
     this.deliveryCost,
     this.number,
+    this.pointValue,
+    this.pointsCanUse,
     this.note,
     this.address,
     this.distance,
@@ -48,6 +52,8 @@ class OrderDetailsModel {
     note: json["note"],
     address: json["address"],
     distance: json["distance"],
+    pointsCanUse: json["pointsCanUse"],
+    pointValue: json["pointValue"],
     currentStage: json["currentStage"],
     products: List<Product>.from(json["products"].map((x) => Product.fromJson(x))),
   );
@@ -71,6 +77,7 @@ class OrderDetailsModel {
 class Product {
   final String ?id;
   final String ?name;
+  final String ?imageUrl;
   final int ?quantity;
   final int ?price;
   final int ?finalPrice;
@@ -80,6 +87,7 @@ class Product {
   Product({
     this.id,
     this.name,
+    this.imageUrl,
     this.quantity,
     this.price,
     this.finalPrice,
@@ -95,6 +103,7 @@ class Product {
     finalPrice: json["finalPrice"],
     hasOffer: json["hasOffer"],
     offerId: json["offerId"],
+    imageUrl: json["imageUrl"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -105,5 +114,6 @@ class Product {
     "finalPrice": finalPrice,
     "hasOffer": hasOffer,
     "offerId": offerId,
+    "imageUrl": imageUrl,
   };
 }

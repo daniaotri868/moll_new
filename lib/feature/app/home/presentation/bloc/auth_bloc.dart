@@ -15,6 +15,7 @@ import '../../data/model/home_model.dart';
 import '../../data/model/moll_details.dart';
 import '../../data/model/moll_model.dart';
 import '../../data/model/order_details_model.dart';
+import '../../data/model/point_model.dart';
 import '../../data/model/product_details_model.dart';
 
 import '../../domain/use_case/change_fav_usecase.dart';
@@ -25,12 +26,14 @@ import '../../domain/use_case/get_all_fav_usecase.dart';
 import '../../domain/use_case/get_department_product.dart';
 import '../../domain/use_case/get_home_usecase.dart';
 import '../../domain/use_case/get_order_usecase.dart';
+import '../../domain/use_case/get_point_usecase.dart';
 import '../../domain/use_case/get_product_details_usecase.dart';
 import '../../domain/use_case/moll_use_case.dart';
 import '../../domain/use_case/moll_details_use_case.dart';
 import '../../domain/use_case/order_details.dart';
 import '../../domain/use_case/post_order.dart';
 import '../../domain/use_case/rate_usecase.dart';
+import '../../domain/use_case/update_order.dart';
 
 part 'auth_event.dart';
 
@@ -52,9 +55,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final OrderDetailsUseCase orderDetailsUseCase;
   final ConfirmOrdersUseCase confirmOrdersUseCase;
   final RateOrdersUseCase rateOrdersUseCase;
+  final UpdateOrdersUseCase updateOrdersUseCase;
+  final MyPointsUseCase myPointsUseCase;
 
 
-  HomeBloc(this.getMollDetailsUseCase,this.rateOrdersUseCase,this.confirmOrdersUseCase,this.orderDetailsUseCase,this.createOrdersUseCase, this.getOrdersUseCase,this.getAllMollUseCase, this.getAllDepartmentUseCase, this.departmentDetailsUseCase, this.getProductDetailsUseCase, this.getDepartmentProductUseCase, this.getHomeUseCase, this.getFavProductUseCase, this.changeFavUseCase
+  HomeBloc(this.getMollDetailsUseCase,this.rateOrdersUseCase,this.confirmOrdersUseCase,this.orderDetailsUseCase,this.createOrdersUseCase, this.getOrdersUseCase,this.getAllMollUseCase, this.getAllDepartmentUseCase, this.departmentDetailsUseCase, this.getProductDetailsUseCase, this.getDepartmentProductUseCase, this.getHomeUseCase, this.getFavProductUseCase, this.changeFavUseCase, this.updateOrdersUseCase, this.myPointsUseCase
 
   ) : super( HomeState()) {
     on<ProductDetailsEvent>(_onProductDetailsEvent);
@@ -73,6 +78,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<RateOrderEvent>(_onRateOrderEvent);
     on<SaveProductsToPosEvent>(_onSaveBrand);
     on<DeleteProductsToPosEvent>(_onDelete);
+    on<UpdateOrderEvent>(_onUpdateOrderEvent);
+    on<MyPointEvent>(_onMyPointEvent);
     on<updateProductToOrderInPosEvent>(_onupdateProductToOrderInPosEvent);
 
 
@@ -94,6 +101,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         ));
     }
   }
+
+
   FutureOr<void> _onGetOrderEvent(
       GetOrderEvent event, Emitter<HomeState> emit) async {
     emit(state.copyWith(getOrders:PageState.loading()));
@@ -106,6 +115,23 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       case Failure(exception: final exception, message: final message):
         emit(state.copyWith(
           getOrders:   PageState.error(exception: exception, message: message),
+        ));
+    }
+  }
+
+
+ FutureOr<void> _onMyPointEvent(
+     MyPointEvent event, Emitter<HomeState> emit) async {
+    emit(state.copyWith(getMyPoints:PageState.loading()));
+    final result = await myPointsUseCase(MyPointParams(userId: event.getOrderParams.userId ));
+    switch (result) {
+      case Success(value: final data):
+        emit(state.copyWith(
+          getMyPoints:  PageState.loaded(data: data.data),
+           ));
+      case Failure(exception: final exception, message: final message):
+        emit(state.copyWith(
+          getMyPoints:   PageState.error(exception: exception, message: message),
         ));
     }
   }
@@ -128,7 +154,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
  FutureOr<void> _onCreateOrderEvent(
      CreateOrderEvent event, Emitter<HomeState> emit) async {
     emit(state.copyWith(createOrder: PageState.loading()));
-    final result = await createOrdersUseCase(CreateOrderParams(userId:event.createOrderParams.userId ,
+    final result = await createOrdersUseCase(CreateOrderParams(userId:event.createOrderParams.userId ,lat: event.createOrderParams.lat,lng: event.createOrderParams.lng,
         address: event.createOrderParams.address,areaId: event.createOrderParams.areaId,products: event.createOrderParams.products));
     switch (result) {
       case Success(value: final data):
@@ -139,6 +165,24 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       case Failure(exception: final exception, message: final message):
         emit(state.copyWith(
           createOrder: PageState.error(exception: exception, message: message),
+        ));
+    }
+  }
+FutureOr<void> _onUpdateOrderEvent(
+    UpdateOrderEvent event, Emitter<HomeState> emit) async {
+    emit(state.copyWith(updateOrder: PageState.loading()));
+    final result = await updateOrdersUseCase(UpdateOrderParams(userId:event.createOrderParams.userId ,
+        id: event.createOrderParams.id,lng: event.createOrderParams.lng,lat: event.createOrderParams.lat,
+        address: event.createOrderParams.address,areaId: event.createOrderParams.areaId,products: event.createOrderParams.products));
+    switch (result) {
+      case Success(value: final data):
+        event.data(data.data);
+        emit(state.copyWith(
+          updateOrder:  PageState.loaded(data: data.data),
+           ));
+      case Failure(exception: final exception, message: final message):
+        emit(state.copyWith(
+          updateOrder: PageState.error(exception: exception, message: message),
         ));
     }
   }
@@ -193,7 +237,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   FutureOr<void> _onConfirmOrderEvent(
       ConfirmOrderEvent event, Emitter<HomeState> emit) async {
     emit(state.copyWith(confirm: BlocStatus.loading()));
-    final result = await confirmOrdersUseCase(ConfirmOrderParams(userId: event.confirmOrderParams.userId, id: event.confirmOrderParams.id,note: event.confirmOrderParams.note));
+    final result = await confirmOrdersUseCase(ConfirmOrderParams(userId: event.confirmOrderParams.userId, id: event.confirmOrderParams.id,note: event.confirmOrderParams.note,pointsToUse: event.confirmOrderParams.pointsToUse));
     switch (result) {
       case Success(value: final data):
         event.onSuccess();
@@ -308,6 +352,8 @@ FutureOr<void> _onMollDetailsEvent(
   _onSaveBrand(
       SaveProductsToPosEvent event,  emit) {
     bool v=false;
+    print("00000000000000000${event.mallId}");
+    print("00000000000000000${event.name}");
     // List pr=state.productSave + [event.productItem];
     // state.productSave.add(event.productItem);
     // final Product pr;
@@ -321,13 +367,14 @@ FutureOr<void> _onMollDetailsEvent(
     }
 
     );
-    print("v=======${v}");
+    print("v=======${event.max}");
     print("==========${(state.listCart??[]).contains(ProductCart(
         name: event.name,
         id: event.id,
         price: event.price,
         offer: event.offer,
-        qun: event.qun
+        qun: event.qun,
+        image: event.image??"",
     ))}");
     // (state.listCart??[]).contains(ProductCart(
     //   name: event.name,
@@ -344,7 +391,17 @@ FutureOr<void> _onMollDetailsEvent(
         timeInSecForIosWeb: 1,
         backgroundColor:  Colors.red,
         textColor: Colors.white,
-        fontSize: 16.0):Fluttertoast.showToast(
+        fontSize: 16.0):
+    (state.listCart??[]).any((element) => element.mallId!=event.mallId,)?
+    Fluttertoast.showToast(
+        msg: "لا يمكن إضافة لاكثر من مول",
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor:  Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0):
+    Fluttertoast.showToast(
         msg: "تمة إضافته بنجاح",
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
@@ -362,7 +419,7 @@ FutureOr<void> _onMollDetailsEvent(
     //     offer: event.offer,
     //     qun: event.qun
     // ))
-       v ?state.listCart:(state.listCart??[]) + [ProductCart(name: event.name,max:event.max,qun: event.qun,id: event.id,offer: event.offer,price: event.price)]));
+       (v||(state.listCart??[]).any((element) => element.mallId!=event.mallId,)) ?state.listCart:(state.listCart??[]) + [ProductCart(name: event.name,max:event.max,qun: event.qun,id: event.id,offer: event.offer,price: event.price,mallId: event.mallId,image: event.image,)]));
     print("000000");
     // print(state.productSave);
     (state.listCart??[]).forEach((e) {

@@ -95,7 +95,7 @@ class _ItemOrderState extends State<ItemOrder> {
                         AppText(
                           'السعر: ${widget.item.price.toString()}',
                           style: context.textTheme.titleSmall!.copyWith(
-                            color: context.colorScheme.inversePrimary,
+                            color: context.colorScheme.primary,
                           ),
                         ),
                         // AppText(

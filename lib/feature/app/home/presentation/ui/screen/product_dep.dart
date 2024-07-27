@@ -42,9 +42,47 @@ class _AllProductDepartmentScreenState extends State<AllProductDepartmentScreen>
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
         return Scaffold(
-          appBar:  AppBar(
-            title: AppText("منتجات الأقسام"),
+          appBar:   AppBar(
+            toolbarHeight: 90,
+            title: AppText("منتجات الأقسام", style: context.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold,color: context.colorScheme.primary),
+            ),
             centerTitle: true,
+            automaticallyImplyLeading: false,
+            leading:  Padding(
+              padding: const EdgeInsets.only(top: 15,bottom: 25,right: 8),
+              child: InkWell(
+                onTap: () {
+                  context.pop();
+                },
+                child: SizedBox(
+                  height: 30,
+                  child: Container(
+                    height: 20,
+                    decoration:  BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(color: Color(0x0F101828), offset: Offset(0, 1), blurRadius: 2),
+                          // BoxShadow(color: Color(0x1A101828), offset: Offset(0, 1), blurRadius: 3),
+                        ],
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white
+                    ),
+                    child: Center(
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 5),
+                        child: Icon(Icons.arrow_back_ios,color: context.colorScheme.primary,),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            bottom: PreferredSize(
+              preferredSize: Size(10, 5),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 10,right: 10),
+                child: Divider(),
+              ),
+            ),
           ),
           body:PageStateBuilder(
             success: (data) => (data.products??[]).isEmpty?EmptyScreen(): Padding(
@@ -101,8 +139,10 @@ class _AllProductDepartmentScreenState extends State<AllProductDepartmentScreen>
                               Container(
                                 padding: REdgeInsetsDirectional.only(start: 10,end: 10,top: 5,bottom: 5),
                                 decoration: BoxDecoration(
-                                  color: Color(0xff3F2FE),
-                                  borderRadius: BorderRadius.circular(20),
+                                  // color: Color(0xff3F2FE),
+                                  // borderRadius: BorderRadius.circular(20),
+                                  borderRadius: BorderRadius.circular(16.r),
+                                  color: context.colorScheme.primary.withOpacity(.2),
                                 ),
                                 child: Text(
                                   data.products?[index].price.toString()??"",
@@ -112,29 +152,33 @@ class _AllProductDepartmentScreenState extends State<AllProductDepartmentScreen>
 
                             ],
                           ),
+                          5.verticalSpace,
                           InkWell(
                             onTap: () {
                               print(state.listCart);
+                              print("55555555555${data.products?[index].quantity}");
                               context.read<HomeBloc>().add(SaveProductsToPosEvent(
-                                  id: data.products?[index].id,
-                                  qun: 1,
-                                  price: data.products?[index].price,
-                                  name: data.products?[index].name,
-                                  offer: data.products?[index].priceAfterDiscount,
-                                  max: data.products?[index].quantity,
+                                id: data.products?[index].id,
+                                qun: 1,
+                                price: data.products?[index].price,
+                                name: data.products?[index].name,
+                                offer: data.products?[index].priceAfterDiscount,
+                                max: data.products?[index].quantity,
+                                image: data.products?[index].imageUrl,
+                                mallId: data.products?[index].mallId,
                               ));
                             },
                             child: Container(
-                              height: 20,
+                              height: 25,
                               decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(20),
-                                color: context.colorScheme.primary
+                                  borderRadius: BorderRadius.circular(20),
+                                  color: context.colorScheme.primary
                               ),
                               child: Row(
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  AppText("إضافة للسلة", style: context.textTheme.titleSmall?.copyWith(fontWeight: FontWeight.w700,color: Colors.white),),
+                                  AppText("إضافة للسلة", style: context.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w100,color: Colors.white),),
                                   5.horizontalSpace,
                                   Icon(Icons.shopping_cart_rounded,color: Colors.white,size: 15,)
                                 ],

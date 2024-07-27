@@ -163,125 +163,134 @@ class _AppTextFieldState extends State<AppTextField> {
         if (widget.title != null) ...{
           AppText(
             widget.title!.tr(),
-            style: context.textTheme.titleMedium!.sb,
+            style: context.textTheme.bodySmall!,
           ),
           13.verticalSpace,
         },
-        ValueListenableBuilder<bool>(
-            valueListenable: obscureNotifier,
-            builder: (context, obscureValue, _) {
-              return FormBuilderTextField(
-                name: widget.name,
-                initialValue: widget.initValue,
-                valueTransformer: widget.valueTransformer,
-                controller: widget.controller,
-                onTap: widget.onTap,
-                onChanged: widget.onChange,
-                onEditingComplete: widget.onEditingComplete,
-                onSaved: widget.onSaved,
-                validator: widget.validator,
-                maxLines: widget.isPasswordFiled ? 1 : widget.maxLines,
-                minLines: widget.minLines,
-                maxLength: widget.showLength ? widget.maxLength : null,
-                textAlign: widget.textAlign,
-                enabled: widget.enabled,
-                keyboardType: widget.textInputType,
-                textInputAction: widget.textInputAction,
-                textDirection: widget.x?widget.textDirection:TextDirection.ltr,
-                scrollPadding: widget.scrollPadding,
-                expands: widget.expands,
-                onSubmitted: (widget.onSubmitted),
-                maxLengthEnforcement: widget.maxLengthEnforcement,
-                focusNode: widget.focusNode,
-                obscureText: obscureValue,
-                obscuringCharacter: widget.obscuringCharacter,
-                autovalidateMode: widget.autoValidateMode,
-                readOnly: widget.readOnly,
-                scrollPhysics: widget.scrollPhysics,
-                scrollController: widget.scrollController,
-                autocorrect: widget.autocorrect,
-                autofocus: widget.autofocus,
-                cursorColor: context.colorScheme.primary,
-                keyboardAppearance: widget.keyboardAppearance,
-                textAlignVertical: widget.textAlignVertical,
-                textCapitalization: widget.textCapitalization,
-                contextMenuBuilder: widget.contextMenuBuilder,
+        Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(10),
+            boxShadow: [
+              BoxShadow(color: Color(0x0F101828), offset: Offset(0, 1), blurRadius: 2),
+              // BoxShadow(color: Color(0x1A101828), offset: Offset(0, 1), blurRadius: 3),
+            ],
+          ),
+          child: ValueListenableBuilder<bool>(
+              valueListenable: obscureNotifier,
+              builder: (context, obscureValue, _) {
+                return FormBuilderTextField(
+                  name: widget.name,
+                  initialValue: widget.initValue,
+                  valueTransformer: widget.valueTransformer,
+                  controller: widget.controller,
+                  onTap: widget.onTap,
+                  onChanged: widget.onChange,
+                  onEditingComplete: widget.onEditingComplete,
+                  onSaved: widget.onSaved,
+                  validator: widget.validator,
+                  maxLines: widget.isPasswordFiled ? 1 : widget.maxLines,
+                  minLines: widget.minLines,
+                  maxLength: widget.showLength ? widget.maxLength : null,
+                  textAlign: widget.textAlign,
+                  enabled: widget.enabled,
+                  keyboardType: widget.textInputType,
+                  textInputAction: widget.textInputAction,
+                  textDirection: widget.x?widget.textDirection:TextDirection.ltr,
+                  scrollPadding: widget.scrollPadding,
+                  expands: widget.expands,
+                  onSubmitted: (widget.onSubmitted),
+                  maxLengthEnforcement: widget.maxLengthEnforcement,
+                  focusNode: widget.focusNode,
+                  obscureText: obscureValue,
+                  obscuringCharacter: widget.obscuringCharacter,
+                  autovalidateMode: widget.autoValidateMode,
+                  readOnly: widget.readOnly,
+                  scrollPhysics: widget.scrollPhysics,
+                  scrollController: widget.scrollController,
+                  autocorrect: widget.autocorrect,
+                  autofocus: widget.autofocus,
+                  cursorColor: context.colorScheme.primary,
+                  keyboardAppearance: widget.keyboardAppearance,
+                  textAlignVertical: widget.textAlignVertical,
+                  textCapitalization: widget.textCapitalization,
+                  contextMenuBuilder: widget.contextMenuBuilder,
 
-                inputFormatters: [
-                  if (widget.maxLength != null) LengthLimitingTextInputFormatter(widget.maxLength),
-                  if (widget.textInputType == TextInputType.phone || widget.textInputType == TextInputType.number) ...[
-                    FilteringTextInputFormatter.allow(RegExp("[0-9]")),
+                  inputFormatters: [
+                    if (widget.maxLength != null) LengthLimitingTextInputFormatter(widget.maxLength),
+                    if (widget.textInputType == TextInputType.phone || widget.textInputType == TextInputType.number) ...[
+                      FilteringTextInputFormatter.allow(RegExp("[0-9]")),
+                    ],
+                    ...?widget.inputFormatters
                   ],
-                  ...?widget.inputFormatters
-                ],
-                style: widget.textStyle ??
-                    context.textTheme.titleSmall?.r?.copyWith(
-                      color: context.colorScheme.onBackground,
-                      decoration: TextDecoration.none,
-                      decorationColor: context.colorScheme.borderTextField,
+                  style: widget.textStyle ??
+                      context.textTheme.titleSmall?.r?.copyWith(
+                        color: context.colorScheme.onBackground,
+                        decoration: TextDecoration.none,
+                        decorationColor: context.colorScheme.borderTextField,
+                      ),
+                  decoration: InputDecoration(
+                    prefix:widget.prefix ,
+                    border: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.white ??  AppColors.grey.shade500,
+                        width: widget.borderWidth ?? 0.5,
+                      ),
+                      borderRadius: widget.borderRadius ?? BorderRadius.circular(10),
                     ),
-                decoration: InputDecoration(
-                  prefix:widget.prefix ,
-                  border: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: widget.borderSideColor ??  AppColors.grey.shade500,
-                      width: widget.borderWidth ?? 0.5,
+                    focusedBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.white ??  AppColors.grey.shade500,
+                        width: widget.borderWidth ?? 0.5,
+                      ),
+                      borderRadius: widget.borderRadius ?? BorderRadius.circular(10),
                     ),
-                    borderRadius: widget.borderRadius ?? BorderRadius.circular(kbrBorderTextField),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: widget.borderSideColor ??  AppColors.grey.shade500,
-                      width: widget.borderWidth ?? 0.5,
+                    enabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.white ??  AppColors.borderTextField,
+                        width: widget.borderWidth ?? 0.5,
+                      ),
+                      borderRadius: widget.borderRadius ?? BorderRadius.circular(10),
                     ),
-                    borderRadius: widget.borderRadius ?? BorderRadius.circular(kbrBorderTextField),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: widget.borderSideColor ??  AppColors.borderTextField,
-                      width: widget.borderWidth ?? 0.5,
+                    disabledBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.white ??  AppColors.borderTextField,
+                        width: widget.borderWidth ?? 0.5,
+                      ),
+                      borderRadius: widget.borderRadius ?? BorderRadius.circular(10),
                     ),
-                    borderRadius: widget.borderRadius ?? BorderRadius.circular(kbrBorderTextField),
-                  ),
-                  disabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: widget.borderSideColor ??  AppColors.borderTextField,
-                      width: widget.borderWidth ?? 0.5,
+                    errorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.white ?? context.colorScheme.error,
+                        width: widget.borderWidth ?? 0.5,
+                      ),
+                      borderRadius: widget.borderRadius ?? BorderRadius.circular(10),
                     ),
-                    borderRadius: widget.borderRadius ?? BorderRadius.circular(kbrBorderTextField),
-                  ),
-                  errorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: widget.borderSideColor ?? context.colorScheme.error,
-                      width: widget.borderWidth ?? 0.5,
+                    focusedErrorBorder: OutlineInputBorder(
+                      borderSide: BorderSide(
+                        color: Colors.white ?? context.colorScheme.error,
+                        width: widget.borderWidth ?? 0.5,
+                      ),
+                      borderRadius: widget.borderRadius ?? BorderRadius.circular(10),
                     ),
-                    borderRadius: widget.borderRadius ?? BorderRadius.circular(kbrBorderTextField),
-                  ),
-                  focusedErrorBorder: OutlineInputBorder(
-                    borderSide: BorderSide(
-                      color: widget.borderSideColor ?? context.colorScheme.error,
-                      width: widget.borderWidth ?? 0.5,
-                    ),
-                    borderRadius: widget.borderRadius ?? BorderRadius.circular(kbrBorderTextField),
-                  ),
-                  filled: widget.filled ?? true,
-                  fillColor: widget.fillColor?? AppColors.fillTextField,
-                  contentPadding: widget.contentPadding ?? HWEdgeInsetsDirectional.only(start: 16, end: 10),
-                  prefixIcon: widget.prefixIcon,
-                  prefixIconConstraints: widget.prefixBoxConstraints,
-                  icon: widget.icon,
-                  suffixIcon: widget.isPasswordFiled ? eyeIcon(obscureValue) : widget.suffixIcon,
-                  suffix: widget.suffix,
-                  hintText: widget.translateHint ? widget.hintText?.tr() : widget.hintText,
-                  hintStyle:
-                      widget.hintTextStyle ?? context.textTheme.bodyMedium.r?.withColor(context.colorScheme.grey500),
+                    filled: widget.filled ?? true,
+                    fillColor: widget.fillColor?? Colors.white,
+                    contentPadding: widget.contentPadding ?? HWEdgeInsetsDirectional.only(start: 16, end: 10),
+                    prefixIcon: widget.prefixIcon,
+                    prefixIconConstraints: widget.prefixBoxConstraints,
+                    icon: widget.icon,
+                    suffixIcon: widget.isPasswordFiled ? eyeIcon(obscureValue) : widget.suffixIcon,
+                    suffix: widget.suffix,
+                    hintText: widget.translateHint ? widget.hintText?.tr() : widget.hintText,
+                    hintStyle:
+                        widget.hintTextStyle ?? context.textTheme.bodyMedium.r?.withColor(context.colorScheme.grey500),
 
-                  labelText: widget.translateLabel ? widget.labelText?.tr() : widget.labelText,
-                  labelStyle:
-                      widget.labelTextStyle ?? context.textTheme.bodyMedium?.withColor(context.colorScheme.hint),
-                ),
-              );
-            }),
+                    labelText: widget.translateLabel ? widget.labelText?.tr() : widget.labelText,
+                    labelStyle:
+                        widget.labelTextStyle ?? context.textTheme.bodyMedium?.withColor(context.colorScheme.hint),
+                  ),
+                );
+              }),
+        ),
       ],
     );
   }

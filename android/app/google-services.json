@@ -1,21 +1,21 @@
 {
   "project_info": {
-    "project_number": "550749551427",
-    "project_id": "remy-e3f2d",
-    "storage_bucket": "remy-e3f2d.appspot.com"
+    "project_number": "311035083950",
+    "project_id": "moll-c41f5",
+    "storage_bucket": "moll-c41f5.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:550749551427:android:95917b6d2853603b9f4df6",
+        "mobilesdk_app_id": "1:311035083950:android:b6fd3772092a6740eac13f",
         "android_client_info": {
-          "package_name": "com.example.remy"
+          "package_name": "com.ulutech.remi_store"
         }
       },
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDCHkVYFjdILBP_7djxNs6NqoOay22Bd0w"
+          "current_key": "AIzaSyCsRh9jq4iQs_H2cuK3gicQHoGpVIi_tuA"
         }
       ],
       "services": {

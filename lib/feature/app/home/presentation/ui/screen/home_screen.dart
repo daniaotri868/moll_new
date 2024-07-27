@@ -23,6 +23,7 @@ import 'package:remy/generated/assets.dart';
 
 import '../../../../../../common/constants/route.dart';
 import '../../../../../../common/models/page_state/result_builder.dart';
+import '../../../../../../services/notification_service/push_notification_handler.dart';
 import '../../../../auth/presentation/ui/screen/login_screen.dart';
 import '../../../../presentation/pages/empty_screen.dart';
 import '../../../../presentation/pages/error_screen.dart';
@@ -30,10 +31,14 @@ import '../../../../presentation/pages/loading_screen.dart';
 import '../../../../presentation/widgets/app_text.dart';
 import '../../../domain/use_case/moll_use_case.dart';
 import '../../bloc/auth_bloc.dart';
+import 'details_mall.dart';
 import 'details_product.dart';
+import 'moll_home.dart';
+import 'my_point.dart';
 final GlobalKey<ScaffoldState> drawerKey = GlobalKey();
 
 class HomeScreen extends StatefulWidget {
+
   const HomeScreen({super.key});
 
   @override
@@ -47,6 +52,10 @@ class _HomeScreenState extends State<HomeScreen> {
     // TODO: implement initState
     super.initState();
     context.read<HomeBloc>().add(GetHomeEvent(detailsParams: MollParams(UserId: LoginScreen.userId, name: '')));
+    PushNotificationsHandler().onMessage(
+        onSuccess: (orderId) {
+
+        }, );
   }
   @override
   Widget build(BuildContext context) {
@@ -55,6 +64,7 @@ class _HomeScreenState extends State<HomeScreen> {
         return Scaffold(
           key:drawerKey ,
           drawer: Drawer(
+            width: 250,
             child: Column(
               children: [
                 60.verticalSpace,
@@ -63,10 +73,14 @@ class _HomeScreenState extends State<HomeScreen> {
                   context.pushNamed(ProfileScreen.name);
 
                 }, child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Icon(Icons.person),
+                    Padding(
+                      padding: EdgeInsets.only(bottom: 5),
+                      child: Icon(Icons.person),
+                    ),
+                    15.horizontalSpace,
                     Text("الملف الشخصي"),
                   ],
                 )),
@@ -74,14 +88,30 @@ class _HomeScreenState extends State<HomeScreen> {
                 Divider(),
                 20.verticalSpace,
                 TextButton(onPressed: () {
-                  context.pushNamed(OrderPage.name);
+                  context.pushNamed(MyPointPage.name);
 
                 }, child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Icon(Icons.shopping_cart),
-                    Text("طلباتي "),
+                    15.horizontalSpace,
+
+                    Text("نقاطي "),
+                  ],
+                )),
+                Divider(),
+                20.verticalSpace,
+                TextButton(onPressed: () {
+                  context.pushNamed(OrderPage.name);
+
+                }, child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(Icons.search),
+                    15.horizontalSpace,
+                    Text("حول التطبيق "),
                   ],
                 )),
                 Divider(),
@@ -94,25 +124,25 @@ class _HomeScreenState extends State<HomeScreen> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    20.verticalSpace,
+                    10.verticalSpace,
                      HomeAppBar(data: data,onTap: () {
                        drawerKey.currentState!.openDrawer();
                      },),
                     SizedBox(
                       height: 20.h,
                     ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.r),
-                      child: AppTextField(
-                        name: "search",
-                        readOnly: true,
-                        hintText: "ابحث عن كل ما يجول في بالك",
-                        onTap: () {},
-                        filled: true,
-                        fillColor: context.colorScheme.white,
-                        borderRadius: BorderRadius.circular(10.r),
-                      ),
-                    ),
+                    // Padding(
+                    //   padding: EdgeInsets.symmetric(horizontal: 16.r),
+                    //   child: AppTextField(
+                    //     name: "search",
+                    //     readOnly: true,
+                    //     hintText: "ابحث عن كل ما يجول في بالك",
+                    //     onTap: () {},
+                    //     filled: true,
+                    //     fillColor: context.colorScheme.white,
+                    //     borderRadius: BorderRadius.circular(10.r),
+                    //   ),
+                    // ),
                     SizedBox(
                       height: 30.h,
                     ),
@@ -123,75 +153,92 @@ class _HomeScreenState extends State<HomeScreen> {
                      HomeMostSelling(data: data,),
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 16.r),
-                      child: TitleWithSeeMore(title: "المولات الأقرب إليك", onSeeMore: () {},data: data,),
+                      child: TitleWithSeeMore(title: "المولات الأقرب إليك", onSeeMore: () {
+                        context.pushNamed(MollHomeScreen.name,extra: data.malls);
+                      },data: data,),
                     ),
-                    SizedBox(
-                      height: 200,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: (context, index) => InkWell(
-                          onTap:  () {
-                            context.pushNamed(DetailsProduct.name,extra: data.products?[index].id??"");
+                    Padding(
+                      padding: const EdgeInsets.all(12),
+                      child: SizedBox(
+                        height: 200,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemBuilder: (context, index) => InkWell(
+                            onTap:  () {
+                              context.pushNamed(DetailsMall.name,extra: data.malls?[index].id??"");
 
-                          },
-                          child: Container(
-                            padding: EdgeInsets.only(left: 12.r),
-                            width: 250.w,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(18.r),
+                            },
+                            child: Container(
+                              padding: EdgeInsets.only(left: 12.r),
+                              width: 250.w,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(18.r),
+                                  
+                                ),
                               ),
-                            ),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                SizedBox(
-                                  height: 150,
-                                  child: ClipRRect(
-                                    borderRadius: BorderRadius.all(
-                                      Radius.circular(18.r),
-                                    ),
-                                    child: FancyShimmerImage(
-                                      // imageUrl: faker.image.image(random: true),
-                                      imageUrl: "${EndPoints.address}/${data.products?[index].imageUrl}",
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    height: 150,
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(18.r),
+                                      ),
+                                      child: Container(
+                                        decoration: BoxDecoration(
+                                          boxShadow: [
+                                            BoxShadow(color: Colors.black.withOpacity(0.4), offset: Offset(-1, -2), blurRadius: 3),
+                                            // BoxShadow(color: Colors.black, offset: Offset(0, 1), blurRadius: 3),
+                                          ],
+                                        ),
+                                        child: FancyShimmerImage(
+                                          // imageUrl: faker.image.image(random: true),
+                                          imageUrl: "${EndPoints.address}/${data.products?[index].imageUrl}",
+                                        ),
+                                      ),
                                     ),
                                   ),
-                                ),
-                                8.verticalSpace,
-                                // Text(
-                                //   item?.name??"",
-                                //   style: context.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w700),
-                                // ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      data.malls?[index]?.name??"",
-                                      style: context.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w700),
+                                  8.verticalSpace,
+                                  // Text(
+                                  //   item?.name??"",
+                                  //   style: context.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w700),
+                                  // ),
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          data.malls?[index]?.name??"",
+                                          style: context.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w700),
+                                        ),
+                                        RatingBar.builder(
+                                          initialRating: double.tryParse("${data.malls?[index]!.evaluation}")??0.0,
+                                          minRating: 1,
+                                          direction: Axis.horizontal,
+                                          allowHalfRating: false,
+                                          itemCount: 5,
+                                          itemSize: 10.0,
+                                          itemBuilder: (context, _) => const Icon(
+                                            Icons.star,
+                                            color: Colors.amber,
+                                          ),
+                                          ignoreGestures: true,
+                                          onRatingUpdate: (rating) {
+                                            print(rating);
+                                          },
+                                        )
+                                      ],
                                     ),
-                                    RatingBar.builder(
-                                      initialRating: double.tryParse("${data.malls?[index]!.evaluation}")??0.0,
-                                      minRating: 1,
-                                      direction: Axis.horizontal,
-                                      allowHalfRating: false,
-                                      itemCount: 5,
-                                      itemSize: 10.0,
-                                      itemBuilder: (context, _) => const Icon(
-                                        Icons.star,
-                                        color: Colors.amber,
-                                      ),
-                                      ignoreGestures: true,
-                                      onRatingUpdate: (rating) {
-                                        print(rating);
-                                      },
-                                    )
-                                  ],
-                                ),
-                              ],
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
+                          itemCount: data.malls?.length??0,
                         ),
-                        itemCount: data.malls?.length??0,
                       ),
                     )
                   ],

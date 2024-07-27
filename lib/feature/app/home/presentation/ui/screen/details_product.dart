@@ -11,6 +11,7 @@ import 'package:remy/feature/app/home/presentation/bloc/auth_bloc.dart';
 import 'package:remy/feature/app/presentation/widgets/app_text.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
+import '../../../../../../common/constants/route.dart';
 import '../../../../../../common/models/page_state/result_builder.dart';
 import '../../../../auth/presentation/ui/screen/login_screen.dart';
 import '../../../../presentation/pages/empty_screen.dart';
@@ -47,59 +48,64 @@ class _DetailsProductState extends State<DetailsProduct> {
           success: (data) =>Scaffold(
             body:  Column(
               children: [
-                CarouselSlider.builder(
-                  carouselController: _controller,
-                  itemCount: data.subImageUrls?.length ?? 1,
-                  options: CarouselOptions(
-                    aspectRatio: 3 / 2,
-                    padEnds: false,
-                    viewportFraction: 1,
-                    enableInfiniteScroll: false,
-                    onPageChanged: (index, reason) => setState(
-                          () {
-                        // print(widget.images.length);
-                        activeIndex = index;
-                      },
-                    ),
-                  ),
-                  itemBuilder: (BuildContext context, int index, int realIndex) =>
-                      Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.only(
-                                  bottomRight: Radius.circular(16.r),
-                                  bottomLeft: Radius.circular(16.r))),
-                          child: ClipRRect(
-                              borderRadius: BorderRadius.only(
-                                  bottomRight: Radius.circular(16.r),
-                                  bottomLeft: Radius.circular(16.r)),
-                              child: AspectRatio(
-                                aspectRatio: 1.h / 1.h,
-                                child: FancyShimmerImage(
-                                  errorWidget: const Center(
-                                    child: Icon(
-                                      Icons.image_not_supported,
-                                      size: 30,
+                Stack(
+                  children: [
+                    CarouselSlider.builder(
+                      carouselController: _controller,
+                      itemCount: data.subImageUrls?.length ?? 1,
+                      options: CarouselOptions(
+                        aspectRatio: 3 / 2,
+                        padEnds: false,
+                        viewportFraction: 1,
+                        enableInfiniteScroll: false,
+                        onPageChanged: (index, reason) => setState(
+                              () {
+                            // print(widget.images.length);
+                            activeIndex = index;
+                          },
+                        ),
+                      ),
+                      itemBuilder: (BuildContext context, int index, int realIndex) =>
+                          Container(
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                      bottomRight: Radius.circular(16.r),
+                                      bottomLeft: Radius.circular(16.r))),
+                              child: ClipRRect(
+                                  borderRadius: BorderRadius.only(
+                                      bottomRight: Radius.circular(16.r),
+                                      bottomLeft: Radius.circular(16.r)),
+                                  child: FancyShimmerImage(
+                                    errorWidget: const Center(
+                                      child: Icon(
+                                        Icons.image_not_supported,
+                                        size: 30,
+                                      ),
                                     ),
-                                  ),
-                                  imageUrl: data.subImageUrls?[index] ?? "",
-                                  boxFit: BoxFit.cover,
-                                  width: double.infinity,
-                                ),
-                              ))),
-                ),
-                Container(
-                  margin: REdgeInsets.only(bottom: 17.h),
-                  child: AnimatedSmoothIndicator(
-                    activeIndex: activeIndex,
-                    count: data.subImageUrls?.length ?? 0,
-                    effect: ExpandingDotsEffect(
-                      dotColor: Colors.grey,
-                      activeDotColor: context.colorScheme.primary,
-                      dotHeight: 10.h,
-                      dotWidth: 10.w,
+                                    imageUrl: "${EndPoints.address}/${data.subImageUrls?[index] ?? ""}",
+                                    boxFit: BoxFit.cover,
+                                    width: double.infinity,
+                                  ))),
                     ),
-                  ),
+                    Padding(
+                      padding: REdgeInsets.only(top: 270,right: 190),
+                      child: Container(
+                        margin: REdgeInsets.only(bottom: 17.h),
+                        child: AnimatedSmoothIndicator(
+                          activeIndex: activeIndex,
+                          count: data.subImageUrls?.length ?? 0,
+                          effect: ExpandingDotsEffect(
+                            dotColor: Colors.grey,
+                            activeDotColor: context.colorScheme.primary,
+                            dotHeight: 10.h,
+                            dotWidth: 10.w,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
+
                 Expanded(
                   child: Container(
                     width: double.infinity,
@@ -116,14 +122,15 @@ class _DetailsProductState extends State<DetailsProduct> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         30.verticalSpace,
-                        AppText(data.name??"", style: context.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w700),),
+                        AppText(
+                          data.name??"", style: context.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w700),),
                         30.verticalSpace,
                         AppText(data.mallName.toString()??"", style: context.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w700),),
                         20.verticalSpace,
                         Row(
                           children: [
                             RatingBar.builder(
-                              initialRating: double.tryParse("${data.evaluation}")??0.0,
+                              initialRating: double.tryParse("${data.evaluation??0}")??0.0,
                               minRating: 1,
                               direction: Axis.horizontal,
                               allowHalfRating: false,
@@ -209,7 +216,9 @@ class _DetailsProductState extends State<DetailsProduct> {
                             price: data.price,
                             name: data.name,
                             offer: data.offer!.priceAfterDiscount,
-                            max: data.quantity
+                            max: data.quantity,
+                            mallId: data.mallId,
+                            image: data.imageUrl
                           ));
                         },
                         child: Container(

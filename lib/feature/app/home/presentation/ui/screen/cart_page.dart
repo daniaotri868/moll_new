@@ -1,10 +1,12 @@
 import 'package:fancy_shimmer_image/fancy_shimmer_image.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:remy/core/utils/extensions/build_context.dart';
+import 'package:remy/feature/app/presentation/widgets/app_elvated_button.dart';
 import 'package:remy/feature/app/presentation/widgets/app_text.dart';
 
 import '../../../data/model/home_model.dart';
@@ -13,7 +15,7 @@ import '../widget/item_cart.dart';
 import 'order_screen.dart';
 
 class CartPage extends StatefulWidget {
-  const CartPage({super.key});
+   CartPage({super.key});
 
   @override
   State<CartPage> createState() => _CartPageState();
@@ -25,6 +27,42 @@ class _CartPageState extends State<CartPage> {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
         return Scaffold(
+          appBar:  AppBar(
+            toolbarHeight: 90,
+            title: AppText("سلّة التّسوق ",
+              style: context.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold,color: context.colorScheme.primary),
+            ),
+            centerTitle: true,
+            automaticallyImplyLeading: false,
+            leading:  Padding(
+              padding: const EdgeInsets.only(top: 15,bottom: 25,right: 8),
+              child: InkWell(
+                onTap: () {
+                  context.pop();
+                },
+                child: SizedBox(
+                  height: 30,
+                  child: Container(
+                    height: 20,
+                    decoration:  BoxDecoration(
+                        boxShadow: [
+                          BoxShadow(color: Color(0x0F101828), offset: Offset(0, 1), blurRadius: 2),
+                          // BoxShadow(color: Color(0x1A101828), offset: Offset(0, 1), blurRadius: 3),
+                        ],
+                        borderRadius: BorderRadius.circular(10),
+                        color: Colors.white
+                    ),
+                    child: Center(
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 5),
+                        child: Icon(Icons.arrow_back_ios,color: context.colorScheme.primary,),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
           body: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Column(
@@ -37,9 +75,23 @@ class _CartPageState extends State<CartPage> {
                     itemCount: state.listCart?.length??0,
                   ),
                 ),
-                ElevatedButton(onPressed: () {
-  context.pushNamed(OrderScreen.name);
-                }, child: AppText("متابعة")),
+                AppElevatedButton(
+                  style:  ElevatedButton.styleFrom(
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+                  ),
+                    onPressed: () {
+                        (state.listCart??[]).isEmpty?
+                        Fluttertoast.showToast(
+                            msg: "اضف منتج للسلة",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor:  Colors.black,
+                            textColor: Colors.white,
+                            fontSize: 16.0)
+                        :context.pushNamed(OrderScreen.name);
+                }, child: AppText("متابعة",style: context.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold,color: Colors.white),
+                )),
                 50.verticalSpace,
               ],
             ),

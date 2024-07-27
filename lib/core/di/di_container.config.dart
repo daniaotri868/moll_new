@@ -34,28 +34,30 @@ import '../../feature/app/home/data/data_source/home_remot_data_source.dart'
 import '../../feature/app/home/data/repo_imp/auth_repository_imp.dart' as _i20;
 import '../../feature/app/home/domain/repo/home_repository.dart' as _i19;
 import '../../feature/app/home/domain/use_case/change_fav_usecase.dart' as _i22;
-import '../../feature/app/home/domain/use_case/confirm_uscase.dart' as _i34;
+import '../../feature/app/home/domain/use_case/confirm_uscase.dart' as _i23;
 import '../../feature/app/home/domain/use_case/department_details_use_case.dart'
-    as _i23;
-import '../../feature/app/home/domain/use_case/department_usecase.dart' as _i24;
+    as _i24;
+import '../../feature/app/home/domain/use_case/department_usecase.dart' as _i25;
 import '../../feature/app/home/domain/use_case/get_all_fav_usecase.dart'
-    as _i25;
-import '../../feature/app/home/domain/use_case/get_department_product.dart'
     as _i26;
-import '../../feature/app/home/domain/use_case/get_home_usecase.dart' as _i27;
-import '../../feature/app/home/domain/use_case/get_order_usecase.dart' as _i28;
+import '../../feature/app/home/domain/use_case/get_department_product.dart'
+    as _i27;
+import '../../feature/app/home/domain/use_case/get_home_usecase.dart' as _i28;
+import '../../feature/app/home/domain/use_case/get_order_usecase.dart' as _i29;
+import '../../feature/app/home/domain/use_case/get_point_usecase.dart' as _i30;
 import '../../feature/app/home/domain/use_case/get_product_details_usecase.dart'
-    as _i29;
+    as _i31;
 import '../../feature/app/home/domain/use_case/moll_details_use_case.dart'
-    as _i30;
-import '../../feature/app/home/domain/use_case/moll_use_case.dart' as _i31;
-import '../../feature/app/home/domain/use_case/order_details.dart' as _i32;
-import '../../feature/app/home/domain/use_case/post_order.dart' as _i33;
-import '../../feature/app/home/domain/use_case/rate_usecase.dart' as _i35;
-import '../../feature/app/home/presentation/bloc/auth_bloc.dart' as _i36;
+    as _i32;
+import '../../feature/app/home/domain/use_case/moll_use_case.dart' as _i33;
+import '../../feature/app/home/domain/use_case/order_details.dart' as _i34;
+import '../../feature/app/home/domain/use_case/post_order.dart' as _i35;
+import '../../feature/app/home/domain/use_case/rate_usecase.dart' as _i36;
+import '../../feature/app/home/domain/use_case/update_order.dart' as _i37;
+import '../../feature/app/home/presentation/bloc/auth_bloc.dart' as _i38;
 import '../../feature/app/presentation/bloc/app_manager_cubit.dart' as _i6;
 import '../api/client.dart' as _i9;
-import 'di_container.dart' as _i37;
+import 'di_container.dart' as _i39;
 
 // initializes the registration of main-scope dependencies inside of GetIt
 Future<_i1.GetIt> $initGetIt(
@@ -110,49 +112,55 @@ Future<_i1.GetIt> $initGetIt(
       ));
   gh.factory<_i22.ChangeFavUseCase>(
       () => _i22.ChangeFavUseCase(gh<_i19.HomeRepository>()));
-  gh.factory<_i23.DepartmentDetailsUseCase>(
-      () => _i23.DepartmentDetailsUseCase(gh<_i19.HomeRepository>()));
-  gh.factory<_i24.GetAllDepartmentUseCase>(
-      () => _i24.GetAllDepartmentUseCase(gh<_i19.HomeRepository>()));
-  gh.factory<_i25.GetFavProductUseCase>(
-      () => _i25.GetFavProductUseCase(gh<_i19.HomeRepository>()));
-  gh.factory<_i26.GetDepartmentProductUseCase>(
-      () => _i26.GetDepartmentProductUseCase(gh<_i19.HomeRepository>()));
-  gh.factory<_i27.GetHomeUseCase>(
-      () => _i27.GetHomeUseCase(gh<_i19.HomeRepository>()));
-  gh.factory<_i28.GetOrdersUseCase>(
-      () => _i28.GetOrdersUseCase(gh<_i19.HomeRepository>()));
-  gh.factory<_i29.GetProductDetailsUseCase>(
-      () => _i29.GetProductDetailsUseCase(gh<_i19.HomeRepository>()));
-  gh.factory<_i30.GetMollDetailsUseCase>(
-      () => _i30.GetMollDetailsUseCase(gh<_i19.HomeRepository>()));
-  gh.factory<_i31.GetAllMollUseCase>(
-      () => _i31.GetAllMollUseCase(gh<_i19.HomeRepository>()));
-  gh.factory<_i32.OrderDetailsUseCase>(
-      () => _i32.OrderDetailsUseCase(gh<_i19.HomeRepository>()));
-  gh.factory<_i33.CreateOrdersUseCase>(
-      () => _i33.CreateOrdersUseCase(gh<_i19.HomeRepository>()));
-  gh.factory<_i34.ConfirmOrdersUseCase>(
-      () => _i34.ConfirmOrdersUseCase(gh<_i19.HomeRepository>()));
-  gh.factory<_i35.RateOrdersUseCase>(
-      () => _i35.RateOrdersUseCase(gh<_i19.HomeRepository>()));
-  gh.factory<_i36.HomeBloc>(() => _i36.HomeBloc(
-        gh<_i30.GetMollDetailsUseCase>(),
-        gh<_i35.RateOrdersUseCase>(),
-        gh<_i34.ConfirmOrdersUseCase>(),
-        gh<_i32.OrderDetailsUseCase>(),
-        gh<_i33.CreateOrdersUseCase>(),
-        gh<_i28.GetOrdersUseCase>(),
-        gh<_i31.GetAllMollUseCase>(),
-        gh<_i24.GetAllDepartmentUseCase>(),
-        gh<_i23.DepartmentDetailsUseCase>(),
-        gh<_i29.GetProductDetailsUseCase>(),
-        gh<_i26.GetDepartmentProductUseCase>(),
-        gh<_i27.GetHomeUseCase>(),
-        gh<_i25.GetFavProductUseCase>(),
+  gh.factory<_i23.ConfirmOrdersUseCase>(
+      () => _i23.ConfirmOrdersUseCase(gh<_i19.HomeRepository>()));
+  gh.factory<_i24.DepartmentDetailsUseCase>(
+      () => _i24.DepartmentDetailsUseCase(gh<_i19.HomeRepository>()));
+  gh.factory<_i25.GetAllDepartmentUseCase>(
+      () => _i25.GetAllDepartmentUseCase(gh<_i19.HomeRepository>()));
+  gh.factory<_i26.GetFavProductUseCase>(
+      () => _i26.GetFavProductUseCase(gh<_i19.HomeRepository>()));
+  gh.factory<_i27.GetDepartmentProductUseCase>(
+      () => _i27.GetDepartmentProductUseCase(gh<_i19.HomeRepository>()));
+  gh.factory<_i28.GetHomeUseCase>(
+      () => _i28.GetHomeUseCase(gh<_i19.HomeRepository>()));
+  gh.factory<_i29.GetOrdersUseCase>(
+      () => _i29.GetOrdersUseCase(gh<_i19.HomeRepository>()));
+  gh.factory<_i30.MyPointsUseCase>(
+      () => _i30.MyPointsUseCase(gh<_i19.HomeRepository>()));
+  gh.factory<_i31.GetProductDetailsUseCase>(
+      () => _i31.GetProductDetailsUseCase(gh<_i19.HomeRepository>()));
+  gh.factory<_i32.GetMollDetailsUseCase>(
+      () => _i32.GetMollDetailsUseCase(gh<_i19.HomeRepository>()));
+  gh.factory<_i33.GetAllMollUseCase>(
+      () => _i33.GetAllMollUseCase(gh<_i19.HomeRepository>()));
+  gh.factory<_i34.OrderDetailsUseCase>(
+      () => _i34.OrderDetailsUseCase(gh<_i19.HomeRepository>()));
+  gh.factory<_i35.CreateOrdersUseCase>(
+      () => _i35.CreateOrdersUseCase(gh<_i19.HomeRepository>()));
+  gh.factory<_i36.RateOrdersUseCase>(
+      () => _i36.RateOrdersUseCase(gh<_i19.HomeRepository>()));
+  gh.factory<_i37.UpdateOrdersUseCase>(
+      () => _i37.UpdateOrdersUseCase(gh<_i19.HomeRepository>()));
+  gh.factory<_i38.HomeBloc>(() => _i38.HomeBloc(
+        gh<_i32.GetMollDetailsUseCase>(),
+        gh<_i36.RateOrdersUseCase>(),
+        gh<_i23.ConfirmOrdersUseCase>(),
+        gh<_i34.OrderDetailsUseCase>(),
+        gh<_i35.CreateOrdersUseCase>(),
+        gh<_i29.GetOrdersUseCase>(),
+        gh<_i33.GetAllMollUseCase>(),
+        gh<_i25.GetAllDepartmentUseCase>(),
+        gh<_i24.DepartmentDetailsUseCase>(),
+        gh<_i31.GetProductDetailsUseCase>(),
+        gh<_i27.GetDepartmentProductUseCase>(),
+        gh<_i28.GetHomeUseCase>(),
+        gh<_i26.GetFavProductUseCase>(),
         gh<_i22.ChangeFavUseCase>(),
+        gh<_i37.UpdateOrdersUseCase>(),
+        gh<_i30.MyPointsUseCase>(),
       ));
   return getIt;
 }
 
-class _$AppModule extends _i37.AppModule {}
+class _$AppModule extends _i39.AppModule {}

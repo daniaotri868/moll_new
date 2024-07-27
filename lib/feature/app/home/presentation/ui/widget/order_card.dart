@@ -39,7 +39,13 @@ class _OrderCardState extends State<OrderCard> {
         height: 156.h,
         width: double.infinity.w,
         decoration: BoxDecoration(
-            border: Border.all(color: context.colorScheme.outline)),
+          color: Colors.white,
+            boxShadow: [
+              BoxShadow(color: Color(0x0F101828), offset: Offset(0, 1), blurRadius: 2),
+              // BoxShadow(color: Color(0x1A101828), offset: Offset(0, 1), blurRadius: 3),
+            ],
+            border: Border.all(color: context.colorScheme.outline.withOpacity(0.1)),
+        borderRadius: BorderRadius.circular(10)),
         child: Row(
           children: [
             // AppImage.asset(Assets.images.shopping.path),
@@ -50,11 +56,18 @@ class _OrderCardState extends State<OrderCard> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   5.verticalSpace,
-                  Expanded(
-                    child: AppText(
-                      widget.item.status??"",
-                      overflow: TextOverflow.ellipsis,
-                    ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      AppText(
+                        widget.item.status??"",
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                      AppText(
+                        widget.item.dateCreated.toString()??"",
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
                   ),
                   // 2.verticalSpace,
                   Expanded(

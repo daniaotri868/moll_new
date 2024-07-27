@@ -10,6 +10,7 @@ class HomeState {
   final PageState<GetAllDepartmentModel> getAllDepartment;
   final PageState<GetProductDetailsModel> getProductDetails;
   final PageState<List<AllOrderModel>> getOrders;
+  final PageState<List<MyPointsModel>> getMyPoints;
   final PageState<OrderDetailsModel> orderDetails;
   final PageState<GetAllDepartmentProductModel> getDepartmentProduct;
   final PageState<GetAllDepartmentProductModel> getAllFav;
@@ -17,6 +18,7 @@ class HomeState {
   final BlocStatus confirm;
   final BlocStatus rate;
   final PageState<OrderDetailsModel> createOrder;
+  final PageState<OrderDetailsModel> updateOrder;
    List<ProductCart> ?listCart;
    HomeState(
       {
@@ -34,6 +36,8 @@ class HomeState {
         this.getDepartmentProduct=const PageState.init(),
         this.createOrder=const PageState.init(),
         this.getOrders=const PageState.init(),
+        this.getMyPoints=const PageState.init(),
+        this.updateOrder=const PageState.init(),
         this.listCart=const [],
       });
 
@@ -45,8 +49,10 @@ class HomeState {
     final PageState<GetAllDepartmentModel> ?getAllDepartment,
     final PageState<GetProductDetailsModel> ?getProductDetails,
     final PageState<List<AllOrderModel>> ?getOrders,
+    final PageState<List<MyPointsModel>> ?getMyPoints,
     final PageState<OrderDetailsModel> ?orderDetails,
     final PageState<OrderDetailsModel> ?createOrder,
+    final PageState<OrderDetailsModel> ?updateOrder,
     final PageState<GetAllDepartmentProductModel> ?getDepartmentProduct,
     final PageState<GetAllDepartmentProductModel> ?getAllFav,
     final BlocStatus ?changeFav,
@@ -72,7 +78,9 @@ class HomeState {
       getOrders: getOrders??this.getOrders,
       orderDetails: orderDetails??this.orderDetails,
       confirm: confirm??this.confirm,
-      rate: rate??this.rate
+      rate: rate??this.rate,
+      updateOrder: updateOrder??this.updateOrder,
+      getMyPoints: getMyPoints??this.getMyPoints
 
     );
   }

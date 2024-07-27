@@ -50,6 +50,8 @@ class SaveProductsToPosEvent extends HomeEvent {
   final int? offer;
   final int ?price;
   final int ?max;
+  final String ?image;
+  final String ?mallId;
 
    SaveProductsToPosEvent({
   this.id,
@@ -58,6 +60,8 @@ class SaveProductsToPosEvent extends HomeEvent {
   this.offer,
   this.price,
   this.max,
+  this.image,
+  this.mallId,
   });
 }
 class updateProductToOrderInPosEvent extends HomeEvent {
@@ -95,6 +99,14 @@ class CreateOrderEvent extends HomeEvent {
 
   CreateOrderEvent({required this.createOrderParams,required this.data});
 }
+class UpdateOrderEvent extends HomeEvent {
+  final UpdateOrderParams createOrderParams;
+  final Function(OrderDetailsModel ) data;
+
+  UpdateOrderEvent({required this.createOrderParams,required this.data});
+}
+
+
 class ConfirmOrderEvent extends HomeEvent {
   final ConfirmOrderParams confirmOrderParams;
   final VoidCallback onSuccess;
@@ -114,6 +126,12 @@ class GetOrderEvent extends HomeEvent {
   final GetOrderParams getOrderParams;
 
   GetOrderEvent({required this.getOrderParams,});
+}
+
+class MyPointEvent extends HomeEvent {
+  final MyPointParams getOrderParams;
+
+  MyPointEvent({required this.getOrderParams,});
 }
 
 class GetOrderDetailsEvent extends HomeEvent {

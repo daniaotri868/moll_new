@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:go_router/go_router.dart';
 import 'package:remy/common/constants/app_string.dart';
 import 'package:remy/core/config/routing/router.dart';
@@ -58,9 +59,7 @@ class LoginScreen extends StatelessWidget {
                         controller:email ,
                         title: AppString.email,
                        textInputType:TextInputType.emailAddress,
-                        validator: (text) => text != null && text.length>2
-                            ? null
-                            : "ادخل الايميل",
+                        validator:FormBuilderValidators.email(),
                         prefixIcon: Icon(
                           Icons.email,
                           color: context.colorScheme.primary,
@@ -71,9 +70,7 @@ class LoginScreen extends StatelessWidget {
                         name: "password",
                         title: AppString.password,
                         obscure: true,
-                        validator: (text) => text != null && text.length>4
-                            ? null
-                            : "ادخل كلمة السر",
+                        validator: FormBuilderValidators.password(),
                         controller: password,
                         isPasswordFiled: true,
                         prefixIcon: Icon(

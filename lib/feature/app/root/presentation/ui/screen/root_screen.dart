@@ -7,9 +7,11 @@ import 'package:remy/feature/app/root/presentation/ui/widget/root_navbar.dart';
 import '../../../../home/presentation/ui/screen/cart_page.dart';
 import '../../../../home/presentation/ui/screen/moll_screen.dart';
 import '../../../../home/presentation/ui/screen/setting.dart';
+import '../../../../home/presentation/ui/screen/show_order_screen.dart';
 
 class RootScreen extends StatelessWidget {
-  const RootScreen({super.key});
+  bool ?edite;
+   RootScreen({super.key,this.edite=false});
 
   @override
   Widget build(BuildContext context) {
@@ -18,13 +20,11 @@ class RootScreen extends StatelessWidget {
         builder: (context, navProvider, child) => PageView(
           controller: navProvider.pageController,
           physics: const NeverScrollableScrollPhysics(),
-          children: const [
+          children:  [
             CartPage(),
             MollScreen(),
             HomeScreen(),
-            Center(
-              child: Text("4"),
-            ),
+            OrderPage(),
             Setting()
           ],
         ),

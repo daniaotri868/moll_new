@@ -27,12 +27,16 @@ class CreateOrderParams {
   final String userId;
   final String address;
   final String ?areaId;
+  final double ?lat;
+  final double ?lng;
   final List<Map> ?products;
 
     CreateOrderParams({
     required this.userId,
     required this.address,
     this.areaId,
+    this.lng,
+    this.lat,
     this.products,
   });
 
@@ -41,7 +45,9 @@ class CreateOrderParams {
       'address': address,
       'userId':userId,
       'areaId':areaId,
-      'products':products
+      'products':products,
+      'lat':lat,
+      'lng':lng,
     };
   }
 }

@@ -38,6 +38,7 @@ class _ItemCartState extends State<ItemCart> {
           // BoxShadow(color: Color(0x1A101828), offset: Offset(0, 1), blurRadius: 3),
         ],
         borderRadius: BorderRadius.circular(15),
+        color: Colors.white,
         border: Border.all(
           color: Colors.white38,
         ),
@@ -53,7 +54,7 @@ class _ItemCartState extends State<ItemCart> {
                 ),
                 child: FancyShimmerImage(
                   // imageUrl: faker.image.image(random: true),
-                  imageUrl:  "https://a3e1-94-47-95-90.ngrok-free.app/Seed/0d744eec-e89b-4639-82c1-69178e5e82ae_EZ.jpg",
+                  imageUrl:  "${EndPoints.address}/${widget.data?.image??""}",
                 ),
               ),
             ),
@@ -65,13 +66,21 @@ class _ItemCartState extends State<ItemCart> {
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     10.verticalSpace,
-                    AppText(widget.data.name??"",overflow: TextOverflow.ellipsis,),
+                    AppText(widget.data.name??"",overflow: TextOverflow.ellipsis, style: context.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w700),
+                    ),
                     10.verticalSpace,
-                    AppText("${widget.data.price}ل.س"),
+                    Row(
+                      children: [
+                        AppText("  ${widget.data.price}",                                          style: context.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w700),
+                        ),
+                        AppText("ل.س",                                          style: context.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w700),
+                        ),
+                      ],
+                    ),
                     5.verticalSpace,
                   ],
                 ),
@@ -82,40 +91,41 @@ class _ItemCartState extends State<ItemCart> {
                     InkWell(
                       onTap:(){
                         setState(() {
-                          if(q!=widget.data.max)q++;
-                          context.read<HomeBloc>().add(updateProductToOrderInPosEvent(
-                              count: 1,
-                              index: widget.index
-                          ));
+                          print(widget.data.max);
+                          if(q!=widget.data.max){
+                            q++;
+                            context.read<HomeBloc>().add(updateProductToOrderInPosEvent(
+                                count: 1,
+                                index: widget.index
+                            ));
+                          }
+
                         });
                       },
                       child: CircleAvatar(
                         radius: 10,
-                        child: Icon(Icons.add,color: context.colorScheme.primary,size: 15,),
-                        backgroundColor: context.colorScheme.onPrimary,
+                        child: Icon(Icons.add,color: context.colorScheme.onPrimary,size: 15,),
+                        backgroundColor: context.colorScheme.primary,
                       ),
                     ),
                     5.horizontalSpace,
-                    AppText(q.toString()),
+                    AppText(q.toString(),style: context.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w700),
+                    ),
                     5.horizontalSpace,
                     InkWell(
                       onTap: () {
                         setState(() {
-                          if(q!=1)q--;
-                          context.read<HomeBloc>().add(updateProductToOrderInPosEvent(
-                              count: -1,
-                              index: widget.index
-                          ));
+                          if(q!=1){
+                            q--;
+                            context.read<HomeBloc>().add(updateProductToOrderInPosEvent(
+                                count: -1,
+                                index: widget.index
+                            ));
+                          }
+
                         });
                       },
-                      child: CircleAvatar(
-                        radius: 10,
-                        child: Padding(
-                          padding: REdgeInsetsDirectional.only(bottom: 20),
-                          child: Icon(Icons.minimize_rounded,color: context.colorScheme.primary,size: 15,),
-                        ),
-                        backgroundColor: context.colorScheme.onPrimary,
-                      ),
+                      child:Icon(Icons.remove_circle_outline,color: context.colorScheme.primary,size: 23,),
                     ),
                   ],
                 )

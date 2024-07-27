@@ -15,6 +15,7 @@ import '../model/home_model.dart';
 import '../model/moll_details.dart';
 import '../model/moll_model.dart';
 import '../model/order_details_model.dart';
+import '../model/point_model.dart';
 import '../model/product_details_model.dart';
 
 @injectable
@@ -84,6 +85,25 @@ Future<ResponseWrapper<OrderDetailsModel>> createOrder(Map<String, dynamic> para
       );
     });
   }
+
+
+  Future<ResponseWrapper<OrderDetailsModel>> updateOrder(Map<String, dynamic> params) async {
+    return throwAppException(() async {
+      final response = await clientApi.request(RequestConfig(
+        endpoint: 'Order/Modify',
+        data: params,
+        clientMethod: ClientMethod.post,
+      ));
+      return ResponseWrapper.fromJson(
+        {},
+        (json) {
+          return  OrderDetailsModel.fromJson(response.data);
+        },
+      );
+    });
+  }
+
+
 Future<ResponseWrapper<bool>> confirmOrder(Map<String, dynamic> params) async {
     return throwAppException(() async {
       final response = await clientApi.request(RequestConfig(
@@ -134,6 +154,28 @@ Future<ResponseWrapper<bool>> rateOrder(Map<String, dynamic> params) async {
       );
     });
   }
+
+
+  Future<ResponseWrapper<List<MyPointsModel>>> getMyPoints(Map<String, dynamic> params) async {
+    return throwAppException(() async {
+      final response = await clientApi.request(RequestConfig(
+        endpoint: 'Mall/GetMyPoints',
+        queryParameters: params,
+        clientMethod: ClientMethod.get,
+      ));
+      return ResponseWrapper.fromJson(
+        {},
+        (json) {
+          final list = List<dynamic>.of(response.data)
+              .map<MyPointsModel>((e) => MyPointsModel.fromJson(e))
+              .toList();
+          return list;
+        },
+      );
+    });
+  }
+
+
   Future<ResponseWrapper<OrderDetailsModel>> orderDetails(Map<String, dynamic> params) async {
     return throwAppException(() async {
       final response = await clientApi.request(RequestConfig(

@@ -10,6 +10,7 @@ import '../../data/model/home_model.dart';
 import '../../data/model/moll_details.dart';
 import '../../data/model/moll_model.dart';
 import '../../data/model/order_details_model.dart';
+import '../../data/model/point_model.dart';
 import '../../data/model/product_details_model.dart';
 
 
@@ -20,9 +21,11 @@ abstract class HomeRepository {
   Future<Result<ResponseWrapper<HomeModel>>> getHome(Map<String, dynamic> params);
   Future<Result<ResponseWrapper<GetProductDetailsModel>>> getProductDetails(Map<String, dynamic> params);
   Future<Result<ResponseWrapper<OrderDetailsModel>>> createOrder(Map<String, dynamic> params);
+  Future<Result<ResponseWrapper<OrderDetailsModel>>> updateOrder(Map<String, dynamic> params);
   Future<Result<ResponseWrapper<bool>>> confirmOrder(Map<String, dynamic> params);
   Future<Result<ResponseWrapper<bool>>> rateOrder(Map<String, dynamic> params);
   Future<Result<ResponseWrapper<List<AllOrderModel>>>> getOrders(Map<String, dynamic> params);
+  Future<Result<ResponseWrapper<List<MyPointsModel>>>> getMyPoints(Map<String, dynamic> params);
   Future<Result<ResponseWrapper<OrderDetailsModel>>> orderDetails(Map<String, dynamic> params);
   Future<Result<ResponseWrapper<GetAllDepartmentProductModel>>> getAllDepartmentProduct(Map<String, dynamic> params);
   Future<Result<ResponseWrapper<GetAllDepartmentProductModel>>> getAllFavProduct(Map<String, dynamic> params);
