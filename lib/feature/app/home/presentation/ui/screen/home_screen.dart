@@ -11,6 +11,7 @@ import 'package:remy/core/config/theme/my_color_scheme.dart';
 import 'package:remy/core/utils/extensions/build_context.dart';
 import 'package:remy/feature/app/home/data/model/home_ads_model.dart';
 import 'package:remy/feature/app/home/presentation/ui/screen/profile_page.dart';
+import 'package:remy/feature/app/home/presentation/ui/screen/search_home.dart';
 import 'package:remy/feature/app/home/presentation/ui/screen/show_order_screen.dart';
 import 'package:remy/feature/app/home/presentation/ui/widget/home_ads.dart';
 import 'package:remy/feature/app/home/presentation/ui/widget/home_app_bar.dart';
@@ -31,8 +32,10 @@ import '../../../../presentation/pages/loading_screen.dart';
 import '../../../../presentation/widgets/app_text.dart';
 import '../../../domain/use_case/moll_use_case.dart';
 import '../../bloc/auth_bloc.dart';
+import 'about.dart';
 import 'details_mall.dart';
 import 'details_product.dart';
+import 'driver.dart';
 import 'moll_home.dart';
 import 'my_point.dart';
 final GlobalKey<ScaffoldState> drawerKey = GlobalKey();
@@ -103,7 +106,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 Divider(),
                 20.verticalSpace,
                 TextButton(onPressed: () {
-                  context.pushNamed(OrderPage.name);
+                  context.pushNamed(AboutScreen.name);
 
                 }, child: Row(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -131,18 +134,20 @@ class _HomeScreenState extends State<HomeScreen> {
                     SizedBox(
                       height: 20.h,
                     ),
-                    // Padding(
-                    //   padding: EdgeInsets.symmetric(horizontal: 16.r),
-                    //   child: AppTextField(
-                    //     name: "search",
-                    //     readOnly: true,
-                    //     hintText: "ابحث عن كل ما يجول في بالك",
-                    //     onTap: () {},
-                    //     filled: true,
-                    //     fillColor: context.colorScheme.white,
-                    //     borderRadius: BorderRadius.circular(10.r),
-                    //   ),
-                    // ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.r),
+                      child: AppTextField(
+                        name: "search",
+                        readOnly: true,
+                        hintText: "ابحث عن كل ما يجول في بالك",
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => Driver(),));
+                        },
+                        filled: true,
+                        fillColor: context.colorScheme.white,
+                        borderRadius: BorderRadius.circular(10.r),
+                      ),
+                    ),
                     SizedBox(
                       height: 30.h,
                     ),
@@ -195,7 +200,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                         ),
                                         child: FancyShimmerImage(
                                           // imageUrl: faker.image.image(random: true),
-                                          imageUrl: "${EndPoints.address}/${data.products?[index].imageUrl}",
+                                          imageUrl: "${EndPoints.address}/${data.malls?[index].imageUrl}",
                                         ),
                                       ),
                                     ),

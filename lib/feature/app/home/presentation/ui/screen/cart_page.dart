@@ -71,7 +71,11 @@ class _CartPageState extends State<CartPage> {
                 Expanded(
                   child: ListView.separated(
                     itemBuilder: (context, index) =>
-                    ItemCart(data:state.listCart![index], index: index,),
+                    InkWell(
+                        onTap: () {
+                          print(state.listCart![index].Lng);
+                        },
+                        child: ItemCart(data:state.listCart![index], index: index,)),
                     separatorBuilder:(context, index) =>  10.verticalSpace,
                     itemCount: state.listCart?.length??0,
                   ),

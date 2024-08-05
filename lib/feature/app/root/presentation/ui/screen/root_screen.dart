@@ -5,6 +5,7 @@ import 'package:remy/feature/app/root/presentation/state/provider/nav_bar_provid
 import 'package:remy/feature/app/root/presentation/ui/widget/root_navbar.dart';
 
 import '../../../../home/presentation/ui/screen/cart_page.dart';
+import '../../../../home/presentation/ui/screen/fav_page.dart';
 import '../../../../home/presentation/ui/screen/moll_screen.dart';
 import '../../../../home/presentation/ui/screen/setting.dart';
 import '../../../../home/presentation/ui/screen/show_order_screen.dart';
@@ -25,7 +26,7 @@ class RootScreen extends StatelessWidget {
             MollScreen(),
             HomeScreen(),
             OrderPage(),
-            Setting()
+            FavPage()
           ],
         ),
       ),

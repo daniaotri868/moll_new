@@ -28,6 +28,8 @@ import '../../../../presentation/widgets/app_elvated_button.dart';
 import '../../../domain/use_case/department_details_use_case.dart';
 
 class DetailsMall extends StatefulWidget {
+  static ValueNotifier<LatLng?> currentP = ValueNotifier(null);
+  static LatLng mollLocation=LatLng(37.42796133580664, -122.085749655962);
   static String name="DetailsMull";
   final String idMall;
   const DetailsMall({super.key,required this.idMall});
@@ -41,10 +43,9 @@ class _DetailsMallState extends State<DetailsMall> {
   Location _locationController = new Location();
 
   late GoogleMapController googleMapController;
-  ValueNotifier<LatLng?> currentP = ValueNotifier(null);
+
   Map<PolylineId, Polyline> polylines = {};
   List<LatLng> polylineCoordinates = [];
-  LatLng mollLocation=LatLng(37.42796133580664, -122.085749655962);
   PolylinePoints polylinePoints = PolylinePoints();
   BitmapDescriptor sourceIcon = BitmapDescriptor.defaultMarker;
   BitmapDescriptor destinationIcon = BitmapDescriptor.defaultMarker;
@@ -74,7 +75,8 @@ class _DetailsMallState extends State<DetailsMall> {
       builder: (context, state) {
         return PageStateBuilder(
           success: (data) {
-              mollLocation=LatLng(data.lat??0, data.lng??0);
+            print("object");
+            DetailsMall.mollLocation=LatLng(data.lat??0, data.lng??0);
             return Scaffold(
               body:  Column(
                 children: [
@@ -206,13 +208,18 @@ class _DetailsMallState extends State<DetailsMall> {
                           color: Colors.white
                       ),
                       child: GoogleMap(
+                        onTap: (argument) {
+                          print(argument);
+                          print(DetailsMall.currentP.value?.latitude);
+                          print("${polylineCoordinates.length}");
+                        },
                           initialCameraPosition: CameraPosition(
-                            target: LatLng(currentP.value?.latitude??0.0, currentP.value?.longitude??0.0),
-                            zoom: 15,
+                            target: LatLng(DetailsMall.currentP.value?.latitude??0.0, DetailsMall.currentP.value?.longitude??0.0),
+                            zoom: 13,
                           ),
                           myLocationButtonEnabled: false,
                           zoomControlsEnabled: false,
-                          mapType: MapType.normal,
+                          // mapType: MapType.normal,
                           markers: {
                             Marker(
                                 markerId: const MarkerId('storeLocation'),
@@ -225,7 +232,7 @@ class _DetailsMallState extends State<DetailsMall> {
                                 infoWindow: const InfoWindow(
                                     title: 'User', snippet: "User location"),
                                 icon: destinationIcon,
-                                position: LatLng(currentP.value?.latitude??0.0, currentP.value?.longitude??0.0)),
+                                position: LatLng(DetailsMall.currentP.value?.latitude??0.0, DetailsMall.currentP.value?.longitude??0.0)),
 
                           },
                           polylines: Set<Polyline>.of(polylines.values)
@@ -259,20 +266,30 @@ class _DetailsMallState extends State<DetailsMall> {
     Polyline polyline = Polyline(
         polylineId: id, color: Colors.red, points: polylineCoordinates);
     polylines[id] = polyline;
-    setState(() {});
+    setState(() {
+      print("=========================${polylines.length}");
+    });
   }
 
   _getPolyline() async {
+    print(DetailsMall.currentP.value?.latitude);
+    print(DetailsMall.currentP.value?.longitude);
+    print(DetailsMall.mollLocation.latitude);
+    print(DetailsMall.mollLocation.longitude);
+    print("ppppppppppppppp");
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
       googleApiKey: "AIzaSyD2dcs9zzNRVjyiJ9MehLLAErdDX0v5wJ4",
       request: PolylineRequest(
-        origin: PointLatLng(currentP.value?.latitude??0 ,currentP.value?.longitude??0 ),
-        destination: PointLatLng(mollLocation.latitude ,mollLocation.longitude ),
+        origin: PointLatLng(DetailsMall.currentP.value?.latitude??0 ,DetailsMall.currentP.value?.longitude??0 ),
+        destination: PointLatLng(DetailsMall.mollLocation.latitude ,DetailsMall.mollLocation.longitude ),
         mode: TravelMode.driving,
-        wayPoints: [PolylineWayPoint(location: "Sabo, Yaba Lagos Nigeria")],
+        // wayPoints: [PolylineWayPoint(location: "Sabo, Yaba Lagos Nigeria")],
       ),
     );
+    print("00000000000");
+   print("result${result}");
     if (result.points.isNotEmpty) {
+      print("on if");
       result.points.forEach((PointLatLng point) {
         polylineCoordinates.add(LatLng(point.latitude, point.longitude));
       });
@@ -292,7 +309,7 @@ class _DetailsMallState extends State<DetailsMall> {
     if (_permissionGranted == PermissionStatus.denied) {
       _permissionGranted = await _locationController.requestPermission();
       if (_permissionGranted != PermissionStatus.granted) {
-        currentP.value = const LatLng(36.22366954, 37.1296072);
+        DetailsMall.currentP.value = const LatLng(36.22366954, 37.1296072);
         return;
       }
     }
@@ -302,7 +319,7 @@ class _DetailsMallState extends State<DetailsMall> {
 
     if (!mounted) return;
 
-    currentP.value = LatLng(location.latitude!, location.longitude!);
+    DetailsMall.currentP.value = LatLng(location.latitude!, location.longitude!);
     Position? position = await _determinePosition();
     // context.read<AuthBloc>().add(CalculateGeoEvent(
     //     position?.latitude.toString() ?? "",

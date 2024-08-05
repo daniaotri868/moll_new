@@ -8,7 +8,9 @@ import 'package:remy/feature/app/root/presentation/ui/screen/root_screen.dart';
 import '../../../feature/app/home/data/model/home_model.dart';
 import '../../../feature/app/home/data/model/order_details_model.dart';
 import '../../../feature/app/home/domain/use_case/order_details.dart';
+import '../../../feature/app/home/presentation/ui/screen/about.dart';
 import '../../../feature/app/home/presentation/ui/screen/all_dep.dart';
+import '../../../feature/app/home/presentation/ui/screen/boarding_screen.dart';
 import '../../../feature/app/home/presentation/ui/screen/cart_page.dart';
 import '../../../feature/app/home/presentation/ui/screen/confirm_edite.dart';
 import '../../../feature/app/home/presentation/ui/screen/confirm_screen.dart';
@@ -27,6 +29,7 @@ import '../../../feature/app/home/presentation/ui/screen/profile_page.dart';
 import '../../../feature/app/home/presentation/ui/screen/profile_screen.dart';
 import '../../../feature/app/home/presentation/ui/screen/select_location.dart';
 import '../../../feature/app/home/presentation/ui/screen/show_order_screen.dart';
+import '../../../feature/app/home/presentation/ui/screen/splash.dart';
 import '../../../feature/splash.dart';
 import 'router_config.dart';
 
@@ -43,9 +46,32 @@ class GRouter {
   static final RouterConfiguration _config = RouterConfiguration.init();
 
   static final GoRouter _router = GoRouter(
-    initialLocation: _config.authRoutes.login,
+    initialLocation:SplashPage.name,
     navigatorKey: _rootNavigatorKey,
     routes: <RouteBase>[
+      GoRoute(
+        path: SplashPage.name,
+        name: SplashPage.name,
+        pageBuilder: (BuildContext context, GoRouterState state) {
+          return _builderPage(
+            child:  SplashPage(),
+            state: state,
+          );
+        },
+        routes: [
+          GoRoute(
+            path: BoardingScreen.name,
+            name: BoardingScreen.name,
+            pageBuilder: (BuildContext context, GoRouterState state) {
+              return _builderPage(
+                child:  BoardingScreen(),
+                state: state,
+              );
+            },
+
+          ),
+        ]
+      ),
       GoRoute(
           path: _config.homeRoutes.homeScreen,
           name: _config.homeRoutes.homeScreen,
@@ -57,6 +83,16 @@ class GRouter {
           },
         routes: [
           GoRoute(
+            path: AboutScreen.name,
+            name: AboutScreen.name,
+            pageBuilder: (BuildContext context, GoRouterState state) {
+              return _builderPage(
+                child:  AboutScreen(),
+                state: state,
+              );
+            },
+
+          ),GoRoute(
             path: ProductHomeScreen.name,
             name: ProductHomeScreen.name,
             pageBuilder: (BuildContext context, GoRouterState state) {

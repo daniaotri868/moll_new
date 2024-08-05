@@ -2,8 +2,8 @@ abstract class EndPoints {
   EndPoints._();
 
   // static const baseUrl = "http://192.168.1.250:86";
-  static const baseUrl = "https://8d96-5-0-6-57.ngrok-free.app/api/Mobile/";
-  static const address = "https://8d96-5-0-6-57.ngrok-free.app";
+  static const baseUrl = "https://e8da-188-160-152-51.ngrok-free.app/api/Mobile/";
+  static const address = "https://e8da-188-160-152-51.ngrok-free.app";
   static double latitude = 0;
   static double longitude = 0;
   // static const baseUrl = "http://192.168.1.250:86/api/";

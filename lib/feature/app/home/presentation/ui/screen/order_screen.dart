@@ -105,7 +105,6 @@ class _OrderScreenState extends State<OrderScreen> {
                   child: Container(
                     height: 60.h,
                     width: double.infinity,
-
                     decoration: BoxDecoration(
                         boxShadow: [
                           BoxShadow(color: Color(0x0F101828), offset: Offset(0, 1), blurRadius: 2),

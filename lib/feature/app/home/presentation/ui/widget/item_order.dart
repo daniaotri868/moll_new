@@ -80,7 +80,7 @@ class _ItemOrderState extends State<ItemOrder> {
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
                         SizedBox(
-                          width: 130.w,
+                          width:50.w,
                           child: AppText(
                             "${widget.item.name}",
                             overflow: TextOverflow.ellipsis,

@@ -5,6 +5,7 @@ import '../../../../../core/api/api_utils.dart';
 // import '../../../../../core/api/params.dart';
 import '../../../../../core/api/result.dart';
 import '../../domain/repo/home_repository.dart';
+import '../../domain/use_case/driver_usecase.dart';
 import '../data_source/home_remot_data_source.dart';
 import '../model/all_department_model.dart';
 import '../model/all_order_model.dart';
@@ -13,9 +14,11 @@ import '../model/department_product.dart';
 import '../model/home_model.dart';
 import '../model/moll_details.dart';
 import '../model/moll_model.dart';
+import '../model/moll_name.dart';
 import '../model/order_details_model.dart';
 import '../model/point_model.dart';
 import '../model/product_details_model.dart';
+import '../model/search_model.dart';
 
 
 
@@ -95,7 +98,33 @@ class AuthRepositoryImpl extends HomeRepository {
   }
   Future<Result<ResponseWrapper<bool>>> rateOrder(Map<String, dynamic> params) {
     return toApiResult(() async {
-      final result = datasource.confirmOrder(params);
+      final result = datasource.rateOrder(params);
+      return result;
+    });
+  }
+  Future<Result<ResponseWrapper<List<AllMollNameModel>>>> mollname(Map<String, dynamic> params) {
+    return toApiResult(() async {
+      final result = datasource.mollname(params);
+      return result;
+    });
+  }
+
+  Future<Result<ResponseWrapper<bool>>> driver(DriverParams params) {
+    return toApiResult(() async {
+      final result = datasource.driver(params);
+      return result;
+    });
+  }
+
+  Future<Result<ResponseWrapper<bool>>> cancelOrder(Map<String, dynamic> params) {
+    return toApiResult(() async {
+      final result = datasource.cancelOrder(params);
+      return result;
+    });
+  }
+Future<Result<ResponseWrapper<SearchHomeModel>>> searchHome(Map<String, dynamic> params) {
+    return toApiResult(() async {
+      final result = datasource.searchHome(params);
       return result;
     });
   }

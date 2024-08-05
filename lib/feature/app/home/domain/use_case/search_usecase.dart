@@ -3,37 +3,36 @@ import '../../../../../common/models/response_wrapper/response_wrapper.dart';
 import '../../../../../core/api/result.dart';
 import '../../../../../core/use_case/use_case.dart';
 import '../../data/model/department_details_model.dart';
+import '../../data/model/search_model.dart';
 import '../repo/home_repository.dart';
 
 
 @injectable
-class DepartmentDetailsUseCase extends UseCase<Result<ResponseWrapper<GetAllDepartmentDetailsModel>>, DetailsParams> {
-  DepartmentDetailsUseCase(this.repository);
+class SearchHomeUseCase extends UseCase<Result<ResponseWrapper<SearchHomeModel>>, SearchParams> {
+  SearchHomeUseCase(this.repository);
 
   final HomeRepository repository;
 
   @override
-  Future<Result<ResponseWrapper<GetAllDepartmentDetailsModel>>> call(DetailsParams params) {
-    return repository.getDepartmentDetails(params.toMap());
+  Future<Result<ResponseWrapper<SearchHomeModel>>> call(SearchParams params) {
+    return repository.searchHome(params.toMap());
   }
 }
 
-class DetailsParams {
+class SearchParams {
   final String userId;
-  final String ?id;
   final String ?search;
 
-  DetailsParams({
+  SearchParams({
     required this.userId,
-     this.id,
-     this.search,
+
+    this.search,
   });
 
   Map<String, dynamic> toMap() {
     return {
-      'Id': id,
       'UserId':userId,
-      'Name':search
+      'Search':search
     };
   }
 }

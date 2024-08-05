@@ -19,22 +19,22 @@ import '../../../domain/use_case/moll_use_case.dart';
 import '../../bloc/auth_bloc.dart';
 import 'details_product.dart';
 
-class AllProductDepartmentScreen extends StatefulWidget {
+class FavPage extends StatefulWidget {
   static String name ="AllProductDepartmentScreen";
   final String ?idDep;
 
-  const AllProductDepartmentScreen({Key? key,this.idDep}) : super(key: key);
+  const FavPage({Key? key,this.idDep}) : super(key: key);
 
   @override
-  State<AllProductDepartmentScreen> createState() => _AllProductDepartmentScreenState();
+  State<FavPage> createState() => _FavPageState();
 }
 
-class _AllProductDepartmentScreenState extends State<AllProductDepartmentScreen> {
+class _FavPageState extends State<FavPage> {
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    context.read<HomeBloc>().add(DepartmentProductEvent(detailsParams:DetailsParams (id: widget.idDep??"",userId: LoginScreen.userId)));
+    context.read<HomeBloc>().add(GetAllFavEvent(detailsParams:DetailsParams (userId: LoginScreen.userId)));
     // context.read<HomeBloc>().add(DepartmentDetailsEvent(detailsParams:DetailsParams (id: widget.idMoll??"",userId: 'adac2042-2519-4ee9-bb52-0e01300d0aa0')));
   }
   @override
@@ -44,7 +44,7 @@ class _AllProductDepartmentScreenState extends State<AllProductDepartmentScreen>
         return Scaffold(
           appBar:   AppBar(
             toolbarHeight: 90,
-            title: AppText("منتجات الأقسام", style: context.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold,color: context.colorScheme.primary),
+            title: AppText("المفضلة", style: context.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold,color: context.colorScheme.primary),
             ),
             centerTitle: true,
             automaticallyImplyLeading: false,
@@ -107,7 +107,6 @@ class _AllProductDepartmentScreenState extends State<AllProductDepartmentScreen>
                     children: [
                       InkWell(
                         onTap: () {
-                          print(data.products?[index].Lng);
                           context.pushNamed(DetailsProduct.name,extra: data.products?[index].id??"");
                         },
                         child: SizedBox(
@@ -158,7 +157,6 @@ class _AllProductDepartmentScreenState extends State<AllProductDepartmentScreen>
                             onTap: () {
                               print(state.listCart);
                               print("55555555555${data.products?[index].quantity}");
-                              print(data.products?[index].Lat);
                               context.read<HomeBloc>().add(SaveProductsToPosEvent(
                                 id: data.products?[index].id,
                                 qun: 1,
@@ -168,9 +166,6 @@ class _AllProductDepartmentScreenState extends State<AllProductDepartmentScreen>
                                 max: data.products?[index].quantity,
                                 image: data.products?[index].imageUrl,
                                 mallId: data.products?[index].mallId,
-                                Lat: data.products?[index].Lat,
-                                Lng: data.products?[index].Lng
-
                               ));
                             },
                             child: Container(
@@ -198,7 +193,7 @@ class _AllProductDepartmentScreenState extends State<AllProductDepartmentScreen>
                 itemCount: data.products?.length??0,
               ),
             ),
-            result: state.getDepartmentProduct,
+            result: state.getAllFav,
             loading: LoadingScreen(),
             error: (error) => ErrorScreen(
               onRefresh: () {

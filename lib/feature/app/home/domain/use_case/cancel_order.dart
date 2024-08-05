@@ -12,33 +12,33 @@ import 'department_details_use_case.dart';
 
 
 @injectable
-class RateOrdersUseCase extends UseCase<Result<ResponseWrapper<bool>>, RateOrderParams> {
-  RateOrdersUseCase(this.repository);
+class CancelOrdersUseCase extends UseCase<Result<ResponseWrapper<bool>>, CancelOrderParams> {
+  CancelOrdersUseCase(this.repository);
 
   final HomeRepository repository;
 
   @override
-  Future<Result<ResponseWrapper<bool>>> call(RateOrderParams params) {
-    return repository.rateOrder(params.toMap());
+  Future<Result<ResponseWrapper<bool>>> call(CancelOrderParams params) {
+    return repository.cancelOrder(params.toMap());
   }
 }
 
-class RateOrderParams {
+class CancelOrderParams {
   final String userId;
   final String id;
-  final double ?evaluation;
+  final String ?reason;
 
-  RateOrderParams({
+  CancelOrderParams({
     required this.userId,
     required this.id,
-    this.evaluation,
+    this.reason,
   });
 
   Map<String, dynamic> toMap() {
     return {
-      'id': id,
-      'userId':userId,
-      'evaluation':evaluation,
+      "userId":userId,
+      "id": id,
+      "reason": reason
     };
   }
 }

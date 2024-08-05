@@ -12,6 +12,10 @@ class OrderDetailsModel {
   final String ?id;
   final String ?mallId;
   final String ?mallName;
+  final String ?areaName;
+  final double ?lat;
+  final double ?lng;
+  final int ?usedPoints;
   final int ?totalCost;
   final int ?finalCost;
   final int ?deliveryCost;
@@ -27,7 +31,11 @@ class OrderDetailsModel {
   OrderDetailsModel({
     this.id,
     this.mallId,
+    this.usedPoints,
     this.mallName,
+    this.lng,
+    this.lat,
+    this.areaName,
     this.totalCost,
     this.finalCost,
     this.deliveryCost,
@@ -44,7 +52,11 @@ class OrderDetailsModel {
   factory OrderDetailsModel.fromJson(Map<String, dynamic> json) => OrderDetailsModel(
     id: json["id"],
     mallId: json["mallId"],
+    lng: json["lng"],
+    lat: json["lat"],
+    usedPoints: json["usedPoints"],
     mallName: json["mallName"],
+    areaName: json["areaName"],
     totalCost: json["totalCost"],
     finalCost: json["finalCost"],
     deliveryCost: json["deliveryCost"],
@@ -60,6 +72,10 @@ class OrderDetailsModel {
 
   Map<String, dynamic> toJson() => {
     "id": id,
+    "lng": lng,
+    "lat": lat,
+    "areaName": areaName,
+    "usedPoints": usedPoints,
     "mallId": mallId,
     "mallName": mallName,
     "totalCost": totalCost,

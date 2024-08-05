@@ -30,7 +30,7 @@ class HomeMostSelling extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.all(8.0),
           child: SizedBox(
-            height: 120,
+            height: 150,
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount:data?.products!.length??0 ,

@@ -34,7 +34,7 @@ class _OrderPageState extends State<OrderPage> {
       backgroundColor: context.colorScheme.onPrimary,
       appBar:  AppBar(
         toolbarHeight: 100,
-        title: AppText("تفاصيل الطلب",              style: context.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold,color: context.colorScheme.primary),
+        title: AppText("طلباتي",              style: context.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold,color: context.colorScheme.primary),
         ),
         centerTitle: true,
         automaticallyImplyLeading: false,

@@ -6,8 +6,9 @@ class AuthEvent {}
 class RegisterEvent extends AuthEvent {
   final String password;
   final String email;
+  final String deviceToken;
   final VoidCallback onSuccess;
-  RegisterEvent({required this.password, required this.onSuccess,required this.email});
+  RegisterEvent({required this.password, required this.onSuccess,required this.email,required this.deviceToken});
 }
 
 class CheckCodeEvent extends AuthEvent {

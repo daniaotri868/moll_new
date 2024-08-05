@@ -47,6 +47,8 @@ class SaveProductsToPosEvent extends HomeEvent {
   final String ?id;
   final String ?name;
   final int ?qun;
+  final double ?Lng;
+  final double ?Lat;
   final int? offer;
   final int ?price;
   final int ?max;
@@ -57,6 +59,8 @@ class SaveProductsToPosEvent extends HomeEvent {
   this.id,
   this.name,
   this.qun,
+  this.Lng,
+  this.Lat,
   this.offer,
   this.price,
   this.max,
@@ -105,7 +109,15 @@ class UpdateOrderEvent extends HomeEvent {
 
   UpdateOrderEvent({required this.createOrderParams,required this.data});
 }
-
+class ToggleProductFavourite extends HomeEvent {
+  final ProductItem product;
+  final bool? fav;
+  final VoidCallback onSuccess;
+  final VoidCallback? onToggle;
+  final bool? isRequest;
+  ToggleProductFavourite(
+      {required this.product, this.fav, required this.onSuccess,this.onToggle,this.isRequest=false});
+}
 
 class ConfirmOrderEvent extends HomeEvent {
   final ConfirmOrderParams confirmOrderParams;
@@ -121,6 +133,21 @@ class RateOrderEvent extends HomeEvent {
 
   RateOrderEvent({required this.confirmOrderParams,required this.onSuccess});
 }
+class CancelOrderEvent extends HomeEvent {
+  final CancelOrderParams confirmOrderParams;
+  final VoidCallback onSuccess;
+
+
+  CancelOrderEvent({required this.confirmOrderParams,required this.onSuccess});
+}
+
+class SearchHomeEvent extends HomeEvent {
+  final SearchParams searchParams;
+  final VoidCallback onSuccess;
+
+
+  SearchHomeEvent({required this.searchParams,required this.onSuccess});
+}
 
 class GetOrderEvent extends HomeEvent {
   final GetOrderParams getOrderParams;
@@ -132,6 +159,17 @@ class MyPointEvent extends HomeEvent {
   final MyPointParams getOrderParams;
 
   MyPointEvent({required this.getOrderParams,});
+}
+
+class GetMollNameEvent extends HomeEvent {
+  final DetailsParams detailsParams;
+
+  GetMollNameEvent({required this.detailsParams,});
+}
+class DriverEvent extends HomeEvent {
+  final DriverParams driverParams;
+
+  DriverEvent({required this.driverParams,});
 }
 
 class GetOrderDetailsEvent extends HomeEvent {

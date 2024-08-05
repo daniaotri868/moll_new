@@ -107,18 +107,24 @@ class Mall {
 class ProductItem {
   final String ?id;
   final String ?name;
+  final String ?mallId;
   final String ?imageUrl;
   final bool? isFavourite;
   final int ?price;
+  final int ?quantity;
   final int ?evaluation;
+   dynamic  ?priceAfterDiscount;
 
   ProductItem({
     this.id,
     this.name,
+    this.mallId,
     this.imageUrl,
     this.isFavourite,
     this.price,
+    this.quantity,
     this.evaluation,
+    this.priceAfterDiscount,
   });
 
   factory ProductItem.fromJson(Map<String, dynamic> json) => ProductItem(
@@ -127,16 +133,22 @@ class ProductItem {
     imageUrl: json["imageUrl"],
     isFavourite: json["isFavourite"],
     price: json["price"],
+    mallId: json["mallId"],
+    quantity: json["quantity"],
     evaluation: json["evaluation"],
+    priceAfterDiscount: json["priceAfterDiscount"],
   );
 
   Map<String, dynamic> toJson() => {
     "id": id,
     "name": name,
+    "mallId": mallId,
     "imageUrl": imageUrl,
     "isFavourite": isFavourite,
     "price": price,
+    "quantity": quantity,
     "evaluation": evaluation,
+    "priceAfterDiscount": priceAfterDiscount,
   };
 }
 
@@ -146,6 +158,8 @@ class ProductCart {
   final String? id;
   final String? name;
   final int? qun;
+  final double? Lng;
+  final double? Lat;
   final int? offer;
   final int? price;
   final int? max;
@@ -155,6 +169,8 @@ class ProductCart {
   ProductCart({
     this.id,
     this.name,
+    this.Lat,
+    this.Lng,
     this.qun,
     this.offer,
     this.price,
@@ -168,6 +184,8 @@ class ProductCart {
     String? name,
     int? qun,
     int? offer,
+    double ? Lng,
+    double ? Lat,
     int? price,
     int? max,
     String? image,
@@ -182,6 +200,8 @@ class ProductCart {
       image: image ?? this.image,
       mallId: mallId ?? this.mallId,
       max: max ?? this.max,
+      Lng: Lng??this.Lng,
+      Lat: Lat??this.Lat
     );
   }
 }

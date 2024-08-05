@@ -48,7 +48,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   FutureOr<void> _onLoginEvent(
       RegisterEvent event, Emitter<AuthState> emit) async {
     emit(state.copyWith(registerStatus: const BlocStatus.loading()));
-    final result = await registerUseCase(RegisterParams(password: event.password,email: event.email));
+    final result = await registerUseCase(RegisterParams(password: event.password,email: event.email,deviceToken: event.deviceToken));
     switch (result) {
       case Success(value: final data):
         emit(state.copyWith(

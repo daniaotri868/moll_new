@@ -75,7 +75,7 @@ class _ItemCartState extends State<ItemCart> {
                     10.verticalSpace,
                     Row(
                       children: [
-                        AppText("  ${widget.data.price}",                                          style: context.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w700),
+                        AppText("  ${widget.data.price!*q}",                                          style: context.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w700),
                         ),
                         AppText("ل.س",                                          style: context.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w700),
                         ),

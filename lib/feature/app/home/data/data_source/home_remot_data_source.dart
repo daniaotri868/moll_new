@@ -1,12 +1,16 @@
 
+import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 import 'package:remy/core/api/params.dart';
-
+import 'dart:io';
+import 'package:dio/dio.dart';
+import 'package:http_parser/http_parser.dart';
 import '../../../../../common/constants/route.dart';
 import '../../../../../common/models/response_wrapper/response_wrapper.dart';
 import '../../../../../core/api/api_utils.dart';
 import '../../../../../core/api/client.dart';
 import '../../../../../core/api/client_config.dart';
+import '../../domain/use_case/driver_usecase.dart';
 import '../model/all_department_model.dart';
 import '../model/all_order_model.dart';
 import '../model/department_details_model.dart';
@@ -14,9 +18,11 @@ import '../model/department_product.dart';
 import '../model/home_model.dart';
 import '../model/moll_details.dart';
 import '../model/moll_model.dart';
+import '../model/moll_name.dart';
 import '../model/order_details_model.dart';
 import '../model/point_model.dart';
 import '../model/product_details_model.dart';
+import '../model/search_model.dart';
 
 @injectable
 class HomeRemoteDataSource {
@@ -51,6 +57,20 @@ class HomeRemoteDataSource {
         {},
         (json) {
           return HomeModel.fromJson(response.data);
+        },
+      );
+    });
+
+  Future<ResponseWrapper<SearchHomeModel>> searchHome(Map<String, dynamic> params) async => throwAppException(() async {
+      final response = await clientApi.request(RequestConfig(
+        endpoint: 'Home/Search',
+        queryParameters: params,
+        clientMethod: ClientMethod.get,
+      ));
+      return ResponseWrapper.fromJson(
+        {},
+        (json) {
+          return SearchHomeModel.fromJson(response.data);
         },
       );
     });
@@ -120,10 +140,73 @@ Future<ResponseWrapper<bool>> confirmOrder(Map<String, dynamic> params) async {
     });
   }
 
+Future<ResponseWrapper<List<AllMollNameModel>>> mollname(Map<String, dynamic> params) async {
+    return throwAppException(() async {
+      final response = await clientApi.request(RequestConfig(
+        endpoint: 'Mall/GetAllNames',
+          queryParameters: params,
+        clientMethod: ClientMethod.get,
+      ));
+      return ResponseWrapper.fromJson(
+        {},
+        (json) {
+          final list = List<dynamic>.of(response.data)
+              .map<AllMollNameModel>((e) => AllMollNameModel.fromJson(e))
+              .toList();
+          return  list;
+        },
+      );
+    });
+  }
+
+  Future<ResponseWrapper<bool>> driver(DriverParams params) async {
+    return throwAppException(() async {
+      FormData formData = FormData.fromMap({
+        "Email":params.Email,
+        "LastName":params.LastName,
+        "FirstName":params.FirstName,
+        "MallId":params.MallId,
+        "PhoneNumber": params.PhoneNumber,
+        "type": "application/pdf"
+      });
+      // if(params.CV!=null){
+        formData.files.add(MapEntry('CV', await MultipartFile.fromFile(params.CV!,
+            contentType: MediaType('application', 'pdf'),filename:params.CV!.split('/').last )));
+    // }
+      final response = await clientApi.request(RequestConfig(
+        endpoint: 'Driver/Apply',
+        data: formData,
+        clientMethod: ClientMethod.post,
+      ));
+      return ResponseWrapper.fromJson(
+        {},
+        (json) {
+          return  true;
+        },
+      );
+    });
+  }
+
 Future<ResponseWrapper<bool>> rateOrder(Map<String, dynamic> params) async {
     return throwAppException(() async {
       final response = await clientApi.request(RequestConfig(
-        endpoint: 'Order/Confirm',
+        endpoint: 'Product/Evaluate',
+        data: params,
+        clientMethod: ClientMethod.post,
+      ));
+      return ResponseWrapper.fromJson(
+        {},
+        (json) {
+          return  true;
+        },
+      );
+    });
+  }
+
+  Future<ResponseWrapper<bool>> cancelOrder(Map<String, dynamic> params) async {
+    return throwAppException(() async {
+      final response = await clientApi.request(RequestConfig(
+        endpoint: 'Order/Cancel',
         data: params,
         clientMethod: ClientMethod.post,
       ));
@@ -227,9 +310,9 @@ Future<ResponseWrapper<bool>> rateOrder(Map<String, dynamic> params) async {
   Future<ResponseWrapper<GetAllDepartmentProductModel>> getAllFavProduct(Map<String, dynamic> params) async {
     return throwAppException(() async {
       final response = await clientApi.request(RequestConfig(
-        endpoint: EndPoints.auth.login,
-        data: params,
-        clientMethod: ClientMethod.post,
+        endpoint:'Product/GetAllFavourites',
+        queryParameters: params,
+        clientMethod: ClientMethod.get,
       ));
       return ResponseWrapper.fromJson(
         {},

@@ -322,20 +322,8 @@ class _FinalEditeScreenState extends State<FinalEditeScreen> {
                                     child: ElevatedButton(onPressed: () {
                                       print("-----------${int.tryParse("${pointsController.text}"
                                       )!<(widget.data?.pointsCanUse??0)}");
-                                      if((int.tryParse("${pointsController.text}")!)<=(widget.data?.pointsCanUse??0)) {context.read<HomeBloc>().add(
-                                          RateOrderEvent(
-                                            confirmOrderParams: RateOrderParams(
-                                              userId:LoginScreen.userId ,
-                                              id: widget.data?.id??"",
-                                              note: controllerNote.text,
-
-                                            ),
-                                            onSuccess: () {
-
-                                              // context.goNamed('/home');
-                                            },
-                                          )
-                                      ); context.read<HomeBloc>().add(
+                                      if((int.tryParse("${pointsController.text}")!)<=(widget.data?.pointsCanUse??0)) {
+                             context.read<HomeBloc>().add(
                                           ConfirmOrderEvent(
                                             confirmOrderParams: ConfirmOrderParams(
                                                 userId:LoginScreen.userId ,

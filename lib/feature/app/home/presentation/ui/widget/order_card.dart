@@ -44,13 +44,14 @@ class _OrderCardState extends State<OrderCard> {
               BoxShadow(color: Color(0x0F101828), offset: Offset(0, 1), blurRadius: 2),
               // BoxShadow(color: Color(0x1A101828), offset: Offset(0, 1), blurRadius: 3),
             ],
-            border: Border.all(color: context.colorScheme.outline.withOpacity(0.1)),
+            // border: Border.all(color: context.colorScheme.outline.withOpacity(0.1)),
         borderRadius: BorderRadius.circular(10)),
         child: Row(
           children: [
             // AppImage.asset(Assets.images.shopping.path),
             5.horizontalSpace,
             Flexible(
+              flex: 4,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -84,7 +85,7 @@ class _OrderCardState extends State<OrderCard> {
                           ),
                           3.horizontalSpace,
                           AppText(
-                            " ${widget.item.number}",
+                            " ${widget.item.number}:",
                             style: context.textTheme.titleSmall!.copyWith(
                                 color: Colors.black),
                           ),
@@ -96,14 +97,14 @@ class _OrderCardState extends State<OrderCard> {
                     child: Row(
                       children: [
                         AppText(
-                          "الحالة ",
+                          "الحالة  ",
                           style: context.textTheme.titleSmall!.copyWith(
                             color: Colors.black,
                           ),
                         ),
                         3.horizontalSpace,
                         AppText(
-                          " ${widget.item.status}",
+                          " ${widget.item.status}:",
                           style: context.textTheme.titleSmall!.copyWith(
                               color: Colors.black),
                         ),
@@ -120,10 +121,18 @@ class _OrderCardState extends State<OrderCard> {
                           ),
                         ),
                         3.horizontalSpace,
-                        AppText(
-                          '${HelperFunctions.formatPrice(widget.item.cost??0)} ل.س ',
-                          style: context.textTheme.titleSmall!.copyWith(
-                              color: Colors.black),
+                        Row(
+                          children: [
+                            AppText(
+                              '${HelperFunctions.formatPrice(widget.item.cost??0)} ',
+                              style: context.textTheme.titleSmall!.copyWith(
+                                  color: Colors.black),
+                            ), AppText(
+                              ' ل.س ',
+                              style: context.textTheme.titleSmall!.copyWith(
+                                  color: Colors.black),
+                            ),
+                          ],
                         ),
                       ],
                     ),
@@ -132,10 +141,19 @@ class _OrderCardState extends State<OrderCard> {
               ),
             ),
             // const Spacer(),
-            
+
             Flexible(
+              flex: 3,
               child: Column(
                 children: [
+                  10.verticalSpace,
+                  AppText(
+                    DateFormat.yMMMd().format(DateTime.parse(widget.item.dateCreated.toString())),
+                    style:
+                    context.textTheme.titleSmall!.copyWith(
+                      color: Colors.grey,
+                    ),
+                  ),
                   10.verticalSpace,
                   Padding(
                     padding: REdgeInsets.only(left: 5.0),
@@ -152,12 +170,12 @@ class _OrderCardState extends State<OrderCard> {
                     onPressed: () {
                       context.pushNamed(
                         OrderDetailsPage.name,
-                        extra: OrderDetailsParams(userId: LoginScreen.userId,id: widget.item.id??"",),
+                        extra: OrderDetailsParams(userId: LoginScreen.userId,id: widget.item.id??"",cancel: widget.orderType=='NotConfirmed'?true:false),
                       );
                     },
                     child: Column(
                       children: [
-                         Text('تفاصيل',style: TextStyle(color: context.colorScheme.primary),),
+                        Text('تفاصيل',style: TextStyle(color: context.colorScheme.primary),),
                         SizedBox(
                           width: 40,
                           child: Divider(
@@ -167,10 +185,10 @@ class _OrderCardState extends State<OrderCard> {
                         ),
                       ],
                     ),
-                  )
+                  ),
                 ],
               ),
-            )
+            ),
           ],
         ),
       ),

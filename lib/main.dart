@@ -11,13 +11,14 @@ import 'initialization.dart';
 
 
 Future<void> main() async {
-  // await Firebase.initializeApp(
-  //   options: DefaultFirebaseOptions.currentPlatform,
-  // );
-  // await PushNotificationsHandler().init();
+
   
   await initialization(
     () => const App(),
     localizationConfig: LocalizationConfig(assetLoader: const CodegenLoader()),
   );
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+  await PushNotificationsHandler().init();
 }

@@ -6,6 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 import 'package:remy/common/models/page_state/bloc_status.dart';
 import 'package:remy/common/models/page_state/page_state.dart';
+import 'package:remy/feature/app/auth/presentation/ui/screen/login_screen.dart';
+import '../../../../../common/models/response_wrapper/response_wrapper.dart';
 import '../../../../../core/api/result.dart';
 import '../../data/model/all_department_model.dart';
 import '../../data/model/all_order_model.dart';
@@ -14,25 +16,31 @@ import '../../data/model/department_product.dart';
 import '../../data/model/home_model.dart';
 import '../../data/model/moll_details.dart';
 import '../../data/model/moll_model.dart';
+import '../../data/model/moll_name.dart';
 import '../../data/model/order_details_model.dart';
 import '../../data/model/point_model.dart';
 import '../../data/model/product_details_model.dart';
 
+import '../../data/model/search_model.dart';
+import '../../domain/use_case/cancel_order.dart';
 import '../../domain/use_case/change_fav_usecase.dart';
 import '../../domain/use_case/confirm_uscase.dart';
 import '../../domain/use_case/department_details_use_case.dart';
 import '../../domain/use_case/department_usecase.dart';
+import '../../domain/use_case/driver_usecase.dart';
 import '../../domain/use_case/get_all_fav_usecase.dart';
 import '../../domain/use_case/get_department_product.dart';
 import '../../domain/use_case/get_home_usecase.dart';
 import '../../domain/use_case/get_order_usecase.dart';
 import '../../domain/use_case/get_point_usecase.dart';
 import '../../domain/use_case/get_product_details_usecase.dart';
+import '../../domain/use_case/moll_name.dart';
 import '../../domain/use_case/moll_use_case.dart';
 import '../../domain/use_case/moll_details_use_case.dart';
 import '../../domain/use_case/order_details.dart';
 import '../../domain/use_case/post_order.dart';
 import '../../domain/use_case/rate_usecase.dart';
+import '../../domain/use_case/search_usecase.dart';
 import '../../domain/use_case/update_order.dart';
 
 part 'auth_event.dart';
@@ -48,18 +56,22 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final GetDepartmentProductUseCase getDepartmentProductUseCase;
   final GetProductDetailsUseCase getProductDetailsUseCase;
   final GetHomeUseCase getHomeUseCase;
+  final DriverUseCase driverUseCase;
+  final MollNameUseCase mollNameUseCase;
   final GetFavProductUseCase getFavProductUseCase;
   final ChangeFavUseCase changeFavUseCase;
   final GetOrdersUseCase getOrdersUseCase;
   final CreateOrdersUseCase createOrdersUseCase;
+  final SearchHomeUseCase searchHomeUseCase;
   final OrderDetailsUseCase orderDetailsUseCase;
   final ConfirmOrdersUseCase confirmOrdersUseCase;
   final RateOrdersUseCase rateOrdersUseCase;
+  final CancelOrdersUseCase cancelOrdersUseCase;
   final UpdateOrdersUseCase updateOrdersUseCase;
   final MyPointsUseCase myPointsUseCase;
 
 
-  HomeBloc(this.getMollDetailsUseCase,this.rateOrdersUseCase,this.confirmOrdersUseCase,this.orderDetailsUseCase,this.createOrdersUseCase, this.getOrdersUseCase,this.getAllMollUseCase, this.getAllDepartmentUseCase, this.departmentDetailsUseCase, this.getProductDetailsUseCase, this.getDepartmentProductUseCase, this.getHomeUseCase, this.getFavProductUseCase, this.changeFavUseCase, this.updateOrdersUseCase, this.myPointsUseCase
+  HomeBloc(this.getMollDetailsUseCase,this.rateOrdersUseCase,this.confirmOrdersUseCase,this.orderDetailsUseCase,this.createOrdersUseCase, this.getOrdersUseCase,this.getAllMollUseCase, this.getAllDepartmentUseCase, this.departmentDetailsUseCase, this.getProductDetailsUseCase, this.getDepartmentProductUseCase, this.getHomeUseCase, this.getFavProductUseCase, this.changeFavUseCase, this.updateOrdersUseCase, this.myPointsUseCase, this.cancelOrdersUseCase, this.searchHomeUseCase, this.driverUseCase, this.mollNameUseCase
 
   ) : super( HomeState()) {
     on<ProductDetailsEvent>(_onProductDetailsEvent);
@@ -78,8 +90,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<RateOrderEvent>(_onRateOrderEvent);
     on<SaveProductsToPosEvent>(_onSaveBrand);
     on<DeleteProductsToPosEvent>(_onDelete);
+    on<SearchHomeEvent>(_onSearchHomeEvent);
     on<UpdateOrderEvent>(_onUpdateOrderEvent);
+    on<CancelOrderEvent>(_onCancelOrderEvent);
+    on<DriverEvent>(_onDriverEvent);
+    on<GetMollNameEvent>(_onGetMollNameEvent);
     on<MyPointEvent>(_onMyPointEvent);
+    // on<ToggleProductFavourite>(_onToggleProductFavouriteEvent);
     on<updateProductToOrderInPosEvent>(_onupdateProductToOrderInPosEvent);
 
 
@@ -115,6 +132,21 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       case Failure(exception: final exception, message: final message):
         emit(state.copyWith(
           getOrders:   PageState.error(exception: exception, message: message),
+        ));
+    }
+  }
+FutureOr<void> _onSearchHomeEvent(
+    SearchHomeEvent event, Emitter<HomeState> emit) async {
+    emit(state.copyWith(getSearchHome:PageState.loading()));
+    final result = await searchHomeUseCase(SearchParams(userId: event.searchParams.userId,search:event.searchParams.search ));
+    switch (result) {
+      case Success(value: final data):
+        emit(state.copyWith(
+          getSearchHome:  PageState.loaded(data: data.data),
+           ));
+      case Failure(exception: final exception, message: final message):
+        emit(state.copyWith(
+          getSearchHome:   PageState.error(exception: exception, message: message),
         ));
     }
   }
@@ -234,6 +266,39 @@ FutureOr<void> _onUpdateOrderEvent(
         ));
     }
   }
+
+
+  FutureOr<void> _onDriverEvent(
+      DriverEvent event, Emitter<HomeState> emit) async {
+    emit(state.copyWith(driver: BlocStatus.loading()));
+    final result = await driverUseCase(DriverParams(FirstName: event.driverParams.FirstName,
+        LastName: event.driverParams.LastName,CV: event.driverParams.CV,Email: event.driverParams.Email,MallId: event.driverParams.MallId, PhoneNumber: event.driverParams.PhoneNumber));
+    switch (result) {
+      case Success(value: final data):
+        emit(state.copyWith(
+          driver: BlocStatus.success(),
+           ));
+      case Failure(exception: final exception, message: final message):
+        emit(state.copyWith(
+          driver:  BlocStatus.fail(error: message),
+        ));
+    }
+  }
+  FutureOr<void> _onGetMollNameEvent(
+      GetMollNameEvent event, Emitter<HomeState> emit) async {
+    emit(state.copyWith(getAllMollName: PageState.loading()));
+    final result = await mollNameUseCase(DetailsParams(userId: event.detailsParams.userId,));
+    switch (result) {
+      case Success(value: final data):
+        emit(state.copyWith(
+          getAllMollName: PageState.loaded(data: data.data),
+           ));
+      case Failure(exception: final exception, message: final message):
+        emit(state.copyWith(
+          getAllMollName:  PageState.error(exception: exception, message: message),
+        ));
+    }
+  }
   FutureOr<void> _onConfirmOrderEvent(
       ConfirmOrderEvent event, Emitter<HomeState> emit) async {
     emit(state.copyWith(confirm: BlocStatus.loading()));
@@ -254,7 +319,24 @@ FutureOr<void> _onUpdateOrderEvent(
   FutureOr<void> _onRateOrderEvent(
       RateOrderEvent event, Emitter<HomeState> emit) async {
     emit(state.copyWith(rate: BlocStatus.loading()));
-    final result = await rateOrdersUseCase(RateOrderParams(userId: event.confirmOrderParams.userId, id: event.confirmOrderParams.id,note: event.confirmOrderParams.note));
+    final result = await rateOrdersUseCase(RateOrderParams(userId: event.confirmOrderParams.userId, id: event.confirmOrderParams.id,evaluation: event.confirmOrderParams.evaluation));
+    switch (result) {
+      case Success(value: final data):
+        event.onSuccess();
+        emit(state.copyWith(
+          rate: BlocStatus.success(),
+           ));
+      case Failure(exception: final exception, message: final message):
+        emit(state.copyWith(
+          rate:  BlocStatus.fail(error: message),
+        ));
+    }
+  }
+
+ FutureOr<void> _onCancelOrderEvent(
+     CancelOrderEvent event, Emitter<HomeState> emit) async {
+    emit(state.copyWith(rate: BlocStatus.loading()));
+    final result = await cancelOrdersUseCase(CancelOrderParams(userId: event.confirmOrderParams.userId, id: event.confirmOrderParams.id,reason: event.confirmOrderParams.reason));
     switch (result) {
       case Success(value: final data):
         event.onSuccess();
@@ -284,6 +366,95 @@ FutureOr<void> _onUpdateOrderEvent(
         ));
     }
   }
+  // FutureOr<void> _onToggleProductFavouriteEvent(
+  //     ToggleProductFavourite event, Emitter<HomeState> emit) async {
+  //   // print(state.getAllHomeData);
+  //   if (!state.getHome.isLoaded) return;
+  //
+  //   final oldState = state.getHome.data;
+  //
+  //   final newState = oldState.copyWith(
+  //     mostOrder: getListAfterRefactorFavouriteItem(
+  //         oldState.mostOrder??[], event.product.id!),
+  //     offers:
+  //     getListAfterRefactorFavouriteItem(oldState.offers??[], event.product.id!),
+  //     specials: getListAfterRefactorFavouriteItem(          oldState.specials??[], event.product.id!),
+  //   );
+  //
+  //   // print(newState.mostOrder?.firstWhere((element) => element.id==event.product.id));
+  //
+  //   state.getDepartmentProduct.data.products =
+  //       (state.getDepartmentProduct.data.products ?? []).map((e) {
+  //         if (event.product.id == e.id) return e.copyWith(: !e.isFavoite);
+  //         return e;
+  //       }).toList();
+  //   // state.getAllOffersData.itemList =
+  //   //     (state.getAllOffersData.itemList ?? []).map((e) {
+  //   //       if (event.product.id == e.id) return e.copyWith(isFavoite: !e.isFavoite);
+  //   //       return e;
+  //   //     }).toList();
+  //   // state.getAllSpecialData.itemList =
+  //   //     (state.getAllSpecialData.itemList ?? []).map((e) {
+  //   //       if (event.product.id == e.id) return e.copyWith(isFavoite: !e.isFavoite);
+  //   //       return e;
+  //   //     }).toList();
+  //   //
+  //   // // }
+  //   //
+  //   // state.getBrandProductByIdData.itemList =
+  //   //     (state.getBrandProductByIdData.itemList ?? []).map((e) {
+  //   //       if (event.product.id == e.id) return e.copyWith(isFavoite: !e.isFavoite);
+  //   //       return e;
+  //   //     }).toList();
+  //
+  //   // if (state.getDepartmentProduct.isLoaded) {
+  //   //   final productDetailsState = state.getDepartmentProduct.data;
+  //   //   final newProductDetails = productDetailsState.copyWith(
+  //   //       isFavorite: productDetailsState.id == event.product.id
+  //   //           ? !(productDetailsState.isFavorite)
+  //   //           : productDetailsState.isFavorite,
+  //   //       productMayBeLike: getListAfterRefactorFavouriteItem(
+  //   //           productDetailsState.productMayBeLike??[], event.product.id!));
+  //   //
+  //   //   emit(state.copyWith(
+  //   //       getDepartmentProduct: PageState.loaded(data: newProductDetails)));
+  //   // }
+  //
+  //   emit(state.copyWith(getHome: PageState.loaded(data: newState)));
+  //
+  //
+  //   // print(state.getAllHomeData.data.mostOrder?.firstWhere((element) => element.id==event.product.id));
+  //   late final Result<ResponseWrapper<bool>> result;
+  //   if(event.isRequest!)return;
+  //
+  //   if (event.fav == true) {
+  //     result = await changeFavUseCase(ChangeFavParams(id: event.product.id.toString(),userId: LoginScreen.userId));
+  //     print("000000000000");
+  //   } else {
+  //     if (event.product.isFavourite ?? false) {
+  //       print("------------");
+  //       // print(event.product.isFavoite);
+  //       result = await changeFavUseCase(ChangeFavParams(id: event.product.id.toString(),userId: LoginScreen.userId));
+  //     } else {
+  //       print(event.fav);
+  //       print("**************");
+  //       // print(event.product.isFavoite);
+  //       result = await changeFavUseCase(ChangeFavParams(id: event.product.id.toString(),userId: LoginScreen.userId));
+  //     }
+  //   }
+  //
+  //
+  //
+  //   switch (result) {
+  //     case Success(value: final data):
+  //       event.onSuccess?.call();
+  //     case Failure(exception: final exception, message: final message):
+  //       emit(state.copyWith(getHome: PageState.loaded(data: oldState)));
+  //     default:
+  //       print('batoul');
+  //   }
+  //   // if(emit.isDone){return;}
+  // }
 FutureOr<void> _onAllDepartmentEvent(
     AllDepartmentEvent event, Emitter<HomeState> emit) async {
     emit(state.copyWith(getAllDepartment: PageState.loading()));
@@ -375,6 +546,8 @@ FutureOr<void> _onMollDetailsEvent(
         offer: event.offer,
         qun: event.qun,
         image: event.image??"",
+      // Lat: event.Lat,
+      // Lng: event.Lng
     ))}");
     // (state.listCart??[]).contains(ProductCart(
     //   name: event.name,
@@ -419,7 +592,7 @@ FutureOr<void> _onMollDetailsEvent(
     //     offer: event.offer,
     //     qun: event.qun
     // ))
-       (v||(state.listCart??[]).any((element) => element.mallId!=event.mallId,)) ?state.listCart:(state.listCart??[]) + [ProductCart(name: event.name,max:event.max,qun: event.qun,id: event.id,offer: event.offer,price: event.price,mallId: event.mallId,image: event.image,)]));
+       (v||(state.listCart??[]).any((element) => element.mallId!=event.mallId,)) ?state.listCart:(state.listCart??[]) + [ProductCart(name: event.name,max:event.max,qun: event.qun,id: event.id,offer: event.offer,price: event.price,mallId: event.mallId,image: event.image,Lng: event.Lng,Lat: event.Lat)]));
     print("000000");
     // print(state.productSave);
     (state.listCart??[]).forEach((e) {

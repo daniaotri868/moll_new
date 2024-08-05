@@ -1,21 +1,21 @@
-// To parse this JSON data, do
-//
-//     final getAllDepartmentProductModel = getAllDepartmentProductModelFromJson(jsonString);
-
-import 'dart:convert';
-
-GetAllDepartmentProductModel getAllDepartmentProductModelFromJson(String str) => GetAllDepartmentProductModel.fromJson(json.decode(str));
-
-String getAllDepartmentProductModelToJson(GetAllDepartmentProductModel data) => json.encode(data.toJson());
-
 class GetAllDepartmentProductModel {
   final int ?count;
-  final List<ProductDp> ?products;
+  late final List<ProductDp> ?products;
 
   GetAllDepartmentProductModel({
     this.count,
     this.products,
   });
+
+  GetAllDepartmentProductModel copyWith({
+    int ?count,
+    List<ProductDp> ?products,
+  }) {
+    return GetAllDepartmentProductModel(
+      count: count ?? this.count,
+      products: products ?? this.products,
+    );
+  }
 
   factory GetAllDepartmentProductModel.fromJson(Map<String, dynamic> json) => GetAllDepartmentProductModel(
     count: json["count"],
@@ -32,6 +32,8 @@ class ProductDp {
   final String ?id;
   final String ?name;
   final int ?price;
+  final double ?Lng;
+  final double ?Lat;
   final int ?quantity;
   final String ?imageUrl;
   final String ?mallId;
@@ -43,6 +45,8 @@ class ProductDp {
     this.id,
     this.name,
     this.price,
+    this.Lat,
+    this.Lng,
     this.quantity,
     this.imageUrl,
     this.evaluation,
@@ -51,12 +55,42 @@ class ProductDp {
     this.priceAfterDiscount,
   });
 
+  ProductDp copyWith({
+    String ?id,
+    String ?name,
+    int ?price,
+    int ?quantity,
+    double ?Lng,
+    double ?Lat,
+    String ?imageUrl,
+    String ?mallId,
+    dynamic ?evaluation,
+    bool ?hasDiscount,
+    dynamic ?priceAfterDiscount,
+  }) {
+    return ProductDp(
+      id: id ?? this.id,
+      name: name ?? this.name,
+      price: price ?? this.price,
+      quantity: quantity ?? this.quantity,
+      imageUrl: imageUrl ?? this.imageUrl,
+      mallId: mallId ?? this.mallId,
+      evaluation: evaluation ?? this.evaluation,
+      hasDiscount: hasDiscount ?? this.hasDiscount,
+      Lat: Lat ?? this.Lat,
+      Lng: Lng ?? this.Lng,
+      priceAfterDiscount: priceAfterDiscount ?? this.priceAfterDiscount,
+    );
+  }
+
   factory ProductDp.fromJson(Map<String, dynamic> json) => ProductDp(
     id: json["id"],
     name: json["name"],
     price: json["price"],
     quantity: json["quantity"],
     imageUrl: json["imageUrl"],
+    Lng: json["lng"],
+    Lat: json["lat"],
     evaluation: json["evaluation"],
     hasDiscount: json["hasDiscount"],
     mallId: json["mallId"],
@@ -67,6 +101,8 @@ class ProductDp {
     "id": id,
     "name": name,
     "price": price,
+    "lng": Lng,
+    "lat": Lat,
     "quantity": quantity,
     "imageUrl": imageUrl,
     "evaluation": evaluation,

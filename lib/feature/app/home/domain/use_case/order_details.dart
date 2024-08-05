@@ -27,11 +27,13 @@ class OrderDetailsParams {
   final String userId;
   final String id;
   final String ?search;
+  final bool ?cancel;
 
   OrderDetailsParams({
     required this.userId,
     required this.id,
     this.search,
+    this.cancel,
   });
 
   Map<String, dynamic> toMap() {

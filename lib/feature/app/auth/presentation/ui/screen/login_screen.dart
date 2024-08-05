@@ -1,3 +1,8 @@
+import 'dart:io';
+import 'package:device_info_plus/device_info_plus.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -81,16 +86,40 @@ class LoginScreen extends StatelessWidget {
                       50.verticalSpace,
                       AppElevatedButton(
                         child: const Text(AppString.next),
-                        onPressed: () {
+                        onPressed: () async{
 
     if (formKey.currentState!.validate()) {
-      context.read<AuthBloc>().add(RegisterEvent(
-        email: email.text,
-        password: password.text,
-        onSuccess: () {
-          context.goNamed(GRouter.config.homeRoutes.homeScreen);
-        },
-      ));
+
+         // await Firebase.initializeApp();
+
+      FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance; // Change here
+      _firebaseMessaging.getToken().then((token){
+        print(token);
+        context.read<AuthBloc>().add(RegisterEvent(
+          email: email.text,
+          password: password.text,
+          deviceToken: token??"",
+          onSuccess: () {
+            context.goNamed(GRouter.config.homeRoutes.homeScreen);
+          },
+        ));
+      });
+      DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+      String _deviceID = '';
+      if (Platform.isIOS) {
+        // import 'dart:io'
+        var iosDeviceInfo = await deviceInfo.iosInfo;
+        _deviceID = iosDeviceInfo.identifierForVendor!;
+
+        // unique ID on iOS
+      } else if (Platform.isAndroid) {
+        var androidDeviceInfo = await deviceInfo.androidInfo;
+        _deviceID = androidDeviceInfo.id;
+      }
+
+
+      print(_deviceID);
+
     }
 
                         },

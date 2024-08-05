@@ -29,7 +29,7 @@ import 'edite_cart.dart';
 class ConfirmScreen extends StatefulWidget {
   static String name="ConfirmScreen";
   final OrderDetailsModel ?data;
-   ConfirmScreen({super.key,this.data});
+  ConfirmScreen({super.key,this.data});
 
   @override
   State<ConfirmScreen> createState() => _ConfirmScreenState();
@@ -83,13 +83,13 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
         child: ListView(
           children: [
             SizedBox(
-              height: 400,
+                height: 200,
                 child: Container(
                   padding: EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: Colors.black.withOpacity(0.1)
-                    )
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: Colors.black.withOpacity(0.1)
+                      )
                   ),
                   child: ListView.separated(
                       itemBuilder: (context, index) =>  Container(
@@ -157,7 +157,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
               // mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 AppText("   : اسم المول  "),
-                 12.horizontalSpace,
+                12.horizontalSpace,
                 AppText(" ${widget.data?.mallName??""} "),
               ],
             ),
@@ -252,135 +252,27 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
               children: [
                 Expanded(
                   child: ElevatedButton(onPressed: () {
-                    AnimatedDialog.show(
-                      context,
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(20),
+                    if((int.tryParse("${pointsController.text}")!)<=(widget.data?.pointsCanUse??0))  {context.read<HomeBloc>().add(
+                        ConfirmOrderEvent(
+                          confirmOrderParams: ConfirmOrderParams(
+                              userId:LoginScreen.userId ,
+                              id: widget.data?.id??"",
+                              note: controllerNote.text,
+                              pointsToUse: int.tryParse("${pointsController.text??"0"}")
+                          ),
+                          onSuccess: () {
 
-                        ),
-                        height: 230,
-                        width: 125,
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            AppText("هل تريد التقييم؟"),
-                            RatingBar.builder(
-                              initialRating: 0.0,
-                              minRating: 1,
-                              direction: Axis.horizontal,
-                              allowHalfRating: true,
-                              itemCount: 5,
-                              itemSize: 20.0,
-                              updateOnDrag: true,
-
-                              itemBuilder: (context, _) => const Icon(
-                                Icons.star,
-                                color: Colors.amber,
-                              ),
-                              ignoreGestures: false,
-                              onRatingUpdate: (rating) {
-                                setState(() {
-                                  rate=rating;
-                                });
-                                print(rating);
-                              },
-                            ),
-                            50.verticalSpace,
-                            Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                children: [
-                                  Expanded(
-                                    child: ElevatedButton(onPressed: () {
-                                      if((int.tryParse("${pointsController.text}")!)<=(widget.data?.pointsCanUse??0))  {context.read<HomeBloc>().add(
-                                          ConfirmOrderEvent(
-                                            confirmOrderParams: ConfirmOrderParams(
-                                              userId:LoginScreen.userId ,
-                                              id: widget.data?.id??"",
-                                              note: controllerNote.text,
-                                              pointsToUse: int.tryParse("${pointsController.text??"0"}")
-                                            ),
-                                            onSuccess: () {
-
-                                              context.goNamed('/home');
-                                            },
-                                          )
-                                      );}else Fluttertoast.showToast(
-                                      msg: "عدد النقاط غير مسموح",
-                                      toastLength: Toast.LENGTH_SHORT,
-                                      gravity: ToastGravity.BOTTOM,
-                                      timeInSecForIosWeb: 1,
-                                      backgroundColor:  Colors.black,
-                                      textColor: Colors.white,
-                                      fontSize: 16.0);
-                                    }, child: AppText("نعم")),
-                                  ),
-                                  8.horizontalSpace,
-                                  Expanded(
-                                    child: ElevatedButton(onPressed: () {
-                                      print("-----------${int.tryParse("${pointsController.text}"
-                                          )!<(widget.data?.pointsCanUse??0)}");
-                                      if((int.tryParse("${pointsController.text}")!)<=(widget.data?.pointsCanUse??0)) {context.read<HomeBloc>().add(
-                                      RateOrderEvent(
-                                      confirmOrderParams: RateOrderParams(
-                                      userId:LoginScreen.userId ,
-                                      id: widget.data?.id??"",
-                                      note: controllerNote.text,
-
-                                      ),
-                                      onSuccess: () {
-
-                                      // context.goNamed('/home');
-                                      },
-                                      )
-                                      ); context.read<HomeBloc>().add(
-                                          ConfirmOrderEvent(
-                                            confirmOrderParams: ConfirmOrderParams(
-                                                userId:LoginScreen.userId ,
-                                                id: widget.data?.id??"",
-                                                note: controllerNote.text,
-                                                pointsToUse: int.tryParse("${pointsController.text??"0"}")
-
-                                            ),
-                                            onSuccess: () {
-
-                                              context.goNamed('/home');
-                                              Fluttertoast.showToast(
-                                                  msg: "تم تأكيد الطلب بنجاح",
-                                                  toastLength: Toast.LENGTH_SHORT,
-                                                  gravity: ToastGravity.BOTTOM,
-                                                  timeInSecForIosWeb: 1,
-                                                  backgroundColor:  Colors.black,
-                                                  textColor: Colors.white,
-                                                  fontSize: 16.0);
-                                            },
-                                          )
-                                      );}else{
-                                        Fluttertoast.showToast(
-                                            msg: "عدد النقاط غير مسموح",
-                                            toastLength: Toast.LENGTH_SHORT,
-                                            gravity: ToastGravity.BOTTOM,
-                                            timeInSecForIosWeb: 1,
-                                            backgroundColor:  Colors.black,
-                                            textColor: Colors.white,
-                                            fontSize: 16.0);
-                                      }
-                                    }, child: AppText("لا")),
-                                  )
-                                ],
-                              ),
-                            )
-                          ],
-                        ),
-                      ),
-                      backgroundColor: context.colorScheme.onPrimary,
-                      insetPadding: HWEdgeInsets.symmetric(horizontal: 30, vertical: 16),
-                    );
-
-
+                            context.goNamed('/home');
+                          },
+                        )
+                    );}else Fluttertoast.showToast(
+                        msg: "عدد النقاط غير مسموح",
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor:  Colors.black,
+                        textColor: Colors.white,
+                        fontSize: 16.0);
                   }, child: AppText("تأكيد")),
                 ),
                 20.horizontalSpace,

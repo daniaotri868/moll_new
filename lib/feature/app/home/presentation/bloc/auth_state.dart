@@ -4,7 +4,9 @@ part of 'auth_bloc.dart';
 class HomeState {
 
   final PageState<GetMollModel> getAllMoll;
+  final PageState<List<AllMollNameModel>> getAllMollName;
   final PageState<HomeModel> getHome;
+  final PageState<SearchHomeModel> getSearchHome;
   final PageState<GetMollDetailsModel> getMollDetails;
   final PageState<GetAllDepartmentDetailsModel> getDepartmentDetails;
   final PageState<GetAllDepartmentModel> getAllDepartment;
@@ -15,8 +17,10 @@ class HomeState {
   final PageState<GetAllDepartmentProductModel> getDepartmentProduct;
   final PageState<GetAllDepartmentProductModel> getAllFav;
   final BlocStatus changeFav;
+  final BlocStatus driver;
   final BlocStatus confirm;
   final BlocStatus rate;
+  final BlocStatus cancel;
   final PageState<OrderDetailsModel> createOrder;
   final PageState<OrderDetailsModel> updateOrder;
    List<ProductCart> ?listCart;
@@ -24,6 +28,8 @@ class HomeState {
       {
         this.getAllMoll=const PageState.init(),
         this.getMollDetails=const PageState.init(),
+        this.getAllMollName=const PageState.init(),
+        this.getSearchHome=const PageState.init(),
         this.getDepartmentDetails=const PageState.init(),
         this.getAllDepartment=const PageState.init(),
         this.getProductDetails=const PageState.init(),
@@ -31,8 +37,10 @@ class HomeState {
         this.getHome=const PageState.init(),
         this.orderDetails=const PageState.init(),
         this.changeFav=const BlocStatus.initial(),
+        this.cancel=const BlocStatus.initial(),
         this.confirm=const BlocStatus.initial(),
         this.rate=const BlocStatus.initial(),
+        this.driver=const BlocStatus.initial(),
         this.getDepartmentProduct=const PageState.init(),
         this.createOrder=const PageState.init(),
         this.getOrders=const PageState.init(),
@@ -44,7 +52,9 @@ class HomeState {
   HomeState copyWith({
     final PageState<GetMollModel> ?getAllMoll,
     final PageState<HomeModel> ?getHome,
+    final PageState<SearchHomeModel> ?getSearchHome,
     final PageState<GetMollDetailsModel> ?getMollDetails,
+    final PageState<List<AllMollNameModel>> ?getAllMollName,
     final PageState<GetAllDepartmentDetailsModel> ?getDepartmentDetails,
     final PageState<GetAllDepartmentModel> ?getAllDepartment,
     final PageState<GetProductDetailsModel> ?getProductDetails,
@@ -57,6 +67,8 @@ class HomeState {
     final PageState<GetAllDepartmentProductModel> ?getAllFav,
     final BlocStatus ?changeFav,
     final BlocStatus ?confirm,
+    final BlocStatus ?driver,
+    final BlocStatus ?cancel,
     final BlocStatus ?rate,
     List<ProductCart> ?listCart,
 
@@ -79,8 +91,12 @@ class HomeState {
       orderDetails: orderDetails??this.orderDetails,
       confirm: confirm??this.confirm,
       rate: rate??this.rate,
+        cancel: cancel??this.cancel,
       updateOrder: updateOrder??this.updateOrder,
-      getMyPoints: getMyPoints??this.getMyPoints
+      getMyPoints: getMyPoints??this.getMyPoints,
+      getSearchHome: getSearchHome??this.getSearchHome,
+      driver: driver??this.driver,
+      getAllMollName: getAllMollName??this.getAllMollName
 
     );
   }

@@ -7,7 +7,9 @@ import 'package:go_router/go_router.dart';
 import 'package:remy/common/constants/app_string.dart';
 import 'package:remy/common/models/page_state/page_state.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'dart:io';
 
+import 'package:device_info_plus/device_info_plus.dart';
 import 'package:remy/core/utils/extensions/build_context.dart';
 import 'package:remy/feature/app/auth/presentation/bloc/auth_bloc.dart';
 import 'package:remy/feature/app/presentation/widgets/app_date_picker.dart';
@@ -191,15 +193,31 @@ class _SignupScreenState extends State<SignupScreen> {
                       50.verticalSpace,
                       AppElevatedButton(
                         child: const Text(AppString.next),
-                        onPressed: () {
+                        onPressed: () async{
               if (formKey.currentState!.validate()||idArea=="") {
 
                 if(idArea!=''){
+                  DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
+                  String _deviceID = '';
+                  if (Platform.isIOS) {
+                    // import 'dart:io'
+                    var iosDeviceInfo = await deviceInfo.iosInfo;
+                    _deviceID = iosDeviceInfo.identifierForVendor!;
+
+                    // unique ID on iOS
+                  } else if (Platform.isAndroid) {
+                    var androidDeviceInfo = await deviceInfo.androidInfo;
+                    _deviceID = androidDeviceInfo.id;
+                  }
+
+                  print("kkkkkkkkkkkkkkkkkkkkkkkk");
+
+                  print(_deviceID);
                   context.read<AuthBloc>().add(CheckCodeEvent(
                     FirstName: firstName.text,
                     LastName: lastName.text,
                     PhoneNumber: phoneController.text,
-                    DeviceToken: "",
+                    DeviceToken: _deviceID,
                     Email: email.text,
                     Password: oldPassword.text,
                     Image: "",

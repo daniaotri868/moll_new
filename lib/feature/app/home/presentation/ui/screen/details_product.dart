@@ -6,19 +6,26 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
+import 'package:remy/core/config/routing/router.dart';
 import 'package:remy/core/utils/extensions/build_context.dart';
 import 'package:remy/feature/app/home/presentation/bloc/auth_bloc.dart';
+import 'package:remy/feature/app/presentation/pages/app.dart';
 import 'package:remy/feature/app/presentation/widgets/app_text.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../../../../../../common/constants/route.dart';
 import '../../../../../../common/models/page_state/result_builder.dart';
+import '../../../../../../core/utils/responsive_padding.dart';
 import '../../../../auth/presentation/ui/screen/login_screen.dart';
 import '../../../../presentation/pages/empty_screen.dart';
 import '../../../../presentation/pages/error_screen.dart';
 import '../../../../presentation/pages/loading_screen.dart';
+import '../../../../presentation/widgets/animated_dialog.dart';
 import '../../../../presentation/widgets/app_elvated_button.dart';
 import '../../../domain/use_case/department_details_use_case.dart';
+import '../../../domain/use_case/rate_usecase.dart';
 
 class DetailsProduct extends StatefulWidget {
   static String name="DetailsProduct";
@@ -31,6 +38,9 @@ class DetailsProduct extends StatefulWidget {
 
 class _DetailsProductState extends State<DetailsProduct> {
   @override
+  TextEditingController controllerNote = TextEditingController();
+  TextEditingController pointsController = TextEditingController(text: "0");
+  double rate=0;
   void initState() {
     // TODO: implement initState
     super.initState();
@@ -197,6 +207,95 @@ class _DetailsProductState extends State<DetailsProduct> {
                             )
                           ],
                         ),
+                        TextButton(onPressed: () {
+                          AnimatedDialog.show(
+                            context,
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(20),
+
+                              ),
+                              height: 230,
+                              width: 125,
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                 // AppText("قيًم"),
+                                  RatingBar.builder(
+                                    initialRating: 0.0,
+                                    minRating: 1,
+                                    direction: Axis.horizontal,
+                                    allowHalfRating: true,
+                                    itemCount: 5,
+                                    itemSize: 20.0,
+                                    updateOnDrag: true,
+
+                                    itemBuilder: (context, _) => const Icon(
+                                      Icons.star,
+                                      color: Colors.amber,
+                                    ),
+                                    ignoreGestures: false,
+                                    onRatingUpdate: (rating) {
+                                      setState(() {
+                                        rate=rating;
+                                      });
+                                      print(rating);
+                                    },
+                                  ),
+                                  50.verticalSpace,
+                                  Padding(
+                                    padding: const EdgeInsets.all(8.0),
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child: ElevatedButton(onPressed: () {
+                                            context.read<HomeBloc>().add(
+                                                RateOrderEvent(
+                                                  confirmOrderParams: RateOrderParams(
+                                                      userId:LoginScreen.userId ,
+                                                      id: widget.idProduct,
+                                                      evaluation:rate
+
+
+                                                  ),
+                                                  onSuccess: () {
+                                                    context.pop();
+                                                    Fluttertoast.showToast(
+                                                        msg: "تم التقييم",
+                                                        toastLength: Toast.LENGTH_SHORT,
+                                                        gravity: ToastGravity.BOTTOM,
+                                                        timeInSecForIosWeb: 1,
+                                                        backgroundColor:  Colors.black,
+                                                        textColor: Colors.white,
+                                                        fontSize: 16.0);
+                                                    // context.goNamed('/home');
+                                                  },
+                                                )
+                                            );
+
+                                          }, child: AppText("نعم")),
+                                        ),
+                                        8.horizontalSpace,
+                                        Expanded(
+                                          child: ElevatedButton(onPressed: () {
+                                            context.pop();
+
+                                          }, child: AppText("لا")),
+                                        )
+                                      ],
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ),
+                            backgroundColor: context.colorScheme.onPrimary,
+                            insetPadding: HWEdgeInsets.symmetric(horizontal: 30, vertical: 16),
+                          );
+                        }, child: AppText("هل تريد التقييم؟؟؟",style: TextStyle(
+                          color: context.colorScheme.primary
+                        ),))
 
                       ],
                     ),
