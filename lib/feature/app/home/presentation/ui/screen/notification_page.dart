@@ -60,7 +60,8 @@ class _NotificationPageState extends State<NotificationPage> {
                     },
                   ),
               result: state.getMyPoints,
-              empty: const EmptyScreen());
+              empty: const EmptyScreen()
+          );
         },
       ),
     );

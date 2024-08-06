@@ -11,6 +11,7 @@ class HomeState {
   final PageState<GetProductDetailsModel> getProductDetails;
   final PageState<List<AllOrderModel>> getOrders;
   final PageState<List<MyPointsModel>> getMyPoints;
+  final PageState<List<NotificationsModel>> notifications;
   final PageState<OrderDetailsModel> orderDetails;
   final PageState<GetAllDepartmentProductModel> getDepartmentProduct;
   final PageState<GetAllDepartmentProductModel> getAllFav;
@@ -36,6 +37,7 @@ class HomeState {
         this.getDepartmentProduct=const PageState.init(),
         this.createOrder=const PageState.init(),
         this.getOrders=const PageState.init(),
+        this.notifications =const PageState.init(),
         this.getMyPoints=const PageState.init(),
         this.updateOrder=const PageState.init(),
         this.listCart=const [],
@@ -49,6 +51,7 @@ class HomeState {
     final PageState<GetAllDepartmentModel> ?getAllDepartment,
     final PageState<GetProductDetailsModel> ?getProductDetails,
     final PageState<List<AllOrderModel>> ?getOrders,
+    final PageState<List<NotificationsModel>> ?notifications,
     final PageState<List<MyPointsModel>> ?getMyPoints,
     final PageState<OrderDetailsModel> ?orderDetails,
     final PageState<OrderDetailsModel> ?createOrder,
@@ -66,6 +69,7 @@ class HomeState {
     return HomeState(
       getAllDepartment: getAllDepartment??this.getAllDepartment,
       getAllMoll: getAllMoll??this.getAllMoll,
+      notifications: notifications??this.notifications,
       getDepartmentDetails: getDepartmentDetails??this.getDepartmentDetails,
       getMollDetails: getMollDetails??this.getMollDetails,
       getDepartmentProduct:getDepartmentProduct??this.getDepartmentProduct ,

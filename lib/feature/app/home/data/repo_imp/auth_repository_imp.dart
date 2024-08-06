@@ -13,6 +13,7 @@ import '../model/department_product.dart';
 import '../model/home_model.dart';
 import '../model/moll_details.dart';
 import '../model/moll_model.dart';
+import '../model/notifications_model.dart';
 import '../model/order_details_model.dart';
 import '../model/point_model.dart';
 import '../model/product_details_model.dart';
@@ -30,6 +31,14 @@ class AuthRepositoryImpl extends HomeRepository {
   Future<Result<ResponseWrapper<GetMollModel>>> getMall(Map<String, dynamic> params) {
     return toApiResult(() async {
       final result = datasource.getMall(params);
+      return result;
+    });
+  }
+  //Notifications
+  @override
+  Future<Result<ResponseWrapper<List<NotificationsModel>>>> notifications(Map<String, dynamic> params) {
+    return toApiResult(() async {
+      final result = datasource.notifications(params);
       return result;
     });
   }

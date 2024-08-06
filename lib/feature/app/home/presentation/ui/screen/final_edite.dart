@@ -42,7 +42,7 @@ class _FinalEditeScreenState extends State<FinalEditeScreen> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar:   AppBar(
+      appBar:AppBar(
         toolbarHeight: 90,
         title: AppText("تأكيد السلة",              style: context.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold,color: context.colorScheme.primary),
         ),

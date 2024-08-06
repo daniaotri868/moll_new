@@ -141,5 +141,9 @@ class GetOrderDetailsEvent extends HomeEvent {
   GetOrderDetailsEvent({required this.orderDetailsParams,});
 }
 
+class NotificationsEvent extends HomeEvent{
+final NotificationsParam notificationsParam;
 
+  NotificationsEvent({required this.notificationsParam});
+}
 

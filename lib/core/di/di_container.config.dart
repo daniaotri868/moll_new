@@ -50,14 +50,16 @@ import '../../feature/app/home/domain/use_case/get_product_details_usecase.dart'
 import '../../feature/app/home/domain/use_case/moll_details_use_case.dart'
     as _i32;
 import '../../feature/app/home/domain/use_case/moll_use_case.dart' as _i33;
+import '../../feature/app/home/domain/use_case/notifications_use_case.dart'
+    as _i38;
 import '../../feature/app/home/domain/use_case/order_details.dart' as _i34;
 import '../../feature/app/home/domain/use_case/post_order.dart' as _i35;
 import '../../feature/app/home/domain/use_case/rate_usecase.dart' as _i36;
 import '../../feature/app/home/domain/use_case/update_order.dart' as _i37;
-import '../../feature/app/home/presentation/bloc/auth_bloc.dart' as _i38;
+import '../../feature/app/home/presentation/bloc/auth_bloc.dart' as _i39;
 import '../../feature/app/presentation/bloc/app_manager_cubit.dart' as _i6;
 import '../api/client.dart' as _i9;
-import 'di_container.dart' as _i39;
+import 'di_container.dart' as _i40;
 
 // initializes the registration of main-scope dependencies inside of GetIt
 Future<_i1.GetIt> $initGetIt(
@@ -142,7 +144,9 @@ Future<_i1.GetIt> $initGetIt(
       () => _i36.RateOrdersUseCase(gh<_i19.HomeRepository>()));
   gh.factory<_i37.UpdateOrdersUseCase>(
       () => _i37.UpdateOrdersUseCase(gh<_i19.HomeRepository>()));
-  gh.factory<_i38.HomeBloc>(() => _i38.HomeBloc(
+  gh.factory<_i38.NotificationsUseCase>(
+      () => _i38.NotificationsUseCase(repository: gh<_i19.HomeRepository>()));
+  gh.factory<_i39.HomeBloc>(() => _i39.HomeBloc(
         gh<_i32.GetMollDetailsUseCase>(),
         gh<_i36.RateOrdersUseCase>(),
         gh<_i23.ConfirmOrdersUseCase>(),
@@ -159,8 +163,9 @@ Future<_i1.GetIt> $initGetIt(
         gh<_i22.ChangeFavUseCase>(),
         gh<_i37.UpdateOrdersUseCase>(),
         gh<_i30.MyPointsUseCase>(),
+        gh<_i38.NotificationsUseCase>(),
       ));
   return getIt;
 }
 
-class _$AppModule extends _i39.AppModule {}
+class _$AppModule extends _i40.AppModule {}
