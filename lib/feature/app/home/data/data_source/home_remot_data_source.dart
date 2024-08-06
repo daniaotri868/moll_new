@@ -19,10 +19,10 @@ import '../model/home_model.dart';
 import '../model/moll_details.dart';
 import '../model/moll_model.dart';
 import '../model/moll_name.dart';
+import '../model/notifications_model.dart';
 import '../model/order_details_model.dart';
 import '../model/point_model.dart';
 import '../model/product_details_model.dart';
-import '../model/search_model.dart';
 
 @injectable
 class HomeRemoteDataSource {
@@ -394,5 +394,26 @@ Future<ResponseWrapper<bool>> newRateOrder(Map<String, dynamic> params) async {
     });
   }
 
+
+
+  Future<ResponseWrapper<List<NotificationsModel>>> notifications(Map<String, dynamic> params) async {
+    return throwAppException(() async {
+      final response = await clientApi.request(RequestConfig(
+        endpoint: 'Notification/GetAll',
+        queryParameters: params,
+        data: params,
+        clientMethod: ClientMethod.get,
+      ));
+      return ResponseWrapper.fromJson(
+        {},
+            (json) {
+          final list = List<dynamic>.of(response.data)
+              .map<NotificationsModel>((e) => NotificationsModel.fromJson(e))
+              .toList();
+          return list;
+        },
+      );
+    });
+  }
 
 }

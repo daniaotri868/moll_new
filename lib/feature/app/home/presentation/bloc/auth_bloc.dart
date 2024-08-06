@@ -8,6 +8,8 @@ import 'package:remy/common/models/page_state/bloc_status.dart';
 import 'package:remy/common/models/page_state/page_state.dart';
 import 'package:remy/feature/app/auth/presentation/ui/screen/login_screen.dart';
 import '../../../../../common/models/response_wrapper/response_wrapper.dart';
+import 'package:remy/feature/app/home/data/model/notifications_model.dart';
+import 'package:remy/feature/app/home/domain/use_case/notifications_use_case.dart';
 import '../../../../../core/api/result.dart';
 import '../../data/model/all_department_model.dart';
 import '../../data/model/all_order_model.dart';
@@ -34,7 +36,6 @@ import '../../domain/use_case/get_home_usecase.dart';
 import '../../domain/use_case/get_order_usecase.dart';
 import '../../domain/use_case/get_point_usecase.dart';
 import '../../domain/use_case/get_product_details_usecase.dart';
-import '../../domain/use_case/moll_name.dart';
 import '../../domain/use_case/moll_use_case.dart';
 import '../../domain/use_case/moll_details_use_case.dart';
 import '../../domain/use_case/new_rate_order.dart';
@@ -57,8 +58,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final GetDepartmentProductUseCase getDepartmentProductUseCase;
   final GetProductDetailsUseCase getProductDetailsUseCase;
   final GetHomeUseCase getHomeUseCase;
-  final DriverUseCase driverUseCase;
-  final MollNameUseCase mollNameUseCase;
   final GetFavProductUseCase getFavProductUseCase;
   final ChangeFavUseCase changeFavUseCase;
   final GetOrdersUseCase getOrdersUseCase;
@@ -71,9 +70,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final UpdateOrdersUseCase updateOrdersUseCase;
   final MyPointsUseCase myPointsUseCase;
   final NewRateOrdersUseCase newRateOrdersUseCase;
+  final NotificationsUseCase notificationUseCase;
 
 
-  HomeBloc(this.getMollDetailsUseCase,this.rateOrdersUseCase,this.confirmOrdersUseCase,this.orderDetailsUseCase,this.createOrdersUseCase, this.getOrdersUseCase,this.getAllMollUseCase, this.getAllDepartmentUseCase, this.departmentDetailsUseCase, this.getProductDetailsUseCase, this.getDepartmentProductUseCase, this.getHomeUseCase, this.getFavProductUseCase, this.changeFavUseCase, this.updateOrdersUseCase, this.myPointsUseCase, this.cancelOrdersUseCase, this.searchHomeUseCase, this.driverUseCase, this.mollNameUseCase, this.newRateOrdersUseCase
+  HomeBloc(this.getMollDetailsUseCase,this.rateOrdersUseCase,this.confirmOrdersUseCase,this.orderDetailsUseCase,this.createOrdersUseCase, this.getOrdersUseCase,this.getAllMollUseCase, this.getAllDepartmentUseCase, this.departmentDetailsUseCase, this.getProductDetailsUseCase, this.getDepartmentProductUseCase, this.getHomeUseCase, this.getFavProductUseCase, this.changeFavUseCase, this.updateOrdersUseCase, this.myPointsUseCase, this.searchHomeUseCase, this.cancelOrdersUseCase, this.newRateOrdersUseCase, this.notificationUseCase
 
   ) : super( HomeState()) {
     on<ProductDetailsEvent>(_onProductDetailsEvent);
@@ -168,6 +168,21 @@ FutureOr<void> _onSearchHomeEvent(
       case Failure(exception: final exception, message: final message):
         emit(state.copyWith(
           getMyPoints:   PageState.error(exception: exception, message: message),
+        ));
+    }
+  }
+  FutureOr<void> _NotificaitionsEvent(
+     NotificationsEvent event, Emitter<HomeState> emit) async {
+    emit(state.copyWith(notifications:PageState.loading()));
+    final result = await notificationUseCase(NotificationsParam(userId: event.notificationsParam.userId ));
+    switch (result) {
+      case Success(value: final data):
+        emit(state.copyWith(
+          notifications:  PageState.loaded(data: data.data),
+           ));
+      case Failure(exception: final exception, message: final message):
+        emit(state.copyWith(
+          notifications:   PageState.error(exception: exception, message: message),
         ));
     }
   }

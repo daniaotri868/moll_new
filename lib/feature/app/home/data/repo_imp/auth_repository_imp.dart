@@ -36,6 +36,14 @@ class AuthRepositoryImpl extends HomeRepository {
       return result;
     });
   }
+  //Notifications
+  @override
+  Future<Result<ResponseWrapper<List<NotificationsModel>>>> notifications(Map<String, dynamic> params) {
+    return toApiResult(() async {
+      final result = datasource.notifications(params);
+      return result;
+    });
+  }
  @override
   Future<Result<ResponseWrapper<HomeModel>>> getHome(Map<String, dynamic> params) {
     return toApiResult(() async {

@@ -10,6 +10,7 @@ import '../../data/model/home_model.dart';
 import '../../data/model/moll_details.dart';
 import '../../data/model/moll_model.dart';
 import '../../data/model/moll_name.dart';
+import '../../data/model/notifications_model.dart';
 import '../../data/model/order_details_model.dart';
 import '../../data/model/point_model.dart';
 import '../../data/model/product_details_model.dart';
@@ -40,5 +41,6 @@ abstract class HomeRepository {
   Future<Result<ResponseWrapper<GetMollDetailsModel>>> getMallDetails(Map<String, dynamic> params);
   Future<Result<ResponseWrapper<GetAllDepartmentModel>>> getAllDepartment(Map<String, dynamic> params);
   Future<Result<ResponseWrapper<GetAllDepartmentDetailsModel>>> getDepartmentDetails(Map<String, dynamic> params);
+  Future<Result<ResponseWrapper<List<NotificationsModel>>>> notifications(Map<String, dynamic> params);
 
 }

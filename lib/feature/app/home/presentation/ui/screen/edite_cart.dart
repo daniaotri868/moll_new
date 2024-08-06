@@ -30,7 +30,7 @@ class _EditeCartPageState extends State<EditeCartPage> {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
         return Scaffold(
-          appBar:  AppBar(
+          appBar: AppBar(
             toolbarHeight: 90,
             title: AppText("تعديل سلّة التّسوق ",
               style: context.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold,color: context.colorScheme.primary),
