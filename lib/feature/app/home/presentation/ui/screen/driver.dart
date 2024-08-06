@@ -130,6 +130,7 @@ class _SignupScreenState extends State<Driver> {
                           AppTextField(
                             name: "firstName",
                             controller: firstName,
+                            textCapitalization: TextCapitalization.words,
                             title: AppString.firstName,
                             validator: FormBuilderValidators.required(),
                             prefixIcon: Icon(
@@ -166,13 +167,15 @@ class _SignupScreenState extends State<Driver> {
                           AppTextField(
                             name: "phone",
                             textInputType:TextInputType.number,
+                            validator: FormBuilderValidators.equal(10),
+
                             controller: phoneController,
                             title: "رقم الهاتف",
 
-                            validator: FormBuilderValidators.phoneNumber(),
+                            // validator: FormBuilderValidators.phoneNumber(),
 
                             prefixIcon: Icon(
-                              Icons.email,
+                              Icons.phone,
                               color: context.colorScheme.primary,
                             ),
                           ),
@@ -236,6 +239,7 @@ class _SignupScreenState extends State<Driver> {
                               empty: const EmptyScreen()),
                           50.verticalSpace,
                           AppElevatedButton(
+                            isLoading:state.driver.isLoading() ,
                             child: const Text("تأكيد"),
                             onPressed: () async{
                               if (formKey.currentState!.validate()||idArea=="") {
@@ -265,10 +269,19 @@ class _SignupScreenState extends State<Driver> {
                                      Email: email.text,
                                      MallId: idArea??"",
                                      CV: path
-                                     // onSuccess: () {
-                                     //   context.goNamed(GRouter.config.homeRoutes.homeScreen);
-                                     // },
-                                   )
+
+                                   ),
+                                    onSuccess: () {
+                                      Fluttertoast.showToast(
+                                          msg: "تم الطلب",
+                                          toastLength: Toast.LENGTH_SHORT,
+                                          gravity: ToastGravity.BOTTOM,
+                                          timeInSecForIosWeb: 1,
+                                          backgroundColor:  Colors.black,
+                                          textColor: Colors.white,
+                                          fontSize: 16.0);
+                                      context.pop();
+                                    },
                                   ));
 
 

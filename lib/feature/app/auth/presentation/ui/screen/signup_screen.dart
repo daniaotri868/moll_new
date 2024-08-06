@@ -1,3 +1,4 @@
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -37,7 +38,7 @@ class _SignupScreenState extends State<SignupScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    context.read<AuthBloc>().add(AllAreaEvent());
+    // context.read<AuthBloc>().add(AllAreaEvent());
   }
   @override
   TextEditingController firstName=TextEditingController();
@@ -50,6 +51,7 @@ class _SignupScreenState extends State<SignupScreen> {
   TextEditingController phoneController =TextEditingController();
 
   TextEditingController oldPassword =TextEditingController();
+  TextEditingController mony =TextEditingController();
   final formKey = GlobalKey<FormState>();
 
   String ?idArea="" ;
@@ -89,6 +91,7 @@ class _SignupScreenState extends State<SignupScreen> {
                       45.verticalSpace,
                       AppTextField(
                         name: "firstName",
+                        textCapitalization: TextCapitalization.words,
                         controller: firstName,
                         title: AppString.firstName,
                         validator: FormBuilderValidators.required(),
@@ -104,7 +107,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         controller: lastName,
 
                         title: AppString.lastName,
-                        validator: FormBuilderValidators.required(),
+                        validator: FormBuilderValidators.minWordsCount(1),
                         prefixIcon: Icon(
                           Icons.person,
                           color: context.colorScheme.primary,
@@ -129,10 +132,10 @@ class _SignupScreenState extends State<SignupScreen> {
                         controller: phoneController,
                         title: "رقم الهاتف",
 
-                        validator: FormBuilderValidators.phoneNumber(),
+                        validator: FormBuilderValidators.equal(10),
 
                         prefixIcon: Icon(
-                          Icons.email,
+                          Icons.phone,
                           color: context.colorScheme.primary,
                         ),
                       ),
@@ -144,7 +147,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         textInputType:TextInputType.text,
                         validator: FormBuilderValidators.required(),
                         prefixIcon: Icon(
-                          Icons.email,
+                          Icons.location_history,
                           color: context.colorScheme.primary,
                         ),
                       ),
@@ -163,40 +166,75 @@ class _SignupScreenState extends State<SignupScreen> {
                         ),
                       ),
                       20.verticalSpace,
-                  PageStateBuilder(
-                      init: const SizedBox.shrink(),
-                      success: (data) => AppDropDownMenu(
-                          hint: "أختر منطقة",
-                          onChange: (value) {
-                            idArea=value.id;
-                            print(idArea);
-                          },
-                          // border: Border(top: BorderSide(color: Colors.cyan,width: 2)),
-                          // hintText: "اختر يوم",
-                          // initialValue:day[1],
-                          // value: _selectedValueCategoryMain,
-                          // onChanged: (value) {
-                          //   setState(() {
-                          //     context.read<CartBloc>().add(DaySelectEvent(id:value?.id ));
-                          //     _selectedValueCategoryMain = value;
-                          //   });
-                          // },
-                          items: data
-                      ),
-                      loading: const LoadingScreen(),
-                      error: (error) =>  ErrorScreen(onRefresh: () {
-                        context.read<AuthBloc>().add(AllAreaEvent());
+                      AppTextField(
+                        name: "المحفظة",
+                        title: "المحفظة",
+                        // obscure: true,
+                        controller: mony,
+                        validator: FormBuilderValidators.phoneNumber(),
 
-                      },),
-                      result: state.listArea,
-                      empty: const EmptyScreen()),
-                      50.verticalSpace,
+                        // validator: FormBuilderValidators.password(minLength: 5),
+
+                        // isPasswordFiled: true,
+                        prefixIcon: Icon(
+                          Icons.monetization_on_sharp,
+                          color: context.colorScheme.primary,
+                        ),
+                      ),
+                      20.verticalSpace,
+                  // PageStateBuilder(
+                  //     init: const SizedBox.shrink(),
+                  //     success: (data) => AppDropDownMenu(
+                  //         hint: "أختر منطقة",
+                  //         onChange: (value) {
+                  //           idArea=value.id;
+                  //           print(idArea);
+                  //         },
+                  //         // border: Border(top: BorderSide(color: Colors.cyan,width: 2)),
+                  //         // hintText: "اختر يوم",
+                  //         // initialValue:day[1],
+                  //         // value: _selectedValueCategoryMain,
+                  //         // onChanged: (value) {
+                  //         //   setState(() {
+                  //         //     context.read<CartBloc>().add(DaySelectEvent(id:value?.id ));
+                  //         //     _selectedValueCategoryMain = value;
+                  //         //   });
+                  //         // },
+                  //         items: data
+                  //     ),
+                  //     loading: const LoadingScreen(),
+                  //     error: (error) =>  ErrorScreen(onRefresh: () {
+                  //       context.read<AuthBloc>().add(AllAreaEvent());
+                  //
+                  //     },),
+                  //     result: state.listArea,
+                  //     empty: const EmptyScreen()),
+                  //     50.verticalSpace,
                       AppElevatedButton(
+                        isLoading: state.checkCodeStatus.isLoading(),
                         child: const Text(AppString.next),
                         onPressed: () async{
               if (formKey.currentState!.validate()||idArea=="") {
-
-                if(idArea!=''){
+                FirebaseMessaging _firebaseMessaging = FirebaseMessaging.instance; // Change here
+                _firebaseMessaging.getToken().then((token){
+                  print(token);
+                  context.read<AuthBloc>().add(CheckCodeEvent(
+                    FirstName: firstName.text,
+                    LastName: lastName.text,
+                    PhoneNumber: phoneController.text,
+                    DeviceToken: token??"",
+                    Email: email.text,
+                    Password: oldPassword.text,
+                    Image: "",
+                    Address:addressController.text ,
+                    AreaId: idArea??"",
+                    Wallet: double.parse("${mony.text}"),
+                    onSuccess: () {
+                      context.goNamed(GRouter.config.homeRoutes.homeScreen);
+                    },
+                  ));
+                });
+                // if(idArea!=''){
                   DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
                   String _deviceID = '';
                   if (Platform.isIOS) {
@@ -213,33 +251,20 @@ class _SignupScreenState extends State<SignupScreen> {
                   print("kkkkkkkkkkkkkkkkkkkkkkkk");
 
                   print(_deviceID);
-                  context.read<AuthBloc>().add(CheckCodeEvent(
-                    FirstName: firstName.text,
-                    LastName: lastName.text,
-                    PhoneNumber: phoneController.text,
-                    DeviceToken: _deviceID,
-                    Email: email.text,
-                    Password: oldPassword.text,
-                    Image: "",
-                    Address:addressController.text ,
-                    AreaId: idArea??"",
-                    onSuccess: () {
-                      context.goNamed(GRouter.config.homeRoutes.homeScreen);
-                    },
-                  ));
 
 
-                }else
-                  {
-                    Fluttertoast.showToast(
-                        msg: "ادخل المنطقة",
-                        toastLength: Toast.LENGTH_SHORT,
-                        gravity: ToastGravity.BOTTOM,
-                        timeInSecForIosWeb: 1,
-                        backgroundColor:  Colors.black,
-                        textColor: Colors.white,
-                        fontSize: 16.0);
-                  }
+
+                // }else
+                //   {
+                //     Fluttertoast.showToast(
+                //         msg: "ادخل المنطقة",
+                //         toastLength: Toast.LENGTH_SHORT,
+                //         gravity: ToastGravity.BOTTOM,
+                //         timeInSecForIosWeb: 1,
+                //         backgroundColor:  Colors.black,
+                //         textColor: Colors.white,
+                //         fontSize: 16.0);
+                //   }
               }
                         },
                       ),

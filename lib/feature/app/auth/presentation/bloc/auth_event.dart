@@ -17,6 +17,7 @@ class CheckCodeEvent extends AuthEvent {
   final String PhoneNumber;
   final String Image;
   final String Password;
+  final double Wallet;
   final String Email;
   final String DeviceToken;
   final String Address;
@@ -25,6 +26,7 @@ class CheckCodeEvent extends AuthEvent {
   CheckCodeEvent({
     required this.FirstName,
     required this.DeviceToken,
+    required this.Wallet,
     required this.Image,
     required this.LastName,
     required this.PhoneNumber,
@@ -43,6 +45,7 @@ class AllAreaEvent extends AuthEvent {
 
 class UpdateUserInfoEvent extends AuthEvent {
   final String FirstName;
+  final double wallet;
   final String LastName;
   final String PhoneNumber;
   final String Image;
@@ -55,7 +58,7 @@ class UpdateUserInfoEvent extends AuthEvent {
 
   UpdateUserInfoEvent(
       {
-        required this.FirstName,required this.NewPassword,required this.UserId,
+        required this.FirstName, required this.wallet,required this.NewPassword,required this.UserId,
         required this.DeviceToken,required this.Image, required this.LastName,
         required this.PhoneNumber,required this.Email,required this.OldPassword,required this.onSuccess
       });

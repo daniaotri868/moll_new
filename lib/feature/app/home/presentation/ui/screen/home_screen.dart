@@ -118,6 +118,18 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 )),
                 Divider(),
+                TextButton(onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Driver(),));
+
+                }, child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Icon(Icons.drive_eta),
+                    15.horizontalSpace,
+                    Text("هل تريد أن تكون سائقا?",),
+                  ],
+                )),
               ],
             ),
           ),
@@ -141,7 +153,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         readOnly: true,
                         hintText: "ابحث عن كل ما يجول في بالك",
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => Driver(),));
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => SearchHomeScreen(),));
                         },
                         filled: true,
                         fillColor: context.colorScheme.white,

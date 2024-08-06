@@ -14,6 +14,7 @@ import '../../../../auth/presentation/ui/screen/login_screen.dart';
 import '../../../../presentation/pages/error_screen.dart';
 import '../../../../presentation/widgets/app_text.dart';
 import '../../../../presentation/widgets/product_item.dart';
+import '../../../domain/use_case/change_fav_usecase.dart';
 import '../../../domain/use_case/department_details_use_case.dart';
 import '../../../domain/use_case/moll_use_case.dart';
 import '../../bloc/auth_bloc.dart';
@@ -85,7 +86,7 @@ class _AllProductDepartmentScreenState extends State<AllProductDepartmentScreen>
             ),
           ),
           body:PageStateBuilder(
-            success: (data) => (data.products??[]).isEmpty?EmptyScreen(): Padding(
+            success: (data) => (state.listDepartmentProduct??[]).isEmpty?EmptyScreen(): Padding(
               padding: const EdgeInsets.all(8.0),
               child: GridView.builder(
                 gridDelegate:
@@ -107,8 +108,8 @@ class _AllProductDepartmentScreenState extends State<AllProductDepartmentScreen>
                     children: [
                       InkWell(
                         onTap: () {
-                          print(data.products?[index].Lng);
-                          context.pushNamed(DetailsProduct.name,extra: data.products?[index].id??"");
+                          print(state.listDepartmentProduct?[index].Lng);
+                          context.pushNamed(DetailsProduct.name,extra: state.listDepartmentProduct?[index].id??"");
                         },
                         child: SizedBox(
                           height: 150,
@@ -116,9 +117,22 @@ class _AllProductDepartmentScreenState extends State<AllProductDepartmentScreen>
                             borderRadius: BorderRadius.all(
                               Radius.circular(18.r),
                             ),
-                            child: FancyShimmerImage(
-                              // imageUrl: faker.image.image(random: true),
-                              imageUrl:  "${EndPoints.address}/${data.products?[index].imageUrl}",
+                            child: Stack(
+                              children: [
+                               FancyShimmerImage(
+                                  // imageUrl: faker.image.image(random: true),
+                                  imageUrl:  "${EndPoints.address}/${state.listDepartmentProduct?[index].imageUrl}",
+                                ),
+                                IconButton(onPressed: () {
+                                  context.read<HomeBloc>().add(ChangeFavEvent(
+                                      changeFavParams: ChangeFavParams(
+                                          id: state.listDepartmentProduct?[index].id??"",
+                                          userId: LoginScreen.userId
+                                      )
+                                  ));
+                                }, icon: Icon(Icons.favorite,color:(state.listDepartmentProduct?[index].isFavourite??false)?context.colorScheme.primary:Colors.black ,)),
+
+                              ],
                             ),
                           ),
                         ),
@@ -134,7 +148,7 @@ class _AllProductDepartmentScreenState extends State<AllProductDepartmentScreen>
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                data.products?[index].name??"",
+                                state.listDepartmentProduct?[index].name??"",
                                 style: context.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w700),
                               ),
                               Container(
@@ -146,7 +160,7 @@ class _AllProductDepartmentScreenState extends State<AllProductDepartmentScreen>
                                   color: context.colorScheme.primary.withOpacity(.2),
                                 ),
                                 child: Text(
-                                  data.products?[index].price.toString()??"",
+                                  state.listDepartmentProduct?[index].price.toString()??"",
                                   style: context.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w700,color: context.colorScheme.primary),
                                 ),
                               ),
@@ -157,19 +171,19 @@ class _AllProductDepartmentScreenState extends State<AllProductDepartmentScreen>
                           InkWell(
                             onTap: () {
                               print(state.listCart);
-                              print("55555555555${data.products?[index].quantity}");
-                              print(data.products?[index].Lat);
+                              print("55555555555${state.listDepartmentProduct?[index].quantity}");
+                              print(state.listDepartmentProduct?[index].Lat);
                               context.read<HomeBloc>().add(SaveProductsToPosEvent(
-                                id: data.products?[index].id,
+                                id: state.listDepartmentProduct?[index].id,
                                 qun: 1,
-                                price: data.products?[index].price,
-                                name: data.products?[index].name,
-                                offer: data.products?[index].priceAfterDiscount,
-                                max: data.products?[index].quantity,
-                                image: data.products?[index].imageUrl,
-                                mallId: data.products?[index].mallId,
-                                Lat: data.products?[index].Lat,
-                                Lng: data.products?[index].Lng
+                                price: state.listDepartmentProduct?[index].price,
+                                name: state.listDepartmentProduct?[index].name,
+                                offer: state.listDepartmentProduct?[index].priceAfterDiscount,
+                                max: state.listDepartmentProduct?[index].quantity,
+                                image: state.listDepartmentProduct?[index].imageUrl,
+                                mallId: state.listDepartmentProduct?[index].mallId,
+                                Lat: state.listDepartmentProduct?[index].Lat,
+                                Lng: state.listDepartmentProduct?[index].Lng
 
                               ));
                             },
@@ -195,7 +209,7 @@ class _AllProductDepartmentScreenState extends State<AllProductDepartmentScreen>
                     ],
                   ),
                 ),
-                itemCount: data.products?.length??0,
+                itemCount: state.listDepartmentProduct?.length??0,
               ),
             ),
             result: state.getDepartmentProduct,

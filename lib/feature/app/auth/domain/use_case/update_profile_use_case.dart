@@ -15,7 +15,7 @@ class UpdateProfileUseCase extends UseCase<Result<ResponseWrapper<bool>>, Update
 
   @override
   Future<Result<ResponseWrapper<bool>>> call(UpdateProfileParams params) {
-    return repository.updateProfile(params.toMap());
+    return repository.updateProfile(params);
   }
 }
 
@@ -28,9 +28,10 @@ class UpdateProfileParams {
   final String Email;
   final String DeviceToken;
   final String UserId;
+  final double wallet;
   final String NewPassword;
   UpdateProfileParams({
-    required this.FirstName,required this.NewPassword,required this.UserId,
+    required this.FirstName,required this.wallet,required this.NewPassword,required this.UserId,
     required this.DeviceToken,required this.Image, required this.LastName,
     required this.PhoneNumber,required this.Email,required this.OldPassword
   });

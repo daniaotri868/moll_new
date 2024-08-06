@@ -14,6 +14,7 @@ import 'package:remy/core/utils/extensions/build_context.dart';
 import 'package:remy/feature/app/auth/presentation/bloc/auth_bloc.dart';
 import 'package:remy/feature/app/auth/presentation/ui/screen/login_screen.dart';
 import 'package:remy/feature/app/home/presentation/bloc/auth_bloc.dart';
+import 'package:remy/feature/app/presentation/widgets/app_elvated_button.dart';
 import 'package:remy/feature/app/root/presentation/ui/screen/root_screen.dart';
 
 import '../../../../../../common/constants/route.dart';
@@ -42,6 +43,8 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
   double rate=0;
 
   Widget build(BuildContext context) {
+    return BlocBuilder<HomeBloc, HomeState>(
+  builder: (context, state) {
     return Scaffold(
       appBar:   AppBar(
         toolbarHeight: 90,
@@ -251,7 +254,9 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
             Row(
               children: [
                 Expanded(
-                  child: ElevatedButton(onPressed: () {
+                  child: AppElevatedButton(
+                      isLoading: state.confirm.isLoading(),
+                      onPressed: () {
                     if((int.tryParse("${pointsController.text}")!)<=(widget.data?.pointsCanUse??0))  {context.read<HomeBloc>().add(
                         ConfirmOrderEvent(
                           confirmOrderParams: ConfirmOrderParams(
@@ -261,12 +266,12 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                               pointsToUse: int.tryParse("${pointsController.text??"0"}")
                           ),
                           onSuccess: () {
-
+                           context.read<HomeBloc>().add(DeleteAllProductsToPosEvent());
                             context.goNamed('/home');
                           },
                         )
                     );}else Fluttertoast.showToast(
-                        msg: "عدد النقاط غير مسموح",
+                        msg: "المبلغ يتجاوز سعر المحفظة",
                         toastLength: Toast.LENGTH_SHORT,
                         gravity: ToastGravity.BOTTOM,
                         timeInSecForIosWeb: 1,
@@ -288,6 +293,8 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
         ),
       ),
     );
+  },
+);
 
   }
 }

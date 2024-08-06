@@ -68,6 +68,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       CheckCodeEvent event, Emitter<AuthState> emit) async {
     emit(state.copyWith(checkCodeStatus: const BlocStatus.loading()));
     final result = await checkCodeUseCase(CheckCodeParams(
+
+        Wallet: event.Wallet,
       AreaId: event.AreaId,
         Address: event.Address,
       DeviceToken: event.DeviceToken,
@@ -85,6 +87,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       UpdateUserInfoEvent event, Emitter<AuthState> emit) async {
     emit(state.copyWith(updateUserInfo: const BlocStatus.loading()));
     final result = await updateProfileUseCase(UpdateProfileParams(
+      wallet: event.wallet,
         DeviceToken: event.DeviceToken,
         Email: event.Email,
         FirstName: event.FirstName,

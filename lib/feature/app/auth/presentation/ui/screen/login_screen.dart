@@ -30,7 +30,9 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: context.colorScheme.primary,
-      body: SingleChildScrollView(
+      body: BlocBuilder<AuthBloc, AuthState>(
+  builder: (context, state) {
+    return SingleChildScrollView(
         child: Form(
           key:formKey ,
           child: Column(
@@ -85,6 +87,7 @@ class LoginScreen extends StatelessWidget {
                       ),
                       50.verticalSpace,
                       AppElevatedButton(
+                        isLoading: state.registerStatus.isLoading(),
                         child: const Text(AppString.next),
                         onPressed: () async{
 
@@ -150,7 +153,9 @@ class LoginScreen extends StatelessWidget {
             ],
           ),
         ),
-      ),
+      );
+  },
+),
     );
   }
 }

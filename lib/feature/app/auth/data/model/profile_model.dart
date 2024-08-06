@@ -10,6 +10,7 @@ String getMyProfileModelToJson(GetMyProfileModel data) => json.encode(data.toJso
 
 class GetMyProfileModel {
   final String ?id;
+  final double ?wallet;
   final String ?firstName;
   final String ?lastName;
   final String ?email;
@@ -18,6 +19,7 @@ class GetMyProfileModel {
 
   GetMyProfileModel({
     this.id,
+    this.wallet,
     this.firstName,
     this.lastName,
     this.email,
@@ -27,6 +29,7 @@ class GetMyProfileModel {
 
   factory GetMyProfileModel.fromJson(Map<String, dynamic> json) => GetMyProfileModel(
     id: json["id"],
+    wallet: double.parse("${json["wallet"]}"),
     firstName: json["firstName"],
     lastName: json["lastName"],
     email: json["email"],
@@ -36,6 +39,7 @@ class GetMyProfileModel {
 
   Map<String, dynamic> toJson() => {
     "id": id,
+    "wallet": wallet,
     "firstName": firstName,
     "lastName": lastName,
     "email": email,

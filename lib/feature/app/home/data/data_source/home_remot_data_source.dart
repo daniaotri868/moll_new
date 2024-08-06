@@ -202,6 +202,21 @@ Future<ResponseWrapper<bool>> rateOrder(Map<String, dynamic> params) async {
       );
     });
   }
+Future<ResponseWrapper<bool>> newRateOrder(Map<String, dynamic> params) async {
+    return throwAppException(() async {
+      final response = await clientApi.request(RequestConfig(
+        endpoint: 'Order/Evaluate',
+        data: params,
+        clientMethod: ClientMethod.post,
+      ));
+      return ResponseWrapper.fromJson(
+        {},
+        (json) {
+          return  true;
+        },
+      );
+    });
+  }
 
   Future<ResponseWrapper<bool>> cancelOrder(Map<String, dynamic> params) async {
     return throwAppException(() async {
@@ -277,8 +292,9 @@ Future<ResponseWrapper<bool>> rateOrder(Map<String, dynamic> params) async {
 
   Future<ResponseWrapper<bool>> changeFav(Map<String, dynamic> params) async {
     return throwAppException(() async {
+
       final response = await clientApi.request(RequestConfig(
-        endpoint: EndPoints.auth.login,
+        endpoint: 'Product/ChangeFavouriteStatus',
         data: params,
         clientMethod: ClientMethod.post,
       ));

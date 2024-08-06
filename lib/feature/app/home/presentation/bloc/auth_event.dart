@@ -31,6 +31,14 @@ class AllDepartmentEvent extends HomeEvent {
 
   AllDepartmentEvent({required this.detailsParams,});
 }
+
+class NewRateOrderEvent extends HomeEvent {
+  final NewRateOrderParams newRateOrderParams;
+  final VoidCallback onSuccess;
+
+
+  NewRateOrderEvent({required this.newRateOrderParams,required this.onSuccess});
+}
 class AllMollEvent extends HomeEvent {
   final MollParams detailsParams;
 
@@ -84,6 +92,11 @@ class DeleteProductsToPosEvent extends HomeEvent {
    DeleteProductsToPosEvent({
     required this.productItem,
   });
+}
+
+class DeleteAllProductsToPosEvent extends HomeEvent {
+
+  DeleteAllProductsToPosEvent();
 }
 class MollDetailsEvent extends HomeEvent {
   final DetailsParams detailsParams;
@@ -168,8 +181,10 @@ class GetMollNameEvent extends HomeEvent {
 }
 class DriverEvent extends HomeEvent {
   final DriverParams driverParams;
+  final VoidCallback onSuccess;
 
-  DriverEvent({required this.driverParams,});
+
+  DriverEvent({required this.driverParams,required this.onSuccess});
 }
 
 class GetOrderDetailsEvent extends HomeEvent {

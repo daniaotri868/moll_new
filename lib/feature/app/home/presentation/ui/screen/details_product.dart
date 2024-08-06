@@ -163,8 +163,8 @@ class _DetailsProductState extends State<DetailsProduct> {
                           children: [
                             Column(
                               children: [
-                                if(data.offer?.priceAfterDiscount!=0)AppText(data.price.toString()??"", style: context.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w700,  decoration: TextDecoration.lineThrough,),),
-                                AppText((data.offer?.priceAfterDiscount!=0)?data.offer?.priceAfterDiscount.toString()??"":data.price.toString()??"", style: context.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w700),),
+                                if(data.offer?.priceAfterDiscount!=null)AppText(data.price.toString()??"", style: context.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w700,  decoration: TextDecoration.overline,),),
+                                AppText((data.offer?.priceAfterDiscount!=null)?data.offer?.priceAfterDiscount.toString()??"":data.price.toString()??"", style: context.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w700),),
 
                               ],
                             ),

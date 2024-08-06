@@ -21,6 +21,7 @@ class OrderDetailsModel {
   final int ?deliveryCost;
   final String ?number;
   final String ?note;
+  final String ?status;
   final String ?address;
   final int ?distance;
   final int ?pointsCanUse;
@@ -31,6 +32,7 @@ class OrderDetailsModel {
   OrderDetailsModel({
     this.id,
     this.mallId,
+    this.status,
     this.usedPoints,
     this.mallName,
     this.lng,
@@ -52,6 +54,7 @@ class OrderDetailsModel {
   factory OrderDetailsModel.fromJson(Map<String, dynamic> json) => OrderDetailsModel(
     id: json["id"],
     mallId: json["mallId"],
+    status: json["status"],
     lng: json["lng"],
     lat: json["lat"],
     usedPoints: json["usedPoints"],
@@ -73,6 +76,7 @@ class OrderDetailsModel {
   Map<String, dynamic> toJson() => {
     "id": id,
     "lng": lng,
+    "status": status,
     "lat": lat,
     "areaName": areaName,
     "usedPoints": usedPoints,

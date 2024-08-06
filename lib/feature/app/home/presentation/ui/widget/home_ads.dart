@@ -90,10 +90,16 @@ class HomeAdsSlider extends StatelessWidget {
                                           padding: const EdgeInsets.all(16),
                                           child: BackdropFilter(
                                             filter: ImageFilter.blur(sigmaY: 8, sigmaX: 8),
-                                            child: Text(
-                                              e.name??"",
-                                              textAlign: TextAlign.center,
-                                              style: context.textTheme.titleMedium,
+                                            child: Column(
+                                              children: [
+                                                Text(
+                                                  e.name??"",
+                                                  textAlign: TextAlign.center,
+                                                  style: context.textTheme.titleMedium,
+                                                ),
+                                                AppText("  اسم المول  ${e.mallName}  ",style: context.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w700),
+                                                ),
+                                              ],
                                             ),
                                           ),
                                         ),

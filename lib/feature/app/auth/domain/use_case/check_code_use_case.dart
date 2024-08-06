@@ -15,12 +15,13 @@ class CheckCodeUseCase
 
   @override
   Future<Result<ResponseWrapper<String>>> call(CheckCodeParams params) {
-    return repository.checkCode(params.toMap());
+    return repository.checkCode(params);
   }
 }
 
 class CheckCodeParams {
   final String FirstName;
+  final double Wallet;
   final String LastName;
   final String PhoneNumber;
   final String Image;
@@ -30,7 +31,7 @@ final String DeviceToken;
   final String Address;
   final String AreaId;
   CheckCodeParams(
-      {  required this.AreaId,
+      {  required this.AreaId,required this.Wallet,
         required this.Address,required this.FirstName,required this.DeviceToken,required this.Image, required this.LastName, required this.PhoneNumber,required this.Email,required this.Password});
 
   Map<String, dynamic> toMap() {
@@ -39,6 +40,7 @@ final String DeviceToken;
       'LastName': LastName,
       'PhoneNumber': PhoneNumber,
       'Email':Email,
+      'wallet':Wallet,
       'Password':Password,
       'Address':Address,
       'AreaId':AreaId,

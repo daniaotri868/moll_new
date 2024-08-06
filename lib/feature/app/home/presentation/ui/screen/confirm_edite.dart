@@ -43,7 +43,7 @@ class _EditeOrderScreenState extends State<EditeOrderScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    context.read<AuthBloc>().add(AllAreaEvent());
+    // context.read<AuthBloc>().add(AllAreaEvent());
     context.read<HomeBloc>().state.listCart?.forEach(
           (element) {
         products.add({
@@ -131,33 +131,33 @@ class _EditeOrderScreenState extends State<EditeOrderScreen> {
                   ),
                 ),
                 30.verticalSpace,
-                BlocBuilder<AuthBloc, AuthState>(
-                  builder: (context, state) {
-                    return PageStateBuilder(
-                        init: SizedBox.shrink(),
-                        success: (data) =>
-                            AppDropDownMenu(
-                                hint: "اختر منطقة",
-                                onChange: (value) {
-                                  setState(() {
-                                    idArea = value.id;
-                                  });
-                                  print(idArea);
-                                },
-
-                                // },
-                                items: data
-                            ),
-                        loading: const LoadingScreen(),
-                        error: (error) =>
-                            ErrorScreen(onRefresh: () {
-                              context.read<AuthBloc>().add(AllAreaEvent());
-                            },),
-                        result: state.listArea,
-                        empty: const EmptyScreen());
-                  },
-                ),
-                30.verticalSpace,
+                // BlocBuilder<AuthBloc, AuthState>(
+                //   builder: (context, state) {
+                //     return PageStateBuilder(
+                //         init: SizedBox.shrink(),
+                //         success: (data) =>
+                //             AppDropDownMenu(
+                //                 hint: "اختر منطقة",
+                //                 onChange: (value) {
+                //                   setState(() {
+                //                     idArea = value.id;
+                //                   });
+                //                   print(idArea);
+                //                 },
+                //
+                //                 // },
+                //                 items: data
+                //             ),
+                //         loading: const LoadingScreen(),
+                //         error: (error) =>
+                //             ErrorScreen(onRefresh: () {
+                //               context.read<AuthBloc>().add(AllAreaEvent());
+                //             },),
+                //         result: state.listArea,
+                //         empty: const EmptyScreen());
+                //   },
+                // ),
+                // 30.verticalSpace,
                 AppTextField(
                   minLines: 5,
                   maxLines: 5,

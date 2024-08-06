@@ -6,11 +6,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:remy/core/utils/extensions/build_context.dart';
+import 'package:remy/feature/app/auth/presentation/ui/screen/login_screen.dart';
 
 import '../../../../common/constants/route.dart';
 import '../../home/data/model/department_product.dart';
 import '../../home/data/model/home_model.dart';
 import '../../home/data/model/moll_model.dart';
+import '../../home/domain/use_case/change_fav_usecase.dart';
 import '../../home/presentation/bloc/auth_bloc.dart';
 import '../../home/presentation/ui/screen/details_product.dart';
 import 'app_text.dart';
@@ -54,9 +56,21 @@ class MollItem extends StatelessWidget {
                       // BoxShadow(color: Colors.black, offset: Offset(0, 1), blurRadius: 3),
                     ],
                   ),
-                  child: FancyShimmerImage(
-                    // imageUrl: faker.image.image(random: true),
-                    imageUrl: "${EndPoints.address}/${item?.imageUrl??""}",
+                  child: Stack(
+                    children: [
+                      FancyShimmerImage(
+                        // imageUrl: faker.image.image(random: true),
+                        imageUrl: "${EndPoints.address}/${item?.imageUrl??""}",
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(right: 10,top: 10),
+                        child: IconButton(onPressed: () {
+                         context.read<HomeBloc>().add(ChangeFavEvent(changeFavParams:ChangeFavParams(
+                           userId: LoginScreen.userId,
+                           id:item?.id??"") ));
+                        }, icon: Icon(Icons.favorite)),
+                      )
+                    ],
                   ),
                 ),
               ),

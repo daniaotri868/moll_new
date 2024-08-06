@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
@@ -32,6 +33,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   TextEditingController phoneController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
   TextEditingController passwordNewController = TextEditingController();
+  TextEditingController monyController = TextEditingController();
   final ValueNotifier<File?> selectedImageProf = ValueNotifier(null);
   final ValueNotifier<File?> selectedImage = ValueNotifier(null);
   @override
@@ -190,23 +192,46 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ), name: '',
                         // ),
                       ),
+                      10.verticalSpace,
+                      AppTextField(
+                        controller: monyController,
+                        suffixIcon: Padding(
+                            padding: REdgeInsetsDirectional.only(
+                                start: 50.17.w, end: 30.h),
+                            child:Icon(Icons.monetization_on_sharp)
+                        ), name: '',
+                        // ),
+                      ),
                       60.verticalSpace,
                       ElevatedButton(
                         onPressed: () async {
-                          context.read<AuthBloc>().add(UpdateUserInfoEvent(
-                              Email: emailController.text,
-                              PhoneNumber: phoneController.text,
-                              LastName: 'tester',
-                              FirstName: 'tester',
-                              Image: '',
-                              UserId: LoginScreen.userId,
-                              NewPassword: passwordNewController.text,
-                              OldPassword: passwordController.text,
-                              onSuccess: () {
+                          if(double.parse("${monyController.text}")<=(data.wallet??0)){
+                            context.read<AuthBloc>().add(UpdateUserInfoEvent(
+                                wallet:double.parse("${monyController.text}") ,
+                                Email: emailController.text,
+                                PhoneNumber: phoneController.text,
+                                LastName: 'tester',
+                                FirstName: 'tester',
+                                Image: '',
+                                UserId: LoginScreen.userId,
+                                NewPassword: passwordNewController.text,
+                                OldPassword: passwordController.text,
+                                onSuccess: () {
 
-                              },
-                              DeviceToken: ''
-                          ));
+                                },
+                                DeviceToken: ''
+                            ));
+                          }else
+                            {
+                              Fluttertoast.showToast(
+                                  msg: "تجاوز مبلغ المحفظة",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.BOTTOM,
+                                  timeInSecForIosWeb: 1,
+                                  backgroundColor:  Colors.black,
+                                  textColor: Colors.white,
+                                  fontSize: 16.0);
+                            }
                         },
                         child: AppText("تأكيد"),
                       ),

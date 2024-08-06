@@ -1,4 +1,5 @@
 
+import 'package:dio/dio.dart';
 import 'package:injectable/injectable.dart';
 
 import '../../../../../common/constants/route.dart';
@@ -6,6 +7,8 @@ import '../../../../../common/models/response_wrapper/response_wrapper.dart';
 import '../../../../../core/api/api_utils.dart';
 import '../../../../../core/api/client.dart';
 import '../../../../../core/api/client_config.dart';
+import '../../domain/use_case/check_code_use_case.dart';
+import '../../domain/use_case/update_profile_use_case.dart';
 import '../../presentation/ui/screen/login_screen.dart';
 import '../model/all_area.dart';
 import '../model/auth_data_model.dart';
@@ -19,6 +22,8 @@ class AuthRemoteDataSource {
   AuthRemoteDataSource(this.clientApi);
   // final PreferencesRepository preference = getIt<PreferencesRepository>();
   Future<ResponseWrapper<String>> register(Map<String, dynamic> params) async {
+
+    // if(params.CV!=null){
     return throwAppException(() async {
       final response = await clientApi.request(RequestConfig(
         endpoint: EndPoints.auth.login,
@@ -36,11 +41,25 @@ class AuthRemoteDataSource {
   }
 
   Future<ResponseWrapper<String>> checkCode(
-      Map<String, dynamic> params) async {
+      CheckCodeParams params) async {
+    FormData formData = FormData.fromMap({
+      'FirstName': params.FirstName,
+      'LastName': params.LastName,
+      'PhoneNumber': params.PhoneNumber,
+      'Email':params.Email,
+      'wallet':params.Wallet,
+      'Password':params.Password,
+      'Address':params.Address,
+      'AreaId':params.AreaId,
+      // 'Image':Image,
+      'DeviceToken':params.DeviceToken,
+    });
+    // if(params.CV!=null){
+    // formData.files.add(MapEntry('Image', await MultipartFile.fromFile("")));
     return throwAppException(() async {
       final response = await clientApi.request(RequestConfig(
         endpoint: EndPoints.auth.sign,
-        data: params,
+        data: formData,
         clientMethod: ClientMethod.post,
       ));
       return ResponseWrapper.fromJson(
@@ -59,11 +78,24 @@ class AuthRemoteDataSource {
 
 
   Future<ResponseWrapper<bool>> updateProfile(
-      Map<String, dynamic> params) async {
+      UpdateProfileParams params) async {
+    FormData formData = FormData.fromMap({
+      'FirstName': params.FirstName,
+      'LastName': params.LastName,
+      'PhoneNumber': params.PhoneNumber,
+      'Email':params.Email,
+      'OldPassword':params.PhoneNumber,
+      // 'Image':Image,
+      'DeviceToken':params.DeviceToken,
+      'UserId':params.UserId,
+      'NewPassword':params.NewPassword,
+    });
+    // if(params.CV!=null){
+    formData.files.add(MapEntry('Image', await MultipartFile.fromFile("")));
     return throwAppException(() async {
       final response = await clientApi.request(RequestConfig(
         endpoint: EndPoints.auth.updateUserInfo,
-        queryParameters: params,
+        data: formData,
         clientMethod: ClientMethod.post,
       ));
       return ResponseWrapper.fromJson(

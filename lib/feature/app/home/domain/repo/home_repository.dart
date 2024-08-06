@@ -29,6 +29,7 @@ abstract class HomeRepository {
   Future<Result<ResponseWrapper<bool>>> confirmOrder(Map<String, dynamic> params);
   Future<Result<ResponseWrapper<bool>>> driver(DriverParams params);
   Future<Result<ResponseWrapper<bool>>> rateOrder(Map<String, dynamic> params);
+  Future<Result<ResponseWrapper<bool>>> newRateOrder(Map<String, dynamic> params);
   Future<Result<ResponseWrapper<bool>>> cancelOrder(Map<String, dynamic> params);
   Future<Result<ResponseWrapper<SearchHomeModel>>> searchHome(Map<String, dynamic> params);
   Future<Result<ResponseWrapper<List<AllOrderModel>>>> getOrders(Map<String, dynamic> params);

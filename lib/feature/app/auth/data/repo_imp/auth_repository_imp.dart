@@ -4,6 +4,8 @@ import '../../../../../common/models/response_wrapper/response_wrapper.dart';
 import '../../../../../core/api/api_utils.dart';
 import '../../../../../core/api/result.dart';
 import '../../domain/repo/auth_repository.dart';
+import '../../domain/use_case/check_code_use_case.dart';
+import '../../domain/use_case/update_profile_use_case.dart';
 import '../data_source/auth_remot_data_source.dart';
 import '../model/all_area.dart';
 import '../model/auth_data_model.dart';
@@ -19,7 +21,7 @@ class AuthRepositoryImpl extends AuthRepository {
   AuthRepositoryImpl({required this.datasource});
 
   @override
-  Future<Result<ResponseWrapper<String>>> checkCode(Map<String, dynamic> params) {
+  Future<Result<ResponseWrapper<String>>> checkCode(CheckCodeParams params) {
     return toApiResult(() async {
       final result = datasource.checkCode(params);
       return result;
@@ -43,7 +45,7 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
-  Future<Result<ResponseWrapper<bool>>> updateProfile(Map<String, dynamic> params) {
+  Future<Result<ResponseWrapper<bool>>> updateProfile(UpdateProfileParams params) {
     return toApiResult(() async {
       final result = datasource.updateProfile(params);
       return result;

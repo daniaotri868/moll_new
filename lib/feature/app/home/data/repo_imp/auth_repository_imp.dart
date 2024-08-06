@@ -115,6 +115,12 @@ class AuthRepositoryImpl extends HomeRepository {
       return result;
     });
   }
+Future<Result<ResponseWrapper<bool>>> newRateOrder(Map<String, dynamic>  params) {
+    return toApiResult(() async {
+      final result = datasource.newRateOrder(params);
+      return result;
+    });
+  }
 
   Future<Result<ResponseWrapper<bool>>> cancelOrder(Map<String, dynamic> params) {
     return toApiResult(() async {

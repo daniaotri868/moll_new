@@ -37,6 +37,7 @@ import '../../domain/use_case/get_product_details_usecase.dart';
 import '../../domain/use_case/moll_name.dart';
 import '../../domain/use_case/moll_use_case.dart';
 import '../../domain/use_case/moll_details_use_case.dart';
+import '../../domain/use_case/new_rate_order.dart';
 import '../../domain/use_case/order_details.dart';
 import '../../domain/use_case/post_order.dart';
 import '../../domain/use_case/rate_usecase.dart';
@@ -69,9 +70,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final CancelOrdersUseCase cancelOrdersUseCase;
   final UpdateOrdersUseCase updateOrdersUseCase;
   final MyPointsUseCase myPointsUseCase;
+  final NewRateOrdersUseCase newRateOrdersUseCase;
 
 
-  HomeBloc(this.getMollDetailsUseCase,this.rateOrdersUseCase,this.confirmOrdersUseCase,this.orderDetailsUseCase,this.createOrdersUseCase, this.getOrdersUseCase,this.getAllMollUseCase, this.getAllDepartmentUseCase, this.departmentDetailsUseCase, this.getProductDetailsUseCase, this.getDepartmentProductUseCase, this.getHomeUseCase, this.getFavProductUseCase, this.changeFavUseCase, this.updateOrdersUseCase, this.myPointsUseCase, this.cancelOrdersUseCase, this.searchHomeUseCase, this.driverUseCase, this.mollNameUseCase
+  HomeBloc(this.getMollDetailsUseCase,this.rateOrdersUseCase,this.confirmOrdersUseCase,this.orderDetailsUseCase,this.createOrdersUseCase, this.getOrdersUseCase,this.getAllMollUseCase, this.getAllDepartmentUseCase, this.departmentDetailsUseCase, this.getProductDetailsUseCase, this.getDepartmentProductUseCase, this.getHomeUseCase, this.getFavProductUseCase, this.changeFavUseCase, this.updateOrdersUseCase, this.myPointsUseCase, this.cancelOrdersUseCase, this.searchHomeUseCase, this.driverUseCase, this.mollNameUseCase, this.newRateOrdersUseCase
 
   ) : super( HomeState()) {
     on<ProductDetailsEvent>(_onProductDetailsEvent);
@@ -81,6 +83,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<DepartmentDetailsEvent>(_onDepartmentDetailsEvent);
     on<DepartmentProductEvent>(_onDepartmentProductEvent);
     on<GetHomeEvent>(_onGetHomeEvent);
+    on<NewRateOrderEvent>(_onNewRateOrderEvent);
     on<CreateOrderEvent>(_onCreateOrderEvent);
     on<GetOrderEvent>(_onGetOrderEvent);
     on<GetAllFavEvent>(_onGetAllFavEvent);
@@ -90,6 +93,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<RateOrderEvent>(_onRateOrderEvent);
     on<SaveProductsToPosEvent>(_onSaveBrand);
     on<DeleteProductsToPosEvent>(_onDelete);
+    on<DeleteAllProductsToPosEvent>(_onDeleteAll);
     on<SearchHomeEvent>(_onSearchHomeEvent);
     on<UpdateOrderEvent>(_onUpdateOrderEvent);
     on<CancelOrderEvent>(_onCancelOrderEvent);
@@ -225,6 +229,8 @@ FutureOr<void> _onUpdateOrderEvent(
     final result = await getDepartmentProductUseCase(DetailsParams(userId: event.detailsParams.userId, id: event.detailsParams.id));
     switch (result) {
       case Success(value: final data):
+        emit(state.copyWith(listDepartmentProduct: data.data.products,
+           ));
         emit(state.copyWith(
           getDepartmentProduct:  PageState.loaded(data: data.data),
            ));
@@ -253,6 +259,16 @@ FutureOr<void> _onUpdateOrderEvent(
 
   FutureOr<void> _onChangeFavEvent(
       ChangeFavEvent event, Emitter<HomeState> emit) async {
+  emit(state.copyWith(listDepartmentProduct:
+    (state.listDepartmentProduct ?? []).map((e) {
+    if (event.changeFavParams.id == e.id) return e.copyWith(isFavourite: !(e.isFavourite??false));
+    return e;
+  }).toList()));
+  // emit(state.copyWith(getHome:HomeModel(
+  //   ads:state.getHome ,
+  //   products: ,
+  //   malls: ,
+  // )));
     emit(state.copyWith(changeFav: BlocStatus.loading()));
     final result = await changeFavUseCase(ChangeFavParams(userId: event.changeFavParams.userId, id: event.changeFavParams.id));
     switch (result) {
@@ -275,6 +291,7 @@ FutureOr<void> _onUpdateOrderEvent(
         LastName: event.driverParams.LastName,CV: event.driverParams.CV,Email: event.driverParams.Email,MallId: event.driverParams.MallId, PhoneNumber: event.driverParams.PhoneNumber));
     switch (result) {
       case Success(value: final data):
+        event.onSuccess();
         emit(state.copyWith(
           driver: BlocStatus.success(),
            ));
@@ -503,6 +520,24 @@ FutureOr<void> _onGetHomeEvent(
         ));
     }
   }
+
+  FutureOr<void> _onNewRateOrderEvent(
+      NewRateOrderEvent event, Emitter<HomeState> emit) async {
+    emit(state.copyWith(newRate: BlocStatus.loading()));
+    final result = await newRateOrdersUseCase(NewRateOrderParams(userId: event.newRateOrderParams.userId,
+    id: event.newRateOrderParams.id,reason: event.newRateOrderParams.reason,rateDriver: event.newRateOrderParams.rateDriver,rateOrder: event.newRateOrderParams.rateOrder,reasonOrder: event.newRateOrderParams.reasonOrder));
+    switch (result) {
+      case Success(value: final data):
+        event.onSuccess();
+        emit(state.copyWith(
+          newRate:  BlocStatus.success(),
+           ));
+      case Failure(exception: final exception, message: final message):
+        emit(state.copyWith(
+          newRate:  BlocStatus.fail(error: message),
+        ));
+    }
+  }
 FutureOr<void> _onMollDetailsEvent(
     MollDetailsEvent event, Emitter<HomeState> emit) async {
     emit(state.copyWith(getMollDetails: PageState.loading()));
@@ -611,6 +646,13 @@ FutureOr<void> _onMollDetailsEvent(
     // List pr=state.productSave + [event.productItem];
     // state.productSave.add(event.productItem);
     emit(state.copyWith(listCart:(state.listCart??[])..removeWhere((element) => element.id==event.productItem.id)));
+
+  }
+  _onDeleteAll(
+      DeleteAllProductsToPosEvent event,  emit) {
+    // List pr=state.productSave + [event.productItem];
+    // state.productSave.add(event.productItem);
+    emit(state.copyWith(listCart:[]));
 
   }
 

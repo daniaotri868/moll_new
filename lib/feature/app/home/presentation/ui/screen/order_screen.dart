@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:remy/common/models/page_state/page_state.dart';
 import 'package:remy/core/config/routing/router.dart';
 import 'package:remy/core/config/theme/app_theme.dart';
 import 'package:remy/core/utils/extensions/build_context.dart';
@@ -39,7 +40,7 @@ class _OrderScreenState extends State<OrderScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    context.read<AuthBloc>().add(AllAreaEvent());
+    // context.read<AuthBloc>().add(AllAreaEvent());
     context.read<HomeBloc>().state.listCart?.forEach(
           (element) {
         products.add({
@@ -126,32 +127,32 @@ class _OrderScreenState extends State<OrderScreen> {
                   ),
                 ),
                 30.verticalSpace,
-                BlocBuilder<AuthBloc, AuthState>(
-                  builder: (context, state) {
-                    return PageStateBuilder(
-                        init: SizedBox.shrink(),
-                        success: (data) =>
-                            AppDropDownMenu(
-                                hint: "اختر منطقة",
-                                onChange: (value) {
-                                 setState(() {
-                                   idArea = value.id;
-                                 });
-                                  print(idArea);
-                                },
-
-                                // },
-                                items: data
-                            ),
-                        loading: const LoadingScreen(),
-                        error: (error) =>
-                            ErrorScreen(onRefresh: () {
-                              context.read<AuthBloc>().add(AllAreaEvent());
-                            },),
-                        result: state.listArea,
-                        empty: const EmptyScreen());
-                  },
-                ),
+                // BlocBuilder<AuthBloc, AuthState>(
+                //   builder: (context, state) {
+                //     return PageStateBuilder(
+                //         init: SizedBox.shrink(),
+                //         success: (data) =>
+                //             AppDropDownMenu(
+                //                 hint: "اختر منطقة",
+                //                 onChange: (value) {
+                //                  setState(() {
+                //                    idArea = value.id;
+                //                  });
+                //                   print(idArea);
+                //                 },
+                //
+                //                 // },
+                //                 items: data
+                //             ),
+                //         loading: const LoadingScreen(),
+                //         error: (error) =>
+                //             ErrorScreen(onRefresh: () {
+                //               context.read<AuthBloc>().add(AllAreaEvent());
+                //             },),
+                //         result: state.listArea,
+                //         empty: const EmptyScreen());
+                //   },
+                // ),
                 30.verticalSpace,
                 AppTextField(
                   minLines: 5,
@@ -170,6 +171,7 @@ class _OrderScreenState extends State<OrderScreen> {
 
                 150.verticalSpace,
                 AppElevatedButton(
+                  isLoading: state.createOrder.isLoading,
                     style:  ElevatedButton.styleFrom(
                       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
                     ),onPressed: () {
@@ -187,6 +189,7 @@ class _OrderScreenState extends State<OrderScreen> {
 
                       ),
                       data: (p0) {
+
                         context.pushNamed(ConfirmScreen.name,extra: p0);
                       },)
                   );

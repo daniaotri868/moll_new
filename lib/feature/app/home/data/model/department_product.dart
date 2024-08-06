@@ -16,7 +16,6 @@ class GetAllDepartmentProductModel {
       products: products ?? this.products,
     );
   }
-
   factory GetAllDepartmentProductModel.fromJson(Map<String, dynamic> json) => GetAllDepartmentProductModel(
     count: json["count"],
     products: List<ProductDp>.from(json["products"].map((x) => ProductDp.fromJson(x))),
@@ -33,6 +32,7 @@ class ProductDp {
   final String ?name;
   final int ?price;
   final double ?Lng;
+  final bool ?isFavourite;
   final double ?Lat;
   final int ?quantity;
   final String ?imageUrl;
@@ -44,6 +44,7 @@ class ProductDp {
   ProductDp({
     this.id,
     this.name,
+    this.isFavourite,
     this.price,
     this.Lat,
     this.Lng,
@@ -59,6 +60,7 @@ class ProductDp {
     String ?id,
     String ?name,
     int ?price,
+    bool ?isFavourite,
     int ?quantity,
     double ?Lng,
     double ?Lat,
@@ -70,6 +72,7 @@ class ProductDp {
   }) {
     return ProductDp(
       id: id ?? this.id,
+      isFavourite: isFavourite??this.isFavourite,
       name: name ?? this.name,
       price: price ?? this.price,
       quantity: quantity ?? this.quantity,
@@ -92,6 +95,7 @@ class ProductDp {
     Lng: json["lng"],
     Lat: json["lat"],
     evaluation: json["evaluation"],
+    isFavourite: json["isFavourite"],
     hasDiscount: json["hasDiscount"],
     mallId: json["mallId"],
     priceAfterDiscount: json["priceAfterDiscount"],
@@ -102,6 +106,7 @@ class ProductDp {
     "name": name,
     "price": price,
     "lng": Lng,
+    "isFavourite": isFavourite,
     "lat": Lat,
     "quantity": quantity,
     "imageUrl": imageUrl,

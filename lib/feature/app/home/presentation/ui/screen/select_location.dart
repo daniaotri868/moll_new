@@ -172,18 +172,20 @@ class _LocationPageState extends State<LocationPage> {
               Marker(
                 markerId: const MarkerId('currentLocatoin'),
                 icon: BitmapDescriptor.defaultMarker,
-                position: value,
+                position: currentP.value??LatLng(0, 0),
               ),
-              Marker(
-                markerId: const MarkerId('currentLocatoin'),
-                icon: BitmapDescriptor.defaultMarker,
-                position: LatLng(context.read<HomeBloc>().state.listCart?[0].Lat??0, context.read<HomeBloc>().state.listCart?[0].Lng??0),
-              ),
+              // Marker(
+              //   markerId: const MarkerId('currentLocatoin'),
+              //   icon: BitmapDescriptor.defaultMarker,
+              //   position: LatLng(context.read<HomeBloc>().state.listCart?[0].Lat??0, context.read<HomeBloc>().state.listCart?[0].Lng??0),
+              // ),
             },
               polylines: Set<Polyline>.of(polylines.values)
             ,
             onTap: (argument) {
-
+                  setState(() {
+                    currentP.value = argument;
+                  });
               //  PointLatLng(currentP.value?.latitude??0, currentP.value?.longitude??0),
               // destination: PointLatLng(context.read<HomeBloc>().state.listCart?[0].Lat??0, context.read<HomeBloc>().state.listCart?[0].Lng??0),
               print("---------${LocationPage.distance}");

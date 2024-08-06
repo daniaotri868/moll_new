@@ -15,15 +15,18 @@ class HomeState {
   final PageState<List<MyPointsModel>> getMyPoints;
   final PageState<OrderDetailsModel> orderDetails;
   final PageState<GetAllDepartmentProductModel> getDepartmentProduct;
+   final List<ProductDp>? listDepartmentProduct;
   final PageState<GetAllDepartmentProductModel> getAllFav;
   final BlocStatus changeFav;
   final BlocStatus driver;
   final BlocStatus confirm;
   final BlocStatus rate;
+  final BlocStatus newRate;
   final BlocStatus cancel;
   final PageState<OrderDetailsModel> createOrder;
   final PageState<OrderDetailsModel> updateOrder;
    List<ProductCart> ?listCart;
+
    HomeState(
       {
         this.getAllMoll=const PageState.init(),
@@ -40,6 +43,7 @@ class HomeState {
         this.cancel=const BlocStatus.initial(),
         this.confirm=const BlocStatus.initial(),
         this.rate=const BlocStatus.initial(),
+        this.newRate=const BlocStatus.initial(),
         this.driver=const BlocStatus.initial(),
         this.getDepartmentProduct=const PageState.init(),
         this.createOrder=const PageState.init(),
@@ -47,11 +51,13 @@ class HomeState {
         this.getMyPoints=const PageState.init(),
         this.updateOrder=const PageState.init(),
         this.listCart=const [],
+        this.listDepartmentProduct,
       });
 
   HomeState copyWith({
     final PageState<GetMollModel> ?getAllMoll,
     final PageState<HomeModel> ?getHome,
+      List<ProductDp> ?listDepartmentProduct,
     final PageState<SearchHomeModel> ?getSearchHome,
     final PageState<GetMollDetailsModel> ?getMollDetails,
     final PageState<List<AllMollNameModel>> ?getAllMollName,
@@ -67,6 +73,7 @@ class HomeState {
     final PageState<GetAllDepartmentProductModel> ?getAllFav,
     final BlocStatus ?changeFav,
     final BlocStatus ?confirm,
+    final BlocStatus ?newRate,
     final BlocStatus ?driver,
     final BlocStatus ?cancel,
     final BlocStatus ?rate,
@@ -96,7 +103,9 @@ class HomeState {
       getMyPoints: getMyPoints??this.getMyPoints,
       getSearchHome: getSearchHome??this.getSearchHome,
       driver: driver??this.driver,
-      getAllMollName: getAllMollName??this.getAllMollName
+      getAllMollName: getAllMollName??this.getAllMollName,
+      newRate: newRate??this.newRate,
+      listDepartmentProduct: listDepartmentProduct??this.listDepartmentProduct
 
     );
   }

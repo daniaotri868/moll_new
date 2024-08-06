@@ -3,6 +3,7 @@ import 'package:app_settings/app_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:geolocator/geolocator.dart';
@@ -13,14 +14,18 @@ import 'package:remy/core/utils/extensions/build_context.dart';
 import 'package:remy/feature/app/presentation/pages/empty_screen.dart';
 import 'package:remy/feature/app/presentation/widgets/app_text.dart';
 import '../../../../../../common/helpers/helper_functions.dart';
+import '../../../../../../core/utils/responsive_padding.dart';
 import '../../../../auth/presentation/ui/screen/login_screen.dart';
 import '../../../../presentation/pages/error_screen.dart';
 import '../../../../presentation/widgets/animated_dialog.dart';
+import '../../../../presentation/widgets/app_elvated_button.dart';
 import '../../../../presentation/widgets/app_scaffold.dart';
 import '../../../../presentation/widgets/app_text_field.dart';
 import '../../../domain/use_case/cancel_order.dart';
+import '../../../domain/use_case/new_rate_order.dart';
 import '../../../domain/use_case/order_details.dart';
 import '../../bloc/auth_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 import '../widget/item_order.dart';
 import 'location_track.dart';
@@ -39,8 +44,11 @@ class OrderDetailsPage extends StatefulWidget {
 
 class _OrderDetailsPageState extends State<OrderDetailsPage> {
   @override
-
+  double rate=0;
+  double rateDriver=0;
   TextEditingController password =TextEditingController();
+  TextEditingController rateDriverReason =TextEditingController();
+  TextEditingController rateOrderReason =TextEditingController();
 
   void initState() {
 
@@ -240,6 +248,161 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                       lat:data.lat??0.0 ,lng: data.lng??0.0,) ,));
                   }, child: AppText("تتبع الطلب",)),
                 10.verticalSpace,
+                 data.status=="Done"? ElevatedButton(onPressed: () {
+                    AnimatedDialog.show(
+                      context,
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(20),
+
+                          ),
+                          height: 330,
+                          width: 125,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  AppText("تقييم الطلب"),
+                                ],
+                              ),
+                              RatingBar.builder(
+                                initialRating: 0.0,
+                                minRating: 1,
+                                direction: Axis.horizontal,
+                                allowHalfRating: true,
+                                itemCount: 5,
+                                itemSize: 20.0,
+                                updateOnDrag: true,
+
+                                itemBuilder: (context, _) => const Icon(
+                                  Icons.star,
+                                  color: Colors.amber,
+                                ),
+                                ignoreGestures: false,
+                                onRatingUpdate: (rating) {
+                                  setState(() {
+                                    rate=rating;
+                                  });
+                                  print(rating);
+                                },
+                              ),
+                              10.verticalSpace,
+                              AppTextField(
+                                name: "password",
+                                title: ":السبب",
+                                obscure: true,
+                                validator: FormBuilderValidators.required(),
+                                controller: rateOrderReason,
+                                // isPasswordFiled: true,
+                                // prefixIcon: Icon(
+                                //   Icons.lock,
+                                //   color: context.colorScheme.primary,
+                                // ),
+                              ),
+                              Divider(),
+                              Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  AppText("تقييم السائق"),
+                                ],
+                              ),
+                              RatingBar.builder(
+                                initialRating: 0.0,
+                                minRating: 1,
+                                direction: Axis.horizontal,
+                                allowHalfRating: true,
+                                itemCount: 5,
+                                itemSize: 20.0,
+                                updateOnDrag: true,
+
+                                itemBuilder: (context, _) => const Icon(
+                                  Icons.star,
+                                  color: Colors.amber,
+                                ),
+                                ignoreGestures: false,
+                                onRatingUpdate: (rating) {
+                                  setState(() {
+                                    rateDriver=rating;
+                                  });
+                                  print(rating);
+                                },
+                              ),
+                              10.verticalSpace,
+                              AppTextField(
+                                name: "password",
+                                title: ":السبب",
+                                obscure: true,
+                                validator: FormBuilderValidators.required(),
+                                controller: rateDriverReason,
+                                // isPasswordFiled: true,
+                                // prefixIcon: Icon(
+                                //   Icons.lock,
+                                //   color: context.colorScheme.primary,
+                                // ),
+                              ),
+                              Padding(
+                                padding: const EdgeInsets.all(8.0),
+                                child: Row(
+                                  children: [
+                                    Expanded(
+                                      child: AppElevatedButton(
+                                    isLoading: state.newRate.isLoading()
+                                          ,onPressed: () {
+                                        context.read<HomeBloc>().add(
+                                            NewRateOrderEvent(
+                                            newRateOrderParams:NewRateOrderParams(
+                                              id:data.id??"" ,
+                                              userId:LoginScreen.userId ,
+                                              reasonOrder: rateDriverReason.text??"",
+                                              rateOrder:rate??0 ,
+                                                rateDriver:rateDriver??0 ,
+                                              reason: rateOrderReason.text??"",
+
+                                            ) ,
+                                              onSuccess: () {
+                                                context.pop();
+                                                Fluttertoast.showToast(
+                                                    msg: "تم التقييم",
+                                                    toastLength: Toast.LENGTH_SHORT,
+                                                    gravity: ToastGravity.BOTTOM,
+                                                    timeInSecForIosWeb: 1,
+                                                    backgroundColor:  Colors.black,
+                                                    textColor: Colors.white,
+                                                    fontSize: 16.0);
+                                                // context.goNamed('/home');
+                                              },
+                                            )
+                                        );
+
+                                      }, child: AppText("نعم")),
+                                    ),
+                                    8.horizontalSpace,
+                                    Expanded(
+                                      child: ElevatedButton(onPressed: () {
+                                        context.pop();
+
+                                      }, child: AppText("لا")),
+                                    )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                        ),
+                      ),
+                      backgroundColor: context.colorScheme.onPrimary,
+                      insetPadding: HWEdgeInsets.symmetric(horizontal: 30, vertical: 16),
+                    );
+                  }, child: AppText("تقييم الطلبية",)):Container(),
+                10.verticalSpace,
                  widget.orderDetailsParam.cancel==true? ElevatedButton(onPressed: () {
                    AnimatedDialog.show(
                        context,
@@ -266,16 +429,24 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                              30.verticalSpace,
                              Padding(
                                padding: const EdgeInsets.all(8.0),
-                               child: ElevatedButton(onPressed: () {
-                                 context.read<HomeBloc>().add(CancelOrderEvent(
-                                     confirmOrderParams: CancelOrderParams(
-                                         userId: LoginScreen.userId,
-                                         id: widget.orderDetailsParam.id,
-                                         reason: password.text
+                               child: Column(
+                                 children: [
+                                   AppElevatedButton(
 
-                                     ), onSuccess: () {  }
-                                 ));
-                               }, child: AppText("تأكيد")),
+                                       onPressed: () {
+                                     context.read<HomeBloc>().add(CancelOrderEvent(
+                                         confirmOrderParams: CancelOrderParams(
+                                             userId: LoginScreen.userId,
+                                             id: widget.orderDetailsParam.id,
+                                             reason: password.text
+
+                                         ), onSuccess: () {
+                                          context.pop();
+                                     }
+                                     ));
+                                   },isLoading: state.cancel.isLoading(), child: AppText("تأكيد")),
+                                 ],
+                               ),
                              )
                            ],
                          ),
