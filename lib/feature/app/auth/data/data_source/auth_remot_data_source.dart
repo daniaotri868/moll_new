@@ -89,9 +89,10 @@ class AuthRemoteDataSource {
       'DeviceToken':params.DeviceToken,
       'UserId':params.UserId,
       'NewPassword':params.NewPassword,
+      'Wallet':params.wallet
     });
     // if(params.CV!=null){
-    formData.files.add(MapEntry('Image', await MultipartFile.fromFile("")));
+    // formData.files.add(MapEntry('Image', await MultipartFile.fromFile("")));
     return throwAppException(() async {
       final response = await clientApi.request(RequestConfig(
         endpoint: EndPoints.auth.updateUserInfo,
@@ -101,7 +102,7 @@ class AuthRemoteDataSource {
       return ResponseWrapper.fromJson(
         {},
         (json) {
-          return response.data['status'];
+          return true;
         },
       );
     });

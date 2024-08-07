@@ -15,6 +15,8 @@ class OrderDetailsModel {
   final String ?areaName;
   final double ?lat;
   final double ?lng;
+  final double ?mallLat;
+  final double ?mallLng;
   final int ?usedPoints;
   final int ?totalCost;
   final int ?finalCost;
@@ -33,6 +35,8 @@ class OrderDetailsModel {
     this.id,
     this.mallId,
     this.status,
+    this.mallLng,
+    this.mallLat,
     this.usedPoints,
     this.mallName,
     this.lng,
@@ -56,6 +60,8 @@ class OrderDetailsModel {
     mallId: json["mallId"],
     status: json["status"],
     lng: json["lng"],
+    mallLat: json["mallLat"],
+    mallLng: json["mallLng"],
     lat: json["lat"],
     usedPoints: json["usedPoints"],
     mallName: json["mallName"],
@@ -78,6 +84,8 @@ class OrderDetailsModel {
     "lng": lng,
     "status": status,
     "lat": lat,
+    "mallLng": mallLng,
+    "mallLat": mallLat,
     "areaName": areaName,
     "usedPoints": usedPoints,
     "mallId": mallId,

@@ -11,8 +11,9 @@ class DepartmentProductEvent extends HomeEvent {
 
 class ChangeFavEvent extends HomeEvent {
   final ChangeFavParams changeFavParams;
+  final VoidCallback onSuccess;
 
-  ChangeFavEvent({required this.changeFavParams,});
+  ChangeFavEvent({required this.changeFavParams,required this.onSuccess});
 }
 class GetAllFavEvent extends HomeEvent {
   final DetailsParams detailsParams;

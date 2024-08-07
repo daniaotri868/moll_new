@@ -170,7 +170,7 @@ class _OrderCardState extends State<OrderCard> {
                     onPressed: () {
                       context.pushNamed(
                         OrderDetailsPage.name,
-                        extra: OrderDetailsParams(userId: LoginScreen.userId,id: widget.item.id??"",cancel: widget.orderType=='NotConfirmed'?true:false),
+                        extra: OrderDetailsParams(userId: LoginScreen.userId,id: widget.item.id??"",cancel: widget.orderType=='NotConfirmed'?2:widget.orderType=='Previous'?1:0),
                       );
                     },
                     child: Column(

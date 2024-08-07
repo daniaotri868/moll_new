@@ -62,14 +62,16 @@ class MollItem extends StatelessWidget {
                         // imageUrl: faker.image.image(random: true),
                         imageUrl: "${EndPoints.address}/${item?.imageUrl??""}",
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(right: 10,top: 10),
-                        child: IconButton(onPressed: () {
-                         context.read<HomeBloc>().add(ChangeFavEvent(changeFavParams:ChangeFavParams(
-                           userId: LoginScreen.userId,
-                           id:item?.id??"") ));
-                        }, icon: Icon(Icons.favorite)),
-                      )
+                      // Padding(
+                      //   padding: const EdgeInsets.only(right: 10,top: 10),
+                      //   child: IconButton(onPressed: () {
+                      //    context.read<HomeBloc>().add(ChangeFavEvent(changeFavParams:ChangeFavParams(
+                      //      userId: LoginScreen.userId,
+                      //      id:item?.id??"") ,onSuccess: () {
+                      //
+                      //      },));
+                      //   }, icon: Icon(Icons.favorite)),
+                      // )
                     ],
                   ),
                 ),

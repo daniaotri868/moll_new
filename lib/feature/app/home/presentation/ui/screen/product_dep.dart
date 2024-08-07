@@ -128,7 +128,10 @@ class _AllProductDepartmentScreenState extends State<AllProductDepartmentScreen>
                                       changeFavParams: ChangeFavParams(
                                           id: state.listDepartmentProduct?[index].id??"",
                                           userId: LoginScreen.userId
-                                      )
+                                      ),
+                                    onSuccess: () {
+
+                                    },
                                   ));
                                 }, icon: Icon(Icons.favorite,color:(state.listDepartmentProduct?[index].isFavourite??false)?context.colorScheme.primary:Colors.black ,)),
 

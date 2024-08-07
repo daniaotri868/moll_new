@@ -82,6 +82,7 @@ class _MollScreenState extends State<MollScreen> {
                 padding: const EdgeInsets.all(8.0),
                 child: AppTextField(
                   name: 'search',
+                  prefixIcon: Icon(Icons.search,color: context.colorScheme.primary,),
                   textInputAction: TextInputAction.done,
                   // controller:searchController ,
                   hintText: "ابحث هنا",

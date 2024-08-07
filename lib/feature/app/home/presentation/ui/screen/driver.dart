@@ -58,12 +58,19 @@ class _SignupScreenState extends State<Driver> {
 
   String ?idArea="" ;
   String ?path="" ;
+  RegExp arabicOnly = RegExp(r'^[؀-ۿ\s]+$');
 
+  String? validateName(String value) {
+    if (!arabicOnly.hasMatch(value)) {
+      return 'يرجى إدخال اسم باللغة العربية فقط';
+    }
+    return null;
+  }
   Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
         return Scaffold(
-          backgroundColor: context.colorScheme.primary,
+          backgroundColor: context.colorScheme.onPrimary,
           appBar: AppBar(
             toolbarHeight: 70,
             title: AppText("هل تريد أن تكون سائقا؟",              style: context.textTheme.headlineMedium?.copyWith(fontWeight: FontWeight.bold,color: context.colorScheme.primary),
@@ -104,11 +111,11 @@ class _SignupScreenState extends State<Driver> {
               key: formKey,
               child: Column(
                 children: [
-                  Container(
-                    width: context.fullWidth,
-                    height: context.fullHeight * 0.2,
-                    color: context.colorScheme.primary,
-                  ),
+                  // Container(
+                  //   width: context.fullWidth,
+                  //   height: context.fullHeight * 0.2,
+                  //   color: context.colorScheme.primary,
+                  // ),
                   Container(
                     decoration: BoxDecoration(
                       color: context.colorScheme.onPrimary,
@@ -122,17 +129,17 @@ class _SignupScreenState extends State<Driver> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            AppString.signUp,
-                            style: Theme.of(context).textTheme.displaySmall?.copyWith(fontWeight: FontWeight.bold),
-                          ),
-                          45.verticalSpace,
+                          // Text(
+                          //   AppString.signUp,
+                          //   style: Theme.of(context).textTheme.displaySmall?.copyWith(fontWeight: FontWeight.bold),
+                          // ),
+                          // 45.verticalSpace,
                           AppTextField(
                             name: "firstName",
                             controller: firstName,
                             textCapitalization: TextCapitalization.words,
                             title: AppString.firstName,
-                            validator: FormBuilderValidators.required(),
+                            validator:(value) => validateName(value!),
                             prefixIcon: Icon(
                               Icons.person,
                               color: context.colorScheme.primary,
@@ -145,7 +152,7 @@ class _SignupScreenState extends State<Driver> {
                             controller: lastName,
 
                             title: AppString.lastName,
-                            validator: FormBuilderValidators.required(),
+                            validator: (value) => validateName(value!),
                             prefixIcon: Icon(
                               Icons.person,
                               color: context.colorScheme.primary,
@@ -242,7 +249,7 @@ class _SignupScreenState extends State<Driver> {
                             isLoading:state.driver.isLoading() ,
                             child: const Text("تأكيد"),
                             onPressed: () async{
-                              if (formKey.currentState!.validate()||idArea=="") {
+                              if (formKey.currentState!.validate()||idArea==""||path=="") {
 
                                 if(idArea!=''){
                                   DeviceInfoPlugin deviceInfo = DeviceInfoPlugin();
@@ -285,10 +292,19 @@ class _SignupScreenState extends State<Driver> {
                                   ));
 
 
+                                }else if(path==""){
+                                  Fluttertoast.showToast(
+                                      msg: "ارسل ال cv",
+                                      toastLength: Toast.LENGTH_SHORT,
+                                      gravity: ToastGravity.BOTTOM,
+                                      timeInSecForIosWeb: 1,
+                                      backgroundColor:  Colors.black,
+                                      textColor: Colors.white,
+                                      fontSize: 16.0);
                                 }else
                                 {
                                   Fluttertoast.showToast(
-                                      msg: "ادخل المنطقة",
+                                      msg: "ادخل المول",
                                       toastLength: Toast.LENGTH_SHORT,
                                       gravity: ToastGravity.BOTTOM,
                                       timeInSecForIosWeb: 1,

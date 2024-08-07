@@ -27,7 +27,7 @@ class OrderDetailsParams {
   final String userId;
   final String id;
   final String ?search;
-  final bool ?cancel;
+  final int ?cancel;
 
   OrderDetailsParams({
     required this.userId,

@@ -15,6 +15,7 @@ import '../model/home_model.dart';
 import '../model/moll_details.dart';
 import '../model/moll_model.dart';
 import '../model/moll_name.dart';
+import '../model/notifications_model.dart';
 import '../model/order_details_model.dart';
 import '../model/point_model.dart';
 import '../model/product_details_model.dart';

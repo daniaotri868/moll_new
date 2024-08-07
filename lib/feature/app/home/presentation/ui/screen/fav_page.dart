@@ -14,6 +14,7 @@ import '../../../../auth/presentation/ui/screen/login_screen.dart';
 import '../../../../presentation/pages/error_screen.dart';
 import '../../../../presentation/widgets/app_text.dart';
 import '../../../../presentation/widgets/product_item.dart';
+import '../../../domain/use_case/change_fav_usecase.dart';
 import '../../../domain/use_case/department_details_use_case.dart';
 import '../../../domain/use_case/moll_use_case.dart';
 import '../../bloc/auth_bloc.dart';
@@ -115,9 +116,25 @@ class _FavPageState extends State<FavPage> {
                             borderRadius: BorderRadius.all(
                               Radius.circular(18.r),
                             ),
-                            child: FancyShimmerImage(
-                              // imageUrl: faker.image.image(random: true),
-                              imageUrl:  "${EndPoints.address}/${data.products?[index].imageUrl}",
+                            child: Stack(
+                              children: [
+                                FancyShimmerImage(
+                                  // imageUrl: faker.image.image(random: true),
+                                  imageUrl:  "${EndPoints.address}/${data.products?[index].imageUrl}",
+                                ),
+                                IconButton(onPressed: () {
+                                  context.read<HomeBloc>().add(ChangeFavEvent(
+                                      changeFavParams: ChangeFavParams(
+                                          id: data.products?[index].id??"",
+                                          userId: LoginScreen.userId
+                                      ),
+                                    onSuccess: () {
+                                      context.read<HomeBloc>().add(GetAllFavEvent(detailsParams:DetailsParams (userId: LoginScreen.userId)));
+
+                                    },
+                                  ));
+                                }, icon: Icon(Icons.favorite,))
+                              ],
                             ),
                           ),
                         ),

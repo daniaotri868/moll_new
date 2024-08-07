@@ -7,9 +7,12 @@ import 'package:location/location.dart';
 import 'package:location_platform_interface/location_platform_interface.dart';
 
 class LocationTrack extends StatefulWidget {
+  static ValueNotifier<LatLng?> currentP = ValueNotifier(null);
   double lng;
   double lat;
-   LocationTrack({super.key,required this.lat,required this.lng});
+  double mallLat;
+  double mallLng;
+   LocationTrack({super.key,required this.lat,required this.lng,required this.mallLat,required this.mallLng});
 
   @override
   State<LocationTrack> createState() => _LocationTrackState();
@@ -20,7 +23,6 @@ class _LocationTrackState extends State<LocationTrack> {
   Location _locationController = new Location();
 
   late GoogleMapController googleMapController;
-  ValueNotifier<LatLng?> currentP = ValueNotifier(null);
   Map<PolylineId, Polyline> polylines = {};
   List<LatLng> polylineCoordinates = [];
   LatLng mollLocation=LatLng(37.42796133580664, -122.085749655962);
@@ -44,13 +46,15 @@ class _LocationTrackState extends State<LocationTrack> {
   }
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GoogleMap(
+      body:  GoogleMap(
           onTap: (argument) {
+            print(argument);
+            // print(DetailsMall.currentP.value?.latitude);
             print("${polylineCoordinates.length}");
           },
           initialCameraPosition: CameraPosition(
-            target: LatLng(currentP.value?.latitude??0.0, currentP.value?.longitude??0.0),
-            zoom: 15,
+            target: LatLng(widget.mallLat??0.0, widget.mallLng),
+            zoom: 13,
           ),
           myLocationButtonEnabled: false,
           zoomControlsEnabled: false,
@@ -61,13 +65,19 @@ class _LocationTrackState extends State<LocationTrack> {
                 infoWindow: const InfoWindow(
                     title: 'Store', snippet: "store location"),
                 icon: sourceIcon,
-                position: LatLng(widget.lat??0.0, widget.lng??0.0)),
+                position: LatLng(widget.mallLat??0.0, widget.mallLng)),
             Marker(
                 markerId: const MarkerId('UserLocation'),
                 infoWindow: const InfoWindow(
                     title: 'User', snippet: "User location"),
                 icon: destinationIcon,
-                position: LatLng(currentP.value?.latitude??0.0, currentP.value?.longitude??0.0)),
+                position: LatLng(widget.lat??0.0, widget.lng),),
+            Marker(
+                markerId: const MarkerId('driverLocation'),
+                infoWindow: const InfoWindow(
+                    title: 'driver', snippet: "driver location"),
+                icon: destinationIcon,
+                position: LatLng(LocationTrack.currentP.value?.latitude??0.0, LocationTrack.currentP.value?.longitude??0),),
 
           },
           polylines: Set<Polyline>.of(polylines.values)
@@ -84,22 +94,30 @@ class _LocationTrackState extends State<LocationTrack> {
       print("=========================${polylines.length}");
     });
   }
-    _getPolyline() async {
+
+  _getPolyline() async {
+    // print(DetailsMall.currentP.value?.latitude);
+    // print(DetailsMall.currentP.value?.longitude);
+    // print(DetailsMall.mollLocation.latitude);
+    // print(DetailsMall.mollLocation.longitude);
+    print("ppppppppppppppp");
     PolylineResult result = await polylinePoints.getRouteBetweenCoordinates(
       googleApiKey: "AIzaSyD2dcs9zzNRVjyiJ9MehLLAErdDX0v5wJ4",
       request: PolylineRequest(
-        origin: PointLatLng(currentP.value?.latitude??0 ,currentP.value?.longitude??0 ),
-        destination: PointLatLng(mollLocation.latitude ,mollLocation.longitude ),
+        origin: PointLatLng(widget.mallLat??0.0, widget.mallLng),
+        destination: PointLatLng(widget.lat??0.0, widget.lng),
         mode: TravelMode.driving,
-        wayPoints: [PolylineWayPoint(location: "Sabo, Yaba Lagos Nigeria")],
+        // wayPoints: [PolylineWayPoint(location: "Sabo, Yaba Lagos Nigeria")],
       ),
     );
-    // if (result.points.isNotEmpty) {
-    print("result=${result}");
+    print("00000000000");
+    print("result${result}");
+    if (result.points.isNotEmpty) {
+      print("on if");
       result.points.forEach((PointLatLng point) {
         polylineCoordinates.add(LatLng(point.latitude, point.longitude));
       });
-    // }
+    }
     _addPolyLine();
   }
   Future<void> getLocatoinUpdate() async {
@@ -115,7 +133,7 @@ class _LocationTrackState extends State<LocationTrack> {
     if (_permissionGranted == PermissionStatus.denied) {
       _permissionGranted = await _locationController.requestPermission();
       if (_permissionGranted != PermissionStatus.granted) {
-        currentP.value = const LatLng(36.22366954, 37.1296072);
+        LocationTrack.currentP.value = const LatLng(36.22366954, 37.1296072);
         return;
       }
     }
@@ -125,7 +143,7 @@ class _LocationTrackState extends State<LocationTrack> {
 
     if (!mounted) return;
 
-    currentP.value = LatLng(location.latitude!, location.longitude!);
+    LocationTrack.currentP.value = LatLng(location.latitude!, location.longitude!);
     Position? position = await _determinePosition();
     // context.read<AuthBloc>().add(CalculateGeoEvent(
     //     position?.latitude.toString() ?? "",
@@ -171,4 +189,5 @@ class _LocationTrackState extends State<LocationTrack> {
     Position position = await Geolocator.getCurrentPosition();
     return position;
   }
+
 }

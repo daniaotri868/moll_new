@@ -55,7 +55,14 @@ class _SignupScreenState extends State<SignupScreen> {
   final formKey = GlobalKey<FormState>();
 
   String ?idArea="" ;
+  RegExp arabicOnly = RegExp(r'^[؀-ۿ\s]+$');
 
+  String? validateName(String value) {
+    if (!arabicOnly.hasMatch(value)) {
+      return 'يرجى إدخال اسم باللغة العربية فقط';
+    }
+    return null;
+  }
   Widget build(BuildContext context) {
     return BlocBuilder<AuthBloc, AuthState>(
   builder: (context, state) {
@@ -94,7 +101,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         textCapitalization: TextCapitalization.words,
                         controller: firstName,
                         title: AppString.firstName,
-                        validator: FormBuilderValidators.required(),
+                        validator:(value) => validateName(value!),
                         prefixIcon: Icon(
                           Icons.person,
                           color: context.colorScheme.primary,
@@ -107,7 +114,7 @@ class _SignupScreenState extends State<SignupScreen> {
                         controller: lastName,
 
                         title: AppString.lastName,
-                        validator: FormBuilderValidators.minWordsCount(1),
+                        validator:(value) => validateName(value!),
                         prefixIcon: Icon(
                           Icons.person,
                           color: context.colorScheme.primary,

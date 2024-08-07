@@ -243,10 +243,10 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                     ],
                   ),
                   10.verticalSpace,
-                  ElevatedButton(onPressed: () {
+                  widget.orderDetailsParam.cancel==0?ElevatedButton(onPressed: () {
                     Navigator.push(context, MaterialPageRoute(builder: (context) =>LocationTrack(
-                      lat:data.lat??0.0 ,lng: data.lng??0.0,) ,));
-                  }, child: AppText("تتبع الطلب",)),
+                      lat:data.lat??0.0 ,lng: data.lng??0.0,mallLat: data.mallLat??0,mallLng: data.mallLng??0,) ,));
+                  }, child: AppText("تتبع الطلب",)):Container(),
                 10.verticalSpace,
                  data.status=="Done"? ElevatedButton(onPressed: () {
                     AnimatedDialog.show(
@@ -403,7 +403,7 @@ class _OrderDetailsPageState extends State<OrderDetailsPage> {
                     );
                   }, child: AppText("تقييم الطلبية",)):Container(),
                 10.verticalSpace,
-                 widget.orderDetailsParam.cancel==true? ElevatedButton(onPressed: () {
+                 widget.orderDetailsParam.cancel==2? ElevatedButton(onPressed: () {
                    AnimatedDialog.show(
                        context,
                      child: Container(

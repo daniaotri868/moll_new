@@ -149,6 +149,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     Padding(
                       padding: EdgeInsets.symmetric(horizontal: 16.r),
                       child: AppTextField(
+                        prefixIcon: Icon(Icons.search,color: context.colorScheme.primary,),
                         name: "search",
                         readOnly: true,
                         hintText: "ابحث عن كل ما يجول في بالك",

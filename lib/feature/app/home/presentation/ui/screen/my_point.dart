@@ -91,20 +91,20 @@ class _MyPointPageState extends State<MyPointPage> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            AppText("  اسم المول : الفرقان"),
+                            AppText("  اسم المول : ${data[index].mallName}"),
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.center,
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
-                                AppText(" عدد النقاط : 3"),
-                                AppText("قيمة النقاط : 300"),
+                                AppText(" عدد النقاط : ${data[index].points}"),
+                                AppText("قيمة النقاط : ${data[index].pointValue}"),
 
                               ],
                             )
                           ],
                         ),
                       ),
-                      itemCount:5,
+                      itemCount:data.length??0,
                     ),
                   ),
               loading: const LoadingScreen(),

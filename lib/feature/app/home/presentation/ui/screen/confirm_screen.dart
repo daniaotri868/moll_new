@@ -232,7 +232,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
             5.verticalSpace,
             Row(
               children: [
-                AppText("عدد النقاط :${widget.data?.pointsCanUse??0}")
+                AppText("عدد النقاط المتاح :${widget.data?.pointsCanUse??0}")
               ],
             ),
             AppTextField(
@@ -271,7 +271,7 @@ class _ConfirmScreenState extends State<ConfirmScreen> {
                           },
                         )
                     );}else Fluttertoast.showToast(
-                        msg: "المبلغ يتجاوز سعر المحفظة",
+                        msg: "تجاوزت عدد النقاط المسموح",
                         toastLength: Toast.LENGTH_SHORT,
                         gravity: ToastGravity.BOTTOM,
                         timeInSecForIosWeb: 1,

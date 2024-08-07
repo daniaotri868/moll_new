@@ -22,7 +22,8 @@ class _SplashPageState extends State<SplashPage> {
       backgroundColor: context.colorScheme.primary,
       body: InkWell(
         onTap: () {
-          context.goNamed(GRouter.config.authRoutes.login);
+          Navigator.push(context, MaterialPageRoute(builder: (context) => BoardingScreen(),));
+          // context.goNamed(GRouter.config.authRoutes.login);
         },
         child: Center(
           child: SvgPicture.asset('assets/image/sp.svg'),

@@ -36,6 +36,7 @@ import '../../domain/use_case/get_home_usecase.dart';
 import '../../domain/use_case/get_order_usecase.dart';
 import '../../domain/use_case/get_point_usecase.dart';
 import '../../domain/use_case/get_product_details_usecase.dart';
+import '../../domain/use_case/moll_name.dart';
 import '../../domain/use_case/moll_use_case.dart';
 import '../../domain/use_case/moll_details_use_case.dart';
 import '../../domain/use_case/new_rate_order.dart';
@@ -61,6 +62,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final GetFavProductUseCase getFavProductUseCase;
   final ChangeFavUseCase changeFavUseCase;
   final GetOrdersUseCase getOrdersUseCase;
+  final DriverUseCase driverUseCase;
+  final MollNameUseCase mollNameUseCase;
   final CreateOrdersUseCase createOrdersUseCase;
   final SearchHomeUseCase searchHomeUseCase;
   final OrderDetailsUseCase orderDetailsUseCase;
@@ -73,7 +76,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final NotificationsUseCase notificationUseCase;
 
 
-  HomeBloc(this.getMollDetailsUseCase,this.rateOrdersUseCase,this.confirmOrdersUseCase,this.orderDetailsUseCase,this.createOrdersUseCase, this.getOrdersUseCase,this.getAllMollUseCase, this.getAllDepartmentUseCase, this.departmentDetailsUseCase, this.getProductDetailsUseCase, this.getDepartmentProductUseCase, this.getHomeUseCase, this.getFavProductUseCase, this.changeFavUseCase, this.updateOrdersUseCase, this.myPointsUseCase, this.searchHomeUseCase, this.cancelOrdersUseCase, this.newRateOrdersUseCase, this.notificationUseCase
+  HomeBloc(this.getMollDetailsUseCase,this.rateOrdersUseCase,this.confirmOrdersUseCase,this.orderDetailsUseCase,this.createOrdersUseCase, this.getOrdersUseCase,this.getAllMollUseCase, this.getAllDepartmentUseCase, this.departmentDetailsUseCase, this.getProductDetailsUseCase, this.getDepartmentProductUseCase, this.getHomeUseCase, this.getFavProductUseCase, this.changeFavUseCase, this.updateOrdersUseCase, this.myPointsUseCase, this.searchHomeUseCase, this.cancelOrdersUseCase, this.newRateOrdersUseCase, this.notificationUseCase, this.driverUseCase, this.mollNameUseCase
 
   ) : super( HomeState()) {
     on<ProductDetailsEvent>(_onProductDetailsEvent);
@@ -288,6 +291,7 @@ FutureOr<void> _onUpdateOrderEvent(
     final result = await changeFavUseCase(ChangeFavParams(userId: event.changeFavParams.userId, id: event.changeFavParams.id));
     switch (result) {
       case Success(value: final data):
+        event.onSuccess();
         emit(state.copyWith(
           changeFav: BlocStatus.success(),
            ));

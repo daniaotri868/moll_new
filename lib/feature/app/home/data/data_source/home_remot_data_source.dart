@@ -23,6 +23,7 @@ import '../model/notifications_model.dart';
 import '../model/order_details_model.dart';
 import '../model/point_model.dart';
 import '../model/product_details_model.dart';
+import '../model/search_model.dart';
 
 @injectable
 class HomeRemoteDataSource {

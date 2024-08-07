@@ -100,33 +100,33 @@ class _SearchHomeScreenState extends State<SearchHomeScreen> {
                               Padding(
                                 padding: EdgeInsets.symmetric(horizontal: 16.r),
                                 child:  Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.start,
                                   children: [
                                     Text(
                                       "المنتجات",
                                       style: context.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
                                     ),
-                                    InkWell(
-                                      onTap: () {
-                                        context.pushNamed(ProductHomeScreen.name,extra: data?.products);
-                                      
-                                      },
-                                      child: Padding(
-                                        padding: EdgeInsets.symmetric(vertical: 8.r),
-                                        child: Row(
-                                          children: [
-                                            Text(
-                                              "إظهار الكل",
-                                              style: context.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500, color: context.colorScheme.primary),
-                                            ),
-                                            Icon(
-                                              Icons.keyboard_arrow_left_sharp,
-                                              color: context.colorScheme.primary,
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ),
+                                    // InkWell(
+                                    //   onTap: () {
+                                    //     context.pushNamed(ProductHomeScreen.name,extra: data?.products);
+                                    //
+                                    //   },
+                                    //   child: Padding(
+                                    //     padding: EdgeInsets.symmetric(vertical: 8.r),
+                                    //     child: Row(
+                                    //       children: [
+                                    //         Text(
+                                    //           "إظهار الكل",
+                                    //           style: context.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500, color: context.colorScheme.primary),
+                                    //         ),
+                                    //         Icon(
+                                    //           Icons.keyboard_arrow_left_sharp,
+                                    //           color: context.colorScheme.primary,
+                                    //         ),
+                                    //       ],
+                                    //     ),
+                                    //   ),
+                                    // ),
                                   ],
                                 ),
                               ),
@@ -151,33 +151,33 @@ class _SearchHomeScreenState extends State<SearchHomeScreen> {
                           Padding(
                             padding: EdgeInsets.symmetric(horizontal: 16.r),
                             child:  Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
                                   "المولات",
                                   style: context.textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
                                 ),
-                                InkWell(
-                                  onTap: () {
-                                    context.pushNamed(MollHomeScreen.name,extra: data.malls);
-                                      
-                                  },
-                                  child: Padding(
-                                    padding: EdgeInsets.symmetric(vertical: 8.r),
-                                    child: Row(
-                                      children: [
-                                        Text(
-                                          "إظهار الكل",
-                                          style: context.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500, color: context.colorScheme.primary),
-                                        ),
-                                        Icon(
-                                          Icons.keyboard_arrow_left_sharp,
-                                          color: context.colorScheme.primary,
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ),
+                                // InkWell(
+                                //   onTap: () {
+                                //     context.pushNamed(MollHomeScreen.name,extra: data.malls);
+                                //
+                                //   },
+                                //   child: Padding(
+                                //     padding: EdgeInsets.symmetric(vertical: 8.r),
+                                //     child: Row(
+                                //       children: [
+                                //         Text(
+                                //           "إظهار الكل",
+                                //           style: context.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w500, color: context.colorScheme.primary),
+                                //         ),
+                                //         Icon(
+                                //           Icons.keyboard_arrow_left_sharp,
+                                //           color: context.colorScheme.primary,
+                                //         ),
+                                //       ],
+                                //     ),
+                                //   ),
+                                // ),
                               ],
                             ),
                           ),
